@@ -2,9 +2,15 @@ namespace Naadap.Cli;
 
 /// <summary>
 /// Parsed command-line invocation for the UI-001 entrypoint:
-/// <c>naadap --input &lt;dir&gt; --output &lt;dir&gt;</c>.
+/// <c>naadap --input &lt;dir&gt; --output &lt;dir&gt; [--enable-llm-step]</c>.
 /// </summary>
-public sealed record CliArguments(string InputDirectory, string OutputDirectory);
+/// <param name="EnableLlmStep">
+/// CORE-250's explicit config-flag gate. <see langword="false"/> unless
+/// <c>--enable-llm-step</c> is passed — the <c>NAADAP_LLM_ENABLED</c>
+/// environment variable is an equally-explicit alternative, read directly
+/// by <c>Naadap.LlmStep.LlmStepConfig.FromEnvironment</c> rather than here.
+/// </param>
+public sealed record CliArguments(string InputDirectory, string OutputDirectory, bool EnableLlmStep = false);
 
 /// <summary>
 /// Parses the CLI's two required arguments. Kept free of <see cref="Console"/>
@@ -16,6 +22,7 @@ public static class CliArgumentParser
     {
         string? input = null;
         string? output = null;
+        var enableLlmStep = false;
 
         for (var i = 0; i < args.Length; i++)
         {
@@ -41,6 +48,12 @@ public static class CliArgumentParser
 
                     break;
 
+                case "--enable-llm-step":
+                    // CORE-250's explicit config-flag gate -- a bare switch,
+                    // no value token follows it.
+                    enableLlmStep = true;
+                    break;
+
                 default:
                     arguments = null;
                     error = $"Unrecognized argument '{args[i]}'.";
@@ -62,7 +75,7 @@ public static class CliArgumentParser
             return false;
         }
 
-        arguments = new CliArguments(input, output);
+        arguments = new CliArguments(input, output, enableLlmStep);
         error = null;
         return true;
     }
