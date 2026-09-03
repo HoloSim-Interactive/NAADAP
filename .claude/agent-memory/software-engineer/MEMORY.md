@@ -25,6 +25,7 @@ in `.github/AGENT_LABELS.md`.
 ## Platform-specific notes
 
 - [dotnet new sln defaults to .slnx](dotnet_new_sln_defaults_to_slnx.md) — force `-f sln` when a classic `.sln` filename is required.
+- [Shallow clone + stale main before branching](shallow_clone_and_stale_main_before_branching.md) — a fresh checkout's local `main` can look like a corrupted 1-commit trunk; unshallow + reset before branching, don't assume trunk is broken.
 
 ## Reusable solutions
 
