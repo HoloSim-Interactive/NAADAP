@@ -1,0 +1,20 @@
+STATEMENT OF WORK (SYNTHETIC — CORE-200 TEST FIXTURE)
+Solicitation No.: SYN-D-0004
+Title: Fire-Control Radar and Weapons-Direction System Maintenance Support
+
+1. SCOPE
+This requirement covers corrective and preventive maintenance of
+shipboard fire-control radar and weapons-direction system equipment
+during in-port maintenance periods for notional surface combatants.
+
+2. REQUIREMENTS
+2.1 Contractor technicians shall execute fire-control system PMCS in
+    accordance with the maintenance index page (MIP) and combat
+    systems maintenance plan.
+2.2 Contractor shall perform fire-control radar alignment and
+    calibration and troubleshoot weapons-direction system faults.
+2.3 Contractor shall log all maintenance actions in the ship's 3-M
+    system for material condition tracking.
+
+3. PLACE OF PERFORMANCE
+Pierside, notional Naval Station, aboard assigned surface combatants.

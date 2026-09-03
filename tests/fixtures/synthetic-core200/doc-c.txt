@@ -1,0 +1,22 @@
+STATEMENT OF WORK (SYNTHETIC — CORE-200 TEST FIXTURE)
+Solicitation No.: SYN-C-0003
+Title: Flight-Line Engineering Technical Services — Avionics/Airframe Disposition
+
+1. SCOPE
+This effort requires flight-line engineering technical services in
+direct support of turnaround maintenance operations, focused on rapid
+disposition of avionics and airframe discrepancies discovered during
+pre-flight and post-flight inspection.
+
+2. REQUIREMENTS
+2.1 Contractor engineers shall be on call to render flight-line
+    engineering dispositions for discrepancies affecting aircraft
+    turnaround and airworthiness.
+2.2 Contractor shall coordinate with squadron maintenance control and
+    engineering disposition authorities to resolve flight-line
+    troubleshooting escalations within the turnaround window.
+2.3 Contractor shall maintain a discrepancy disposition log consistent
+    with NATOPS-referenced maintenance procedures.
+
+3. PLACE OF PERFORMANCE
+Flight line, notional Naval Air Station.
