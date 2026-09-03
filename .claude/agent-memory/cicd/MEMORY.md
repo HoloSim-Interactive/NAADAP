@@ -23,6 +23,9 @@ in `.github/AGENT_LABELS.md`.
 - [Shallow clone gotcha](shallow_clone_gotcha.md) — `git fetch
   --unshallow` before trusting any merge-base/diff/ahead-behind
   calculation ahead of a trunk merge.
+- [Local main staleness](local_main_staleness.md) — `git reset --hard
+  origin/main` immediately before merging, every time; a fetch minutes
+  earlier isn't proof local `main` is current (issue #11, v1.0.67).
 - `dotnet build Naadap.sln` builds clean (0 warnings/errors) on this
   environment's `dotnet 10.0.400` SDK targeting the project's `net9.0`
   projects — safe to re-verify build (not full `dotnet test`) as a
