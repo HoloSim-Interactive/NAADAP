@@ -28,3 +28,14 @@ Test, handed to `agent:cicd` with `status:ready-for-commit`). If a
 later run of this same lifecycle reveals a different intended
 convention (e.g. the project wants Verified set earlier), update this
 memory rather than re-deriving it from scratch.
+
+**Don't blanket-advance every RTVM ID an issue's title lists** — check
+per-ID whether a dedicated test procedure actually ran. Confirmed
+2026-09-03 on issue #8 (CORE-200/210/220/230/240): SE and TE both
+explicitly flagged that TP-220/230 (runtime and resource-tier checks)
+have no test yet because they need the containerized CLI, which
+doesn't exist. Only CORE-200/210/240 (which had component-level tests
+actually execute and pass) moved to In Test; CORE-220/230 stayed
+Approved. Read the SE/TE comments for per-requirement caveats like
+this rather than assuming a uniform PASS covers every ID in the
+issue title.
