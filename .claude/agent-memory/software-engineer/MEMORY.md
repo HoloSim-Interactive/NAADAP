@@ -17,6 +17,12 @@ in `.github/AGENT_LABELS.md`.
 
 ## Platform-specific notes
 
+- [dotnet new sln defaults to .slnx](dotnet_new_sln_defaults_to_slnx.md) — force `-f sln` when a classic `.sln` filename is required.
+
 ## Reusable solutions
 
 ## Coding standards
+
+## Project notes
+
+- [Repo .gitignore missing .NET patterns](repo_gitignore_missing_dotnet_patterns.md) — template skeleton's `.gitignore` is C/C++-flavored; add `bin/`/`obj/`/etc. yourself on first .NET scaffold.
