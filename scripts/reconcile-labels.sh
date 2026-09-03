@@ -147,7 +147,24 @@ gh issue list --state open --limit 200 --repo "$REPO" \
 
       # Deliberately waiting on a human -- not stalled. Clear only the false
       # in-progress flag, leave ownership untouched, don't retrigger.
-      if grep -qi 'waiting on human reply' <<< "$NEXT_LINE"; then
+      #
+      # BROADENED 2026-09-03. This matched only the exact string "waiting on
+      # human reply". The Product Manager parked issue #1 with "**Next:**
+      # waiting on client answers to the 4 questions above", which is the
+      # same state described in the words a PM naturally reaches for -- the
+      # human in this pipeline IS the client. The narrow match meant a
+      # correctly-parked issue looked stalled, so this sweep would have
+      # retriggered the agent every hour, each run re-reading an unanswered
+      # thread and re-posting the same questions. That burns runner minutes
+      # and buries the real question under duplicates.
+      #
+      # Matching on the WAITING SHAPE rather than one blessed sentence:
+      # "waiting/blocked/pending on|for" + a human noun (human/client/
+      # customer/user/stakeholder). Widening a no-op branch is the safe
+      # direction to be wrong in -- a false positive parks an issue a human
+      # can unpark with one label, while a false negative spams the thread
+      # unattended.
+      if grep -qiE '(waiting|blocked|pending) (on|for) (a |an |the )?(human|client|customer|user|stakeholder)' <<< "$NEXT_LINE"; then
         if [[ -n "$HAS_IN_PROGRESS" ]]; then
           run gh issue edit "$NUMBER" --repo "$REPO" --remove-label "status:in-progress"
         fi
