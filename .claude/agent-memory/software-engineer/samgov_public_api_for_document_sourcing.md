@@ -33,6 +33,20 @@ plain `application/json`):
 4. **Public opportunity page** (for citing provenance in a README):
    `https://sam.gov/opp/{opportunityId}/view`.
 
+5. **Opportunity detail/metadata**: `GET https://sam.gov/api/prod/opps/v2/opportunities/{opportunityId}`
+   → JSON with `data2.title` (the SAM.gov *opportunity-listing* title,
+   as entered by the issuing office) plus `description`,
+   `solicitationNumber`, `postedDate`, POC info. Useful when a fixture's
+   "why picked" rationale needs to cite the opportunity title as a
+   fact distinct from the attached PDF's own in-document title —
+   they can genuinely differ (issue #6: a SAM.gov listing title named
+   a contract vehicle nickname, e.g. "(SBRAC VI)", that the attached
+   177-page PDF's own title/body text never mentioned at all — don't
+   assume the two are interchangeable when writing a ground-truth
+   rationale; check the PDF's actual extracted text before claiming a
+   name is "in the document," and cite the SAM.gov title separately if
+   that's actually where it comes from).
+
 **Gotcha — NAVAIR specifically**: most NAVAIR opportunities' real
 attachments are `type: "link"` pointing at the PIEE Solicitation
 Module (`piee.eb.mil`), not `type: "file"` — i.e. not actually hosted
