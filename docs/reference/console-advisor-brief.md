@@ -160,6 +160,24 @@ once. One issue received three full agent sessions that way. Check
 `githubstatus.com/api/v2/summary.json` before concluding your own
 workflows are broken.
 
+Anthropic-side model overload is the sibling case, distinguishable from
+a code bug by shape: several issues across different roles parking
+within minutes of each other, each with a tiny, near-identical
+`total_cost_usd` (Claude Code's own retries exhausted almost
+immediately) and `"error_status": 529` / `"error": "overloaded"` in the
+run log. Check `status.claude.com` -- the client can paste its update
+text directly; there is no public API, so this one relies on the
+client's own eyes or a status-page fetch. The retry ladder
+(`status:retry-1/2/3` in agent-relay.yml) exists exactly for this and
+self-heals across a model recovery without help -- confirmed live on
+the =TEMPLATE= project 2026-09-03: two of three issues parked by an
+Opus 5/4.8 overload succeeded on their own re-tap, the third climbed
+cleanly to retry-1 instead of parking again. A GENUINE bug in the
+classifier's own match pattern can look identical until you read the
+log (see the `overloaded_error` vs `overloaded` fix, same incident,
+ported into this project's `agent-relay.yml`) -- diagnose from the run
+log before assuming either "it's just Anthropic" or "it's our code".
+
 ### Read the whole thing before judging it
 
 Twice on this project the advisor was about to report a defect that was

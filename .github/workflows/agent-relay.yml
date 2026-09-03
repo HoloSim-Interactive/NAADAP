@@ -409,7 +409,18 @@ jobs:
             exit 0
           fi
 
-          if echo "$RUN_LOG" | grep -qiE "rate_limit_error|overloaded_error"; then
+          # 2026-09-03: the API's actual error field is bare "overloaded" (see
+          # =TEMPLATE= run 33764510697, issue #30 -- 10x "error_status: 529,
+          # error: \"overloaded\"" retries, then is_error:true) -- the literal
+          # string "overloaded_error" never appears in a real log, so every
+          # genuine overload fell through to the generic unrecognized-error
+          # handler below instead of this retry ladder. Confirmed live
+          # against an actual Anthropic incident (status.claude.com,
+          # 2026-09-03 13:26-15:25+ UTC, Opus 5/4.8 elevated errors) -- ported
+          # from =TEMPLATE= commit 7b43ef8 before NAADAP's own SE/TE runs hit
+          # it during that same window. Keep "overloaded_error" too in case
+          # the field shape ever changes back.
+          if echo "$RUN_LOG" | grep -qiE 'rate_limit_error|overloaded_error|"error":[[:space:]]*"overloaded"'; then
             if echo "$RUN_LOG" | grep -qi "rate_limit_error"; then
               ERROR_KIND="rate limit"
               ERROR_DESC="The account is sending requests faster than its current usage tier allows — likely several issues running concurrently at once."
