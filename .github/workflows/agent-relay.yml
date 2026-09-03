@@ -39,8 +39,34 @@ permissions:
   id-token: write
   actions: read
 
+# Per issue AND per event class (2026-09-03). GitHub gives no label filter
+# for `issues: labeled`, so EVERY label edit creates a workflow run --
+# including the status:* edits the relay and its agents make on themselves.
+# Those runs are no-ops, skipped by the job's `if:` below. But a run enters
+# its concurrency group BEFORE the job-level `if:` is evaluated, and GitHub
+# keeps only ONE pending run per group: a newer pending run cancels an older
+# one. So a no-op status run registering just after a real agent:* pickup can
+# cancel that pickup before any job is created -- no job, no log, no failure,
+# and the hand-off silently did not happen. Seen here as four cancelled runs
+# on issue #6 (2026-09-03); on Drone_Tracks issue #10 it really did drop a
+# CI/CD merge.
+#
+# "Add the agent label last" is necessary but NOT sufficient: the order two
+# same-second events REGISTER in is not guaranteed to match the order the
+# labels were applied. Splitting the group is what actually fixes it.
+#
+# Pickups keep a per-issue group, so two agents can still never run on one
+# issue at once -- the property the original group existed to provide.
+#
+# No-op runs get a group unique per run (github.run_id) rather than a shared
+# "-status" group. A shared one is correct but noisy: the no-ops cancel each
+# other, and a run list full of "cancelled" entries is indistinguishable at a
+# glance from lost work -- that cost real diagnostic time on 2026-09-03. With
+# a unique group each no-op simply skips, so "cancelled" goes back to meaning
+# something actually went wrong. A skipped job never dispatches a runner, so
+# this costs nothing.
 concurrency:
-  group: agent-relay-${{ github.event.issue.number }}
+  group: ${{ startsWith(github.event.label.name, 'agent:') && format('agent-relay-{0}-pickup', github.event.issue.number) || format('agent-relay-noop-{0}', github.run_id) }}
   cancel-in-progress: false
 
 jobs:
@@ -90,6 +116,22 @@ jobs:
           echo "issue=${{ github.event.issue.number }}" >> "$GITHUB_OUTPUT"
 
       - name: Mark issue in progress
+        # GITHUB_TOKEN here, deliberately NOT the job's RELAY_TOKEN
+        # (2026-09-03). A label added with the default GITHUB_TOKEN does not
+        # trigger a new workflow run -- the same GitHub rule that forces
+        # RELAY_TOKEN on the hand-off labels further down, where firing the
+        # next run is the whole point. Here it is inverted: this label must
+        # NOT fire anything. With RELAY_TOKEN every pickup immediately spawned
+        # a second, no-op run that then had to be defended against in the
+        # concurrency group above.
+        #
+        # This is the root-cause half of that fix: the group split stops a
+        # no-op run from cancelling a pickup, this stops the relay creating
+        # one at all. Both are kept -- agents still apply status:* labels
+        # with RELAY_TOKEN from inside Claude Code, so no-op runs have not
+        # gone away entirely.
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           gh issue edit ${{ steps.role.outputs.issue }} --add-label "status:in-progress" \
             || echo "WARNING: could not set status:in-progress -- the hand-off's tolerant removals will cope, but check RELAY_TOKEN permissions if this recurs."
