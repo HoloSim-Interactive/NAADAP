@@ -15,6 +15,8 @@ in `.github/AGENT_LABELS.md`.
 
 ## Architecture patterns
 
+- [NAADAP shared DTOs live in Core](naadap_shared_dtos_live_in_core.md) — cross-stage records (DocumentRecord etc.) go in Naadap.Core, never in the producing stage, to keep CORE-240's zero-dependency check trivial.
+
 ## Platform-specific notes
 
 - [dotnet new sln defaults to .slnx](dotnet_new_sln_defaults_to_slnx.md) — force `-f sln` when a classic `.sln` filename is required.
@@ -24,6 +26,8 @@ in `.github/AGENT_LABELS.md`.
 - [SAM.gov public API for document sourcing](samgov_public_api_for_document_sourcing.md) — how to search/download real SOW/PWS/CDRL attachments from SAM.gov for test fixtures; NAVAIR-specific gotcha re: PIEE redirects.
 
 ## Coding standards
+
+- [.editorconfig forbids `_camelCase` private fields](editorconfig_naming_no_underscore_private_fields.md) — run `dotnet format --verify-no-changes` before committing; IDE1006 fails on underscore-prefixed fields.
 
 ## Project notes
 
