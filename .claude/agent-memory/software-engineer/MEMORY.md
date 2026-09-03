@@ -17,6 +17,8 @@ in `.github/AGENT_LABELS.md`.
 
 - [NAADAP shared DTOs live in Core](naadap_shared_dtos_live_in_core.md) — cross-stage records (DocumentRecord etc.) go in Naadap.Core, never in the producing stage, to keep CORE-240's zero-dependency check trivial.
 
+- [Embed a static doc as a resource for a runtime bundle](embed_static_doc_as_resource_for_runtime_bundle.md) — pattern for a doc needed both standalone and copied into every run's output (OUT-430); also notes a `.csproj` XML-comment `--` gotcha.
+
 ## Platform-specific notes
 
 - [dotnet new sln defaults to .slnx](dotnet_new_sln_defaults_to_slnx.md) — force `-f sln` when a classic `.sln` filename is required.
