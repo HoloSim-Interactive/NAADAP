@@ -20,6 +20,7 @@ in `.github/AGENT_LABELS.md`.
 - [NAADAP SDD decisions](naadap_sdd_decisions.md) — no DB, NFR-520 semantics, VS-verification-once-at-consolidation, no UI track, Core/Alt assembly separation. Read before Implementation Plan issue.
 - [NAADAP Implementation Plan](naadap_implementation_plan.md) — build sequence + issues #5-#12 created, one per SDD pipeline-stage component, single linear order.
 - [Scaffold issue RTVM fast-path](scaffold_issue_rtvm_fastpath.md) — Generate Code Base-style issues touch RTVM IDs structurally but don't Verify them; their real verification issue is elsewhere in the plan.
+- [RTVM status after passing test, pre-commit](rtvm_status_pretest_to_commit.md) — use "In Test" (not "Verified") when relaying a TE PASS to CI/CD; "Verified" is reserved for CI/CD's own commit-SHA confirmation step.
 
 ## Cross-product interface standards
 

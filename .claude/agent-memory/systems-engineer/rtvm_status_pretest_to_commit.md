@@ -1,0 +1,30 @@
+---
+name: rtvm-status-pretest-to-commit
+description: Which RTVM status value to use when relaying a Test Engineer PASS to CI/CD, before the commit-confirmation loop closes
+metadata:
+  type: project
+---
+
+The RTVM status vocabulary (`docs/RTVM.md`) is Draft → Approved → In
+Implementation → In Test → Verified. On the systems-engineer.md "fast
+path" (`status:ready-for-rtvm-update`, Test Engineer's test passed),
+set the item's status to **In Test** — not Verified. "Verified" is
+reserved specifically for the later step ("Receiving a commit
+confirmation from CI/CD"), which also fills in the Commit(s) column
+with the SHA. Leaving the Commit(s) column blank at the "In Test"
+stage is correct and expected — it gets filled in on the next
+round-trip.
+
+**Why:** the workflow explicitly splits these into two separate
+hand-offs (RTVM update → CI/CD, then CI/CD → RTVM update again with
+SHA). Jumping straight to Verified before the commit actually lands
+would make the RTVM claim something is verified-in-trunk when it's
+only verified-in-branch.
+
+**How to apply:** first time an `[RTVM-0xx]`-style issue reaches you
+with `status:ready-for-rtvm-update`, this is the pattern (confirmed
+2026-09-03 on NAADAP issue #7, DATA-IN-100/110/120: Approved → In
+Test, handed to `agent:cicd` with `status:ready-for-commit`). If a
+later run of this same lifecycle reveals a different intended
+convention (e.g. the project wants Verified set earlier), update this
+memory rather than re-deriving it from scratch.
