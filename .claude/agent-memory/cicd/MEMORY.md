@@ -38,3 +38,5 @@ in `.github/AGENT_LABELS.md`.
   `gh release create`, until real functional issues land.
 
 ## Known issues
+
+- [Fixture-only merges](fixture_only_merges.md) — data/fixture-only issues (#6) skip the dotnet build check and stay tag-only (v1.0.24) since no RTVM item verifies.
