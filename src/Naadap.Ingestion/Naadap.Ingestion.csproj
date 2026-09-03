@@ -6,4 +6,25 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <!-- Justification: PdfPig (Apache 2.0) is a pure-managed PDF text-extraction
+       library with no native/platform dependencies, satisfying DATA-IN-100's
+       PDF format requirement and the single-Docker-image/no-network-at-
+       runtime constraint (NFR-500). Ingestion-only per docs/SDD.md's
+       dependency policy — never referenced by Naadap.Core. -->
+  <ItemGroup>
+    <PackageReference Include="PdfPig" Version="0.1.16" />
+  </ItemGroup>
+
+  <!-- Justification: DocumentFormat.OpenXml (MIT, Microsoft's official Open
+       XML SDK) is a pure-managed DOCX text-extraction library satisfying
+       DATA-IN-100's DOCX format requirement. Ingestion-only, same rationale
+       as PdfPig above. -->
+  <ItemGroup>
+    <PackageReference Include="DocumentFormat.OpenXml" Version="3.5.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Naadap.Core\Naadap.Core.csproj" />
+  </ItemGroup>
+
 </Project>
