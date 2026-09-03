@@ -23,8 +23,9 @@ in `.github/AGENT_LABELS.md`.
 
 ## Open questions log
 
-- [Open questions asked 2026-09-03](open_questions_2026-09.md) — deadline conflict in challenge text, GFI/phase status, LLM strategy, doc scope. All block flipping PROPOSED items to CONFIRMED in PROJECT_DEFINITION.md.
+- [2026-09-03 questions, now resolved](open_questions_2026-09.md) — historical record of client's answers on deadline, phase/GFI status, LLM strategy, doc scope. All now [CONFIRMED] in PROJECT_DEFINITION.md.
 
 ## Decisions made
 
-- 2026-09-03: Drafted docs/PROJECT_DEFINITION.md from issue #1 challenge text + client comment; several MVP/strategy items left [PROPOSED] pending client answers (see open questions log). Not yet handed to Systems Engineer.
+- 2026-09-03: Drafted docs/PROJECT_DEFINITION.md from issue #1 challenge text + client comment; several MVP/strategy items left [PROPOSED] pending client answers.
+- 2026-09-03: Client answered all 4 open questions same day. Flipped every [PROPOSED] item in PROJECT_DEFINITION.md to [CONFIRMED]: worst-case deadlines (submit 9/22, demo 11/9), no Phase 1/GFI yet (build against real public-source SOW/PWS/CDRL docs, not synthetic), no-LLM-core clustering + optional LLM only for summarization/viz + demonstrate-and-document alternative approaches, and full fresh-clone build/run docs at SETR rigor. Scope now fully defined; closed issue #1 and opened "RTVM" issue for Systems Engineer.

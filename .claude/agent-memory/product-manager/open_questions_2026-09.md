@@ -1,43 +1,49 @@
 ---
 name: open-questions-2026-09
-description: Open questions posed to the client on issue #1 (2026-09-03) that PROJECT_DEFINITION.md still marks [PROPOSED] pending their answer.
+description: Resolved — client's 2026-09-03 answers to the four open questions posted on issue #1, now reflected as [CONFIRMED] in docs/PROJECT_DEFINITION.md.
 metadata:
   type: project
 ---
 
-Asked on issue #1, 2026-09-03, still awaiting client reply as of that
-date:
+Asked on issue #1 on 2026-09-03; client answered same day in a
+follow-up comment. All four are now [CONFIRMED] in
+`docs/PROJECT_DEFINITION.md` — this file is the historical record of
+the Q&A, not an open item anymore.
 
-1. **Deadline conflict in the challenge text itself.** The issue body
-   states Submissions Deadline = Sept 22, 2026 and Final Demo Day =
-   Nov 9, 2026 in its summary box, but its own "TIMELINE" section
-   later says submission deadline = Oct 2, 2026 and Final Demo Day =
-   Nov 19, 2026. Today is 2026-09-03 — if Sept 22 is correct there are
-   only ~19 days to build an IL4-ready Docker-packaged ML recommender
-   system, which drastically changes MVP scope vs. the Oct 2 date.
-   **Blocking for realistic scope-setting; needs the client's
-   authoritative date.**
-2. **Challenge phase status.** Has HoloSim already submitted/passed
-   the Phase 1 Pre-Screening Questionnaire? Do we have Phase 2 GFI
-   (real procurement document corpus) access yet, or is development
-   proceeding against synthetic/representative documents until GFI
-   arrives?
-3. **LLM usage strategy.** Proposed default in PROJECT_DEFINITION.md:
-   no LLM in the core clustering/recommendation algorithm (maximizes
-   the challenge's LLM-cost score category and matches its own stated
-   goal of moving beyond RAG/retrieval into cluster analysis); LLM
-   used only optionally for the summarization/visualization step the
-   rules call out as allowed to be stochastic. Needs client
-   confirmation before Systems Engineer designs around it.
-4. **End-user/build documentation scope.** Proposed a
-   "fresh-clone-to-running-result" doc standard (see
-   `docs/PROJECT_DEFINITION.md` Deliverable Requirements). Client
-   hasn't explicitly confirmed they want this beyond what the
-   challenge already mandates (algorithm docs, deployment
-   instructions, dependency docs). Confirm scope, especially whether
-   they want a "how to extend this in Visual Studio" section for
-   their own engineers per [[navair-prize-challenge]].
+1. **Deadline conflict in the challenge text.** Resolved: plan against
+   the worst case — Submissions Deadline 2026-09-22, Final Demo Day
+   2026-11-09 — until the client gets an authoritative answer from
+   Tech Grove. Do not plan against the later (Oct 2 / Nov 19) dates
+   that also appear in the challenge text.
+2. **Challenge phase status.** Resolved: as of 2026-09-03, HoloSim has
+   NOT submitted Phase 1 Pre-Screening yet, and has no Phase 2 GFI
+   access. Client wants to start building now anyway. Development
+   proceeds against genuine, realistic SOW/PWS/CDRL-style documents
+   pulled from public references (client gave an NSWC Dahlgren
+   "Leading Edge" link as an example) — not synthetic/fabricated docs.
+   Systems Engineer is tasked with researching a concrete public
+   corpus to build/test against.
+3. **LLM usage strategy.** Resolved, matches the proposed default: no
+   LLM in the core clustering/recommendation algorithm — lean heavily
+   into the challenge's "beyond RAG/retrieval, into cluster analysis"
+   framing. LLM only optionally for the
+   summarization/interpretation/visualization step the rules allow to
+   be stochastic, and only once shown to be sound/lower-risk logic.
+   Additional nuance beyond the original proposal: client also wants
+   at least one alternative approach (e.g. LLM-assisted/retrieval)
+   demonstrated and its shortcomings documented via rigorous testing,
+   to substantiate the "why not LLM-first" rationale in the algorithm
+   documentation — not built as a second production path.
+4. **Documentation scope.** Resolved: yes, want a fresh-clone-to-
+   running-result build/run doc, at SETR/CDRL rigor, including where a
+   maintainer adds a new document type or clustering component (client
+   confirmed via "develop this in line with our workflow ... just with
+   more rigor"). Client separately tasked Systems Engineer with
+   researching the SETR process itself and producing the specific
+   article list, placed on the timeline, reconciled against this
+   project's existing `docs/SDD.md` / `docs/RTVM.md` /
+   `docs/IMPLEMENTATION_PLAN.md` pipeline artifacts. Not every SETR
+   artifact is required — at minimum, the ones that already correspond
+   to what this pipeline produces.
 
-Once client answers arrive, update `docs/PROJECT_DEFINITION.md`
-[PROPOSED] tags to [CONFIRMED] (or revise) before handing off to
-Systems Engineer for the RTVM.
+See [[navair-prize-challenge]] for the constraint list this refines.
