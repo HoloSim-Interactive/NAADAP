@@ -15,8 +15,14 @@ in `.github/AGENT_LABELS.md`.
 
 ## RTVM conventions
 
+- [Deliverable reqs as RTVM items](deliverable_reqs_as_rtvm_items.md) — NAADAP: PM wants DELIV-9xx as real line items, not narrative-only.
+- NAADAP RTVM test-data convention: use SN-1's PGIL group-of-20 as the "representative document set" size unless a procedure calls for smaller.
+
 ## Cross-product interface standards
 
 ## Requirements patterns and traps
+
+- [Network access from pipeline](network_access_from_pipeline.md) — `.mil` domains 403 from this sandbox; sam.gov/acqnotes.com/dau.edu work.
+- [NAADAP SETR reference](naadap_setr_reference.md) — verified SETR review sequence + source; "PEDDAL" unverified, flagged to PM.
 
 ## Documentation index
