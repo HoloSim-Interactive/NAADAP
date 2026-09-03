@@ -19,6 +19,7 @@ and (per the Data Architecture decision below) no database — so most
 of the multi-component MBSE machinery in systems-engineer.md's menu
 does not earn its place here. What follows is the subset that does.
 
+<a id="sdd-why-no-use-case-diagram-icd"></a>
 ### Why no use case diagram / ICD
 
 Confirmed reading of SN-5/Scope: this is a batch analysis + report
@@ -162,6 +163,7 @@ the rejected alternative never executes as part of a real run.
   `Naadap.LlmStep`, an HTTP client for the USN-approved model
   allowlist. `Naadap.Core` should need none beyond the BCL.
 
+<a id="sdd-build-toolchain-conventions"></a>
 ## Build & Toolchain Conventions
 
 This section is where `docs/PROJECT_DEFINITION.md`'s Deliverable
@@ -184,6 +186,7 @@ issue was asked to make.
 - **Dependency policy:** minimal NuGet usage, every reference
   justified in the `.csproj` (DELIV-920) — see Coding Standards.
 
+<a id="sdd-target-platform-verification"></a>
 ### Target-platform verification: decision (explicit, per systems-engineer.md)
 
 **Decision: Windows/Visual Studio verification does NOT gate
@@ -213,8 +216,10 @@ consolidation issue, not per `[RTVM-014]`-style feature.
 - One consolidation-phase check (TP-910) catches anything the
   structural constraint missed, at a fraction of the cost of N checks.
 
+<a id="sdd-data-architecture"></a>
 ## Data Architecture
 
+<a id="sdd-decision-no-database"></a>
 ### Decision: no database (resolves DATA-OUT-310 / DELIV-950)
 
 **No database is used anywhere in this system.** All run output is
@@ -223,16 +228,16 @@ file-based: the OUT-440 bundle is a directory containing
 both visualization artifacts, the metric report, and a pointer to the
 validation-methodology document — all written once per run and
 re-readable indefinitely afterward without re-executing the pipeline,
-which is what DATA-OUT-310 actually asked for. A flat manifest gives
+which is what <a href="https://github.com/HoloSim-Interactive/NAADAP/blob/main/docs/RTVM.md#rtvm-data-out-310" target="_blank">DATA-OUT-310</a> actually asked for. A flat manifest gives
 the same "re-readable/auditable without re-running" property a
 database would, at zero added runtime dependency, zero added attack
 surface for the IL4 boundary (NFR-500/510), and zero schema-migration
-concern for a system whose real *replicability* need (NFR-520, below)
+concern for a system whose real *replicability* need (<a href="#sdd-nfr-520-replicability">NFR-520, below</a>)
 is about stateless repeatability, not concurrent shared storage.
 
-**Consequence for the RTVM:** DATA-OUT-310 and DELIV-950 are withdrawn
+**Consequence for the RTVM:** <a href="https://github.com/HoloSim-Interactive/NAADAP/blob/main/docs/RTVM.md#rtvm-data-out-310" target="_blank">DATA-OUT-310</a> and <a href="https://github.com/HoloSim-Interactive/NAADAP/blob/main/docs/RTVM.md#rtvm-deliv-950" target="_blank">DELIV-950</a> are withdrawn
 (both were Draft, conditional on "if a database is used" — see RTVM
-update below). OUT-440 is the item that actually satisfies the
+update below). <a href="https://github.com/HoloSim-Interactive/NAADAP/blob/main/docs/RTVM.md#rtvm-out-440" target="_blank">OUT-440</a> is the item that actually satisfies the
 "result set is re-readable/auditable" need going forward.
 
 ### Run-scoped data flow (single process, no network)
@@ -246,6 +251,7 @@ inter-process messaging, nothing to lose ordering guarantees over:
 (List<CandidateVehicle>, in-memory)` → `Output.Bundler (writes
 manifest.json + artifacts to output dir, on disk, final)`.
 
+<a id="sdd-nfr-520-replicability"></a>
 ### NFR-520 — horizontal replicability: resolved
 
 **Resolution: interpretation (b) — independent, fully stateless
@@ -284,10 +290,11 @@ reading once reviewed, it can be revisited before implementation
 starts — the requirement/test procedure text makes the sharded
 alternative (a) easy to distinguish and swap in if so.
 
+<a id="sdd-setr-documentation-mapping"></a>
 ## SETR Documentation Mapping (DELIV-960)
 
-Per DELIV-960, reconciling the verified NAVAIR Instruction 4355.19D
-review sequence (see `docs/RTVM.md` Research notes and this role's
+Per <a href="https://github.com/HoloSim-Interactive/NAADAP/blob/main/docs/RTVM.md#rtvm-deliv-960" target="_blank">DELIV-960</a>, reconciling the verified NAVAIR Instruction 4355.19D
+review sequence (see <a href="https://github.com/HoloSim-Interactive/NAADAP/blob/main/docs/RTVM.md" target="_blank">docs/RTVM.md</a> Research notes and this role's
 memory) against this project's own pipeline artifacts. Only reviews
 plausibly reachable before the 2026-09-22 Submissions Deadline are
 mapped in detail; later-lifecycle reviews (production/in-service) are
@@ -308,8 +315,8 @@ not blocking.
 | Physical Configuration Audit (PCA) | Event | Final clean-clone build check against the submitted package (TP-900/930) | Yes — consolidation phase |
 | Technology Readiness Assessment (TRA), Integrated Baseline Review (IBR), In-Service Review (ISR) | Events | No equivalent produced — these presuppose a funded program of record / fielded system, not a prize-challenge Phase 2 submission | No — out of reach and not applicable; not a gap, a scope boundary |
 
-**"PEDDAL"** remains unresolved (see memory/RTVM Research notes) — not
+**"PEDDAL"** remains unresolved (see <a href="https://github.com/HoloSim-Interactive/NAADAP/blob/main/docs/RTVM.md#rtvm-research-notes" target="_blank">RTVM Research notes</a> and this role's memory) — not
 mapped above, pending Product Manager's answer. Nothing here is
-blocked on it: DELIV-960's test procedure (TP-960) only requires this
+blocked on it: <a href="https://github.com/HoloSim-Interactive/NAADAP/blob/main/docs/RTVM.md#rtvm-deliv-960" target="_blank">DELIV-960</a>'s test procedure (<a href="https://github.com/HoloSim-Interactive/NAADAP/blob/main/docs/RTVM.md#rtvm-tp-960" target="_blank">TP-960</a>) only requires this
 mapping table to exist for the reviews that are reachable, which it
 now does.
