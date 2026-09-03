@@ -38,3 +38,8 @@ obj/
 *.pdb
 *.nupkg
 .vs/
+
+# docker-compose.yml's default bind-mount targets (NFR-530) -- a local
+# operator's own input/output, never repo content.
+/input/
+/output/

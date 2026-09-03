@@ -16,6 +16,7 @@ in `.github/AGENT_LABELS.md`.
 ## Test harness notes
 
 - [Post-merge regression hand-off](post_merge_regression_handoff.md) — pattern for CI/CD-flagged trunk regression passes: test on `main` (unshallow first if needed), PASS routes back to systems-engineer via `status:ready-for-rtvm-update`.
+- [Network allowlist egress test pattern](network_allowlist_egress_test_pattern.md) — no real iptables control in this sandbox; test outbound-allowlist requirements via `--network none` (negative case) + host stub server via `--add-host=host.docker.internal:host-gateway` (positive case), reading the app's own audit log.
 
 ## Platform-specific test considerations
 

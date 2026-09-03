@@ -28,9 +28,14 @@ RUN dotnet restore Naadap.sln
 
 # Now bring in the rest of the source and publish just the CLI entrypoint
 # (and, transitively, everything it references: Ingestion, Core, Output,
-# LlmStep).
+# LlmStep). Naadap.Output embeds docs/VALIDATION_METHODOLOGY.md as a build-
+# time resource (OUT-430) via a "..\..\docs\..." relative path in its
+# .csproj, so that one file has to be present at build time too, even
+# though the rest of docs/ is never referenced by any project (NFR-500:
+# nothing in the runtime image is fetched later -- the embed happens now).
 COPY src/ src/
 COPY tests/ tests/
+COPY docs/VALIDATION_METHODOLOGY.md docs/VALIDATION_METHODOLOGY.md
 RUN dotnet publish src/Naadap.Cli/Naadap.Cli.csproj \
     -c Release \
     -o /app/publish \

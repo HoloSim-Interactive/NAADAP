@@ -6,3 +6,8 @@ docs/
 resources/
 scripts/
 *.md
+
+# Naadap.Output embeds this file as a build-time resource (OUT-430, see
+# Dockerfile). Everything else under docs/ stays excluded (NFR-500: the
+# image only needs what it actually builds/bundles, nothing else).
+!docs/VALIDATION_METHODOLOGY.md

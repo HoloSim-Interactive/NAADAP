@@ -1,0 +1,99 @@
+# NFR-530's reviewable "deployment configuration" (TP-530, Inspection):
+# no profile defined anywhere in this file requests more than 8 cores /
+# 16GB RAM — the challenge's hard ceiling (`docs/PROJECT_DEFINITION.md`
+# SN-2: "scores zero above this tier"). Three resource profiles are
+# provided, matching SN-2's scored tiers exactly (1c/2GB best, 4c/8GB and
+# 8c/16GB degrading, nothing above); `naadap` (the default service run by
+# a bare `docker compose up`) is the lowest-footprint tier, since SN-2
+# rewards that one most.
+#
+# NFR-510: the default service also disables networking outright
+# (`network_mode: none`) since LLM-disabled operation (the default,
+# per src/Naadap.Cli/Program.cs) makes zero outbound connections by
+# construction — there is nothing for it to reach. `naadap-llm` is the
+# only profile with a network attached, for the case where the optional
+# CORE-250 step is deliberately enabled against an operator-supplied,
+# USN-approved allowlist (`NAADAP_LLM_ALLOWED_ENDPOINTS`); see
+# `src/Naadap.LlmStep/LlmStepConfig.cs`.
+#
+# Usage:
+#   docker compose build
+#   docker compose run --rm naadap             # 1 core / 2GB, no network (default, lowest footprint)
+#   docker compose run --rm naadap-4c8g        # 4 cores / 8GB, no network
+#   docker compose run --rm naadap-8c16g       # 8 cores / 16GB, no network (ceiling)
+#   NAADAP_LLM_ENDPOINT=... NAADAP_LLM_ALLOWED_ENDPOINTS=... \
+#     docker compose --profile llm run --rm naadap-llm   # LLM step enabled, allowlist-only egress
+#
+# Every profile mounts ./input read-only and ./output read-write; override
+# with NAADAP_INPUT_DIR / NAADAP_OUTPUT_DIR.
+
+x-naadap-base: &naadap-base
+  build: .
+  image: naadap:latest
+  network_mode: none
+  volumes:
+    - ${NAADAP_INPUT_DIR:-./input}:/data/in:ro
+    - ${NAADAP_OUTPUT_DIR:-./output}:/data/out
+  command: ["--input", "/data/in", "--output", "/data/out"]
+
+services:
+  # Default profile (SN-2's best-scoring tier). Also what a bare
+  # `docker compose up`/`run naadap` uses with no profile named.
+  naadap:
+    <<: *naadap-base
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 2G
+
+  naadap-4c8g:
+    <<: *naadap-base
+    deploy:
+      resources:
+        limits:
+          cpus: "4.0"
+          memory: 8G
+
+  # Top of the scored range -- NFR-530's ceiling itself, not an example
+  # of exceeding it. Do not add a profile above this.
+  naadap-8c16g:
+    <<: *naadap-base
+    deploy:
+      resources:
+        limits:
+          cpus: "8.0"
+          memory: 16G
+
+  # CORE-250/NFR-510: LLM step deliberately enabled. Needs real egress,
+  # so this is the one profile without network_mode: none -- default
+  # bridge networking, still capped at the same 8c/16GB ceiling.
+  # NAADAP_LLM_ENDPOINT/NAADAP_LLM_ALLOWED_ENDPOINTS/NAADAP_LLM_API_KEY
+  # are supplied by the operator at deploy time (see LlmStepConfig); this
+  # compose file does not and must not hardcode a vendor endpoint.
+  naadap-llm:
+    build: .
+    image: naadap:latest
+    profiles: ["llm"]
+    deploy:
+      resources:
+        limits:
+          cpus: "4.0"
+          memory: 8G
+    environment:
+      NAADAP_LLM_ENABLED: "true"
+      # Left unset by default rather than `${VAR:?required}` so that
+      # `docker compose config`/`build` (which parse every service,
+      # active profile or not) don't hard-fail on this optional profile.
+      # LlmSummarizationStep already fails closed (skips, no network
+      # attempt) if these are empty -- see LlmStepConfig -- so an
+      # operator who forgets to set them gets a skipped LLM step, not a
+      # crash or an unintended network call.
+      NAADAP_LLM_ENDPOINT: ${NAADAP_LLM_ENDPOINT:-}
+      NAADAP_LLM_ALLOWED_ENDPOINTS: ${NAADAP_LLM_ALLOWED_ENDPOINTS:-}
+      NAADAP_LLM_MODEL: ${NAADAP_LLM_MODEL:-}
+      NAADAP_LLM_API_KEY: ${NAADAP_LLM_API_KEY:-}
+    volumes:
+      - ${NAADAP_INPUT_DIR:-./input}:/data/in:ro
+      - ${NAADAP_OUTPUT_DIR:-./output}:/data/out
+    command: ["--input", "/data/in", "--output", "/data/out"]
