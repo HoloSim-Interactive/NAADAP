@@ -40,6 +40,17 @@ Approved. Read the SE/TE comments for per-requirement caveats like
 this rather than assuming a uniform PASS covers every ID in the
 issue title.
 
+**Confirmed again 2026-09-03 on issue #12** (DELIV-9xx consolidation
+deliverables): DELIV-900/920/930/940/960/970 → In Test (their TPs ran
+and passed in full). DELIV-910 stayed Approved — TP-910's `.csproj`
+half passed but its Demonstration half (opening the solution on an
+actual Windows/VS runner) is genuinely NOT-RUN, blocked on a human
+copying `docs/ci/windows-verification.yml` into `.github/workflows/`
+(no agent identity has the `workflows` permission). Added an inline
+note on the RTVM row itself pointing at the blocker, rather than
+leaving a bare unexplained "still Approved" for a later reader to
+puzzle over.
+
 **Post-Verified regression close-out needs no RTVM edit if nothing
 changed.** After CI/CD's commit confirmation sets an item to Verified
 with a SHA, that item's chain still routes through one more
