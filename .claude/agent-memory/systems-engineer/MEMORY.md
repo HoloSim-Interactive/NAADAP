@@ -19,6 +19,7 @@ in `.github/AGENT_LABELS.md`.
 - NAADAP RTVM test-data convention: use SN-1's PGIL group-of-20 as the "representative document set" size unless a procedure calls for smaller.
 - [NAADAP SDD decisions](naadap_sdd_decisions.md) — no DB, NFR-520 semantics, VS-verification-once-at-consolidation, no UI track, Core/Alt assembly separation. Read before Implementation Plan issue.
 - [NAADAP Implementation Plan](naadap_implementation_plan.md) — build sequence + issues #5-#12 created, one per SDD pipeline-stage component, single linear order.
+- [Scaffold issue RTVM fast-path](scaffold_issue_rtvm_fastpath.md) — Generate Code Base-style issues touch RTVM IDs structurally but don't Verify them; their real verification issue is elsewhere in the plan.
 
 ## Cross-product interface standards
 
