@@ -1,15 +1,27 @@
 name: agent-relay
 #
-# SELF-HOSTED (2026-08-23; relabelled 2026-08-24): runs on the "agents"
-# runner pool -- self-hosted listeners on the client's Windows machine --
-# instead of GitHub-hosted VMs, whose minutes this account has exhausted.
-# Runner labels name a PURPOSE ("agents" for relay work, "ci" for builds),
-# never a toolchain: every runner here shares one physical machine, so a
-# capability label could not tell them apart, and an engine name would be
-# a fossil of a different project. Two runners carry "agents", so two
-# hand-offs execute concurrently. The runner's default shell on Windows is
-# PowerShell, so every job sets shell: bash (Git Bash) to keep the
-# original scripts verbatim.
+# GITHUB-HOSTED UBUNTU (2026-09-03): runs on ubuntu-latest, GitHub's own
+# VMs. This repo is PUBLIC, and public repos get unlimited free minutes on
+# GitHub-hosted standard runners -- so the "minutes exhausted" constraint
+# that pushed the template's other projects onto self-hosted listeners does
+# not apply here at all, and the org's Free plan still allows 20 concurrent
+# jobs. Since the relay's concurrency group is per-ISSUE, that is up to 20
+# hand-offs executing in parallel across different issues.
+#
+# WHY NOT SELF-HOSTED HERE (the fossil this replaced): inherited from the
+# template as `runs-on: [self-hosted, agents]`. That could never have run
+# on this repo. GitHub refuses to schedule self-hosted runners for PUBLIC
+# repositories unless the runner group opts in, and HoloSim-Interactive's
+# Default group has allows_public_repositories: false -- so the kickoff's
+# first two relay runs (33714227797, 33714276987) sat queued indefinitely
+# rather than failing, because a never-matched runs-on never errors. The
+# only runner carrying "agents" is holosim-dm-01, a Windows box shared
+# with the DungeonMaster project, and it was busy besides.
+#
+# shell: bash below is now a no-op (bash is already the default on Ubuntu).
+# It is kept deliberately: it costs nothing and it keeps every run script
+# in this file portable if a job is ever moved back to a Windows runner,
+# where PowerShell is the default.
 
 # Fires whenever an "agent:*" label lands on an issue. Label changes
 # are the sole trigger -- comments never trigger anything, by design.
@@ -34,7 +46,7 @@ concurrency:
 jobs:
   relay:
     if: startsWith(github.event.label.name, 'agent:')
-    runs-on: [self-hosted, agents]
+    runs-on: ubuntu-latest
     defaults:
       run:
         shell: bash
@@ -89,13 +101,13 @@ jobs:
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           allowed_bots: "claude[bot]"
-          # Self-hosted Windows runner (2026-08-24): the action's
-          # auto-installer refuses Windows ("Windows is not supported
-          # by this script" -- see run 32666986086, the first relay
-          # attempt on holosim-ue-01). The runner host already has
-          # Claude Code installed; point the action at it and skip
-          # the install step entirely.
-          path_to_claude_code_executable: 'C:\Users\Owner\.local\bin\claude.exe'
+          # path_to_claude_code_executable is deliberately ABSENT
+          # (2026-09-03). The template pinned it to a Windows path on the
+          # client's own machine, because the action's auto-installer
+          # refuses Windows. On ubuntu-latest that installer is the
+          # supported path and works unaided -- and the pinned path names
+          # a drive that does not exist on a GitHub VM, so leaving it in
+          # place would fail every run at startup.
           # Full output includes the actual error detail (error/error_type/
           # message) on failure, not just the summary result object -- what
           # we were missing this time. Tradeoff: it also means raw prompts

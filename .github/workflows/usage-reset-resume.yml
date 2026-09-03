@@ -28,7 +28,10 @@ concurrency:
 
 jobs:
   resume:
-    runs-on: [self-hosted, agents]
+    # ubuntu-latest (2026-09-03): see agent-relay.yml's header for why
+    # self-hosted could never schedule on this PUBLIC repo. This sweep is
+    # plain gh CLI + jq, both preinstalled on GitHub's Ubuntu image.
+    runs-on: ubuntu-latest
     defaults:
       run:
         shell: bash
