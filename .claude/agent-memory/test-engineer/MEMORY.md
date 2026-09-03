@@ -15,6 +15,8 @@ in `.github/AGENT_LABELS.md`.
 
 ## Test harness notes
 
+- [Post-merge regression hand-off](post_merge_regression_handoff.md) — pattern for CI/CD-flagged trunk regression passes: test on `main` (unshallow first if needed), PASS routes back to systems-engineer via `status:ready-for-rtvm-update`.
+
 ## Platform-specific test considerations
 
 ## Recurring failure patterns
