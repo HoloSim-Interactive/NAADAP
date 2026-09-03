@@ -23,7 +23,16 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\Naadap.Core\Naadap.Core.csproj" />
     <ProjectReference Include="..\..\src\Naadap.Output\Naadap.Output.csproj" />
+  </ItemGroup>
+
+  <!-- Copies the checked-in TP-200 (VehicleRecommender scoring input) and
+       TP-420 (ground-truth/metric) fixture sets alongside the test
+       binaries, same convention as Naadap.Core.Tests. -->
+  <ItemGroup>
+    <None Include="..\fixtures\synthetic-core200\**\*" CopyToOutputDirectory="PreserveNewest" LinkBase="fixtures\synthetic-core200" />
+    <None Include="..\fixtures\reference-20\ground-truth.json" CopyToOutputDirectory="PreserveNewest" LinkBase="fixtures\reference-20" />
   </ItemGroup>
 
 </Project>

@@ -26,4 +26,12 @@
     <ProjectReference Include="..\..\src\Naadap.Cli\Naadap.Cli.csproj" />
   </ItemGroup>
 
+  <!-- Copies the checked-in TP-100/TP-110 fixture set (6 valid documents +
+       1 corrupted) alongside the test binaries so the UI-001 end-to-end
+       test can point the CLI at a real input directory, same convention as
+       Naadap.Ingestion.Tests. -->
+  <ItemGroup>
+    <None Include="..\fixtures\smoke\**\*" CopyToOutputDirectory="PreserveNewest" LinkBase="fixtures\smoke" />
+  </ItemGroup>
+
 </Project>

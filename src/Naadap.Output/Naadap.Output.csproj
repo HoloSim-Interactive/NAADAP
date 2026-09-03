@@ -1,9 +1,25 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Naadap.Core\Naadap.Core.csproj" />
+  </ItemGroup>
+
+  <!-- OUT-430's validation-methodology document is authored once in
+       docs/VALIDATION_METHODOLOGY.md (the single canonical source, also
+       readable directly from the repo as a static submission document) and
+       embedded into this assembly so ValidationMethodologyWriter can copy
+       it into every run's output bundle without depending on the repo's
+       docs/ directory existing next to the published container at runtime.
+       No PackageReference needed: System.Text.Json and embedded-resource
+       support both ship in the net9.0 BCL/SDK. -->
+  <ItemGroup>
+    <EmbeddedResource Include="..\..\docs\VALIDATION_METHODOLOGY.md" LogicalName="Naadap.Output.ValidationMethodology.md" />
+  </ItemGroup>
 
 </Project>
