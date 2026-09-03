@@ -62,3 +62,10 @@ Verified/SHA entries (no edit), comment confirming, and close the
 issue — not to re-run the RTVM update step. Only re-touch RTVM here if
 TE's regression comment reports something that actually changed
 (different SHA, a regression found, etc).
+
+**Confirmed a second time 2026-09-03, issue #12** (DELIV-9xx
+consolidation, post-merge regression on `main` `b197889`/`4f01571`):
+same outcome — TE reported byte-identical output/results, so no RTVM
+edit, just a re-confirmation comment naming the still-correct
+Verified/SHA rows and the still-Approved DELIV-910 blocker, then
+closed the issue with no further hand-off (no `agent:*` label added).
