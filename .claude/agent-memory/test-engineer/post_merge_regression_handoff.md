@@ -28,3 +28,8 @@ pass itself:
   Docker build + TP-500/510/520/530 fixture procedures against `main`
   post-merge, all passed identically to the pre-merge run, RTVM already
   correct so no edit needed, straight to systems-engineer.
+  Reconfirmed again on issue #12 (2026-09-03, DELIV-9xx consolidation
+  merge, SHA b197889) — same shape once more, including the TP-930
+  worked-example rerun against tests/fixtures/smoke/ matching exactly.
+  This pattern now looks stable across #8/#9/#11/#12; stop
+  re-deriving it and just follow the steps above.
