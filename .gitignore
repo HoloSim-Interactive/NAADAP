@@ -30,3 +30,11 @@
 *.exe
 *.out
 *.app
+
+# .NET / Visual Studio build output (Naadap.sln and every src/tests project)
+bin/
+obj/
+*.user
+*.pdb
+*.nupkg
+.vs/

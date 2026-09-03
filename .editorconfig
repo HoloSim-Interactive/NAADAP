@@ -1,0 +1,64 @@
+# EditorConfig + .NET analyzer/naming rules for NAADAP.
+# Enforced via `dotnet format` (see docs/SDD.md Coding Standards). CI will
+# run `dotnet format --verify-no-changes` once CI/CD exists.
+
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+indent_style = space
+
+[*.cs]
+indent_size = 4
+
+[*.{csproj,sln,json,yml,yaml,md}]
+indent_size = 2
+
+# ---------------------------------------------------------------------------
+# .NET naming conventions (docs/SDD.md Coding Standards):
+#   PascalCase for types/methods/public members, camelCase for
+#   locals/private fields, `I`-prefixed interfaces.
+# ---------------------------------------------------------------------------
+
+[*.cs]
+
+# Types (classes, structs, enums, delegates) -> PascalCase
+dotnet_naming_rule.types_pascal_case.severity = warning
+dotnet_naming_rule.types_pascal_case.symbols = types
+dotnet_naming_rule.types_pascal_case.style = pascal_case
+dotnet_naming_symbols.types.applicable_kinds = class, struct, enum, delegate
+dotnet_naming_symbols.types.applicable_accessibilities = *
+
+# Interfaces -> I-prefixed PascalCase
+dotnet_naming_rule.interfaces_i_prefix.severity = warning
+dotnet_naming_rule.interfaces_i_prefix.symbols = interfaces
+dotnet_naming_rule.interfaces_i_prefix.style = interface_style
+dotnet_naming_symbols.interfaces.applicable_kinds = interface
+dotnet_naming_symbols.interfaces.applicable_accessibilities = *
+
+# Methods and public members -> PascalCase
+dotnet_naming_rule.members_pascal_case.severity = warning
+dotnet_naming_rule.members_pascal_case.symbols = members
+dotnet_naming_rule.members_pascal_case.style = pascal_case
+dotnet_naming_symbols.members.applicable_kinds = method, property, event
+dotnet_naming_symbols.members.applicable_accessibilities = *
+
+# Locals and private fields -> camelCase
+dotnet_naming_rule.locals_camel_case.severity = warning
+dotnet_naming_rule.locals_camel_case.symbols = locals_and_private_fields
+dotnet_naming_rule.locals_camel_case.style = camel_case
+dotnet_naming_symbols.locals_and_private_fields.applicable_kinds = local, field
+dotnet_naming_symbols.locals_and_private_fields.applicable_accessibilities = private, local
+
+dotnet_naming_style.pascal_case.capitalization = pascal_case
+dotnet_naming_style.camel_case.capitalization = camel_case
+dotnet_naming_style.interface_style.capitalization = pascal_case
+dotnet_naming_style.interface_style.required_prefix = I
+
+# Language conventions
+csharp_style_namespace_declarations = file_scoped:suggestion
+dotnet_sort_system_directives_first = true
+csharp_new_line_before_open_brace = all

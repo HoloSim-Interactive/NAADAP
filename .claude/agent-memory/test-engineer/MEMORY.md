@@ -20,3 +20,5 @@ in `.github/AGENT_LABELS.md`.
 ## Recurring failure patterns
 
 ## Flaky tests
+
+- [docker build transient 502](docker_build_transient_502.md) — a `docker build` failure at the image-resolve/auth stage (not inside the project's own steps) is often Docker Hub flakiness; retry once before reporting FAIL.
