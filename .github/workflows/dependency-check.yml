@@ -7,7 +7,30 @@ name: dependency-check
 # deliberately tolerant of formatting (inline bullet, plain line, bold,
 # or its own heading); see .github/AGENT_LABELS.md.
 
+# EVENT-DRIVEN FIRST, CRON AS FAIL-SAFE (2026-09-03).
+#
+# `issues: closed` is the primary trigger and the honest one: an on-hold
+# issue is waiting for its dependencies to CLOSE, so the moment one closes
+# is exactly the moment to re-check. Releases are now immediate instead of
+# up to 10 minutes late.
+#
+# The cron stays, demoted to a fail-safe. GitHub's scheduled-event delivery
+# is best effort and it visibly stopped for 2h37m on this repo on 2026-09-03
+# (08:48Z -> 11:25Z, four workflows, zero runs), during which every issue sat
+# on-hold and the whole project was silently stopped. A pipeline whose only
+# forward motion comes from cron inherits that outage; one driven by its own
+# events does not, and the cron then only has to catch what the events miss
+# -- a release whose dependency was satisfied by something other than a close,
+# or an event GitHub dropped.
+#
+# agent-relay.yml also dispatches this at the end of every run. That overlaps
+# with `issues: closed` on purpose: a sweep is idempotent and takes seconds,
+# and re-adding a label an issue already has emits no event, so a duplicate
+# run is a no-op. Cheap redundancy is the right trade here -- the failure it
+# prevents is the pipeline stopping dead with no error anywhere.
 on:
+  issues:
+    types: [closed]
   schedule:
     - cron: "*/10 * * * *"
   workflow_dispatch: {}

@@ -580,3 +580,37 @@ jobs:
 
           echo "Claude Code failed for a reason not in the known list, and no result JSON was found either — failing normally."
           exit 1
+
+      # SELF-DRIVING RELAY (2026-09-03). The pipeline used to advance only
+      # when cron fired: a finished issue sat closed while every dependent
+      # stayed status:on-hold until the next */10 sweep. That made GitHub's
+      # scheduled-event delivery a single point of failure, and it failed --
+      # 2h37m of no scheduled runs at all on this repo (08:48Z -> 11:25Z),
+      # with the project silently stopped the whole time and no error
+      # anywhere to notice.
+      #
+      # End of a relay run is the precise moment both sweeps have new work:
+      # a dependency may have just closed, and any file lock this run held
+      # has just been released. Dispatching them here makes forward motion a
+      # consequence of the pipeline's own events; the crons stay as a
+      # fail-safe for whatever the events miss.
+      #
+      # always(), so a failed or parked run still releases whatever it
+      # legitimately unblocked -- and continue-on-error, because a failed
+      # dispatch must never turn a successful agent run red. The crons
+      # remain the backstop if this step is what fails.
+      #
+      # No runaway risk: dependency-check only re-triggers this workflow if
+      # it actually RELEASES an issue, so the chain is bounded by the number
+      # of issues and stops on the first sweep that frees nothing.
+      - name: Kick the dependent sweeps
+        if: always()
+        continue-on-error: true
+        run: |
+          for WF in dependency-check.yml lock-retry.yml; do
+            if gh workflow run "$WF" --repo "${{ github.repository }}"; then
+              echo "dispatched $WF"
+            else
+              echo "WARNING: could not dispatch $WF -- the cron fail-safe still covers it."
+            fi
+          done

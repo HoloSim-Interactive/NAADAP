@@ -4,6 +4,12 @@ name: lock-retry
 # acquire a lock backs off on its own (see docs/LOCKING.md) rather
 # than idling inside a live job. This just makes sure a blocked issue
 # doesn't sit forever if it's never otherwise re-triggered.
+#
+# 2026-09-03: agent-relay.yml now dispatches this at the end of every run,
+# which is the moment a lock is actually released -- so a waiting issue is
+# retried immediately rather than up to 10 minutes later. The cron below is
+# demoted to a fail-safe; see the header of dependency-check.yml for why
+# depending on GitHub's schedule delivery alone proved unsafe here.
 
 on:
   schedule:
