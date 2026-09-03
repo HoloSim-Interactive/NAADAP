@@ -19,6 +19,8 @@ in `.github/AGENT_LABELS.md`.
 
 ## Recurring failure patterns
 
+- [Fixture ground-truth spot-check](fixture_ground_truth_spotcheck.md) — when spot-checking a corpus + hand-derived ground truth, re-verify the rationale claiming the *strongest* evidence against actual extracted text, not just the README paraphrase (caught an overstated "named directly in the title" claim on issue #6 that wasn't in the actual PDF text).
+
 ## Flaky tests
 
 - [docker build transient 502](docker_build_transient_502.md) — a `docker build` failure at the image-resolve/auth stage (not inside the project's own steps) is often Docker Hub flakiness; retry once before reporting FAIL.
