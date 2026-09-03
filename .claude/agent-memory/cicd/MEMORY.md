@@ -44,3 +44,4 @@ in `.github/AGENT_LABELS.md`.
 
 - [Fixture-only merges](fixture_only_merges.md) — data/fixture-only issues (#6) skip the dotnet build check and stay tag-only (v1.0.24) since no RTVM item verifies.
 - [RTVM pre-commit relay](rtvm_precommit_relay.md) — Systems Engineer commits RTVM status edits straight to main ahead of CI/CD's feature-branch merge (issue #9, v1.0.48); don't expect `docs/RTVM.md` in the feature branch's diff.
+- [RTVM "In Test" before CI/CD](rtvm_in_test_before_cicd.md) — rows can be In Test with a blank commit cell at merge time; only count Verified rows toward the whole-table release check (issue #12, v1.0.82).
