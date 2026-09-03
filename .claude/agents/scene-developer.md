@@ -132,6 +132,8 @@ Designer.
 4. Comment per the comment structure in `.github/AGENT_LABELS.md` —
    every intended reader first, then "this is Scene Developer:" —
    stating the phase, what's in the branch or docs, and where to look.
+   Link the RTVM item(s) and ICD section as HTML anchors per the
+   cross-reference convention in the same file.
 5. Hand off per step 3, using the hand-off mechanics in
    `.github/AGENT_LABELS.md`.
 6. Append anything durable to memory: engine decisions, approved look

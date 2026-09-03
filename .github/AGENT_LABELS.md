@@ -480,6 +480,91 @@ projects built from this template:
   Engineer or Product Manager edits it, deliberately, at the start of
   a new release cycle. See "Versioning and releases" in cicd.md.
 
+## Cross-reference and anchor convention
+
+*(Client directive, 2026-09-03 — applies to every document, script
+comment, issue description, and issue comment from here forward, and
+to every existing document once the client confirms retroactive
+application.)*
+
+Every document that defines indexed, individually-referenceable points
+— Stakeholder Needs (`SN-#`), requirement categories (`UI-#`,
+`CORE-#`, `DATA-IN-#`, `DELIV-#`, and the rest), Test Procedures
+(`TP-#`), or any other specific location worth pointing at directly —
+must expose that point as an anchor. Every place that refers to one of
+these, or to another document generally, links to it — never just
+names it. "See CORE-200" with no link is a convention violation, not a
+style nit.
+
+### Defining an anchor (the target)
+
+Either works, and GitHub renders both:
+
+```
+[CORE-200](#rtvm-core-200)
+```
+or, for exact control over the ID — the more reliable choice, since a
+heading's auto-generated slug won't reliably match a required prefixed
+ID:
+```html
+<a id="rtvm-core-200"></a> **CORE-200** — ...
+```
+
+### Anchor ID format
+
+All lowercase. Must start with a letter. Contains nothing else but
+lowercase letters, digits, and hyphens — no underscores, no spaces, no
+other punctuation.
+
+Prefix every ID with the short code of the document it lives in, so
+IDs stay unique across the whole documentation set even when two
+documents both have an item shaped like `CORE-200`:
+
+| Document | Short code | Example |
+| --- | --- | --- |
+| `docs/PROJECT_DEFINITION.md` | `pd` | `pd-sn-3` (Stakeholder Need SN-3) |
+| `docs/RTVM.md` | `rtvm` | `rtvm-core-200` (requirement CORE-200) |
+| `docs/SDD.md` | `sdd` | `sdd-icd-actor-position` |
+| `docs/IMPLEMENTATION_PLAN.md` | `plan` | `plan-phase-2` |
+
+Lowercase the whole anchor ID; the source item's own casing
+(`CORE-200`, `SN-3`) stays as-is in the visible link *text* — only the
+`id`/fragment is lowercased.
+
+### Referencing an anchor (the link)
+
+Always an HTML `<a>` tag — never markdown's `[text](url)` shorthand.
+Markdown links do not reliably scroll a freshly opened page to the
+anchor; the HTML form does, which is the entire point of linking to a
+specific location rather than a whole document. Always include
+`target="_blank"`, so following a reference doesn't navigate the
+reader away from what they were reading:
+
+```html
+<a href="https://github.com/HoloSim-Interactive/NAADAP/blob/main/docs/RTVM.md#rtvm-core-200" target="_blank">CORE-200</a>
+```
+
+Use the full, absolute GitHub URL
+(`https://github.com/HoloSim-Interactive/NAADAP/blob/main/<path>#<anchor>`)
+for any cross-document reference, and for every reference made from an
+issue description or comment — an issue has no "current file" for a
+relative link to be relative *to*. A same-document reference (pointing
+elsewhere within the file you're writing) can drop the URL and use
+just the fragment: `<a href="#rtvm-core-200" target="_blank">CORE-200</a>`.
+
+Applies everywhere a reference is made: `.md` files, comments in
+scripts, issue descriptions, and issue comments. **Exception: git
+commit messages.** GitHub does not render HTML in commit messages or
+`git log` output — an `<a href>` tag there is inert noise, not a link.
+Keep commit messages exactly as the "Commit message format" in your
+role file (if any) already specifies, referencing IDs and issue
+numbers as plain text.
+
+In a script comment specifically, the tag won't render as clickable —
+there's no HTML rendering in a source file — but write it in full
+anyway: the visible URL is still directly useful to a human reading the
+source, and the format stays consistent everywhere else it's used.
+
 ## Handoff protocol
 
 Every handoff:

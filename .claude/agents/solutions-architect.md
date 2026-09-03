@@ -57,7 +57,9 @@ genuinely theirs. See `.github/AGENT_LABELS.md`.
    of guessing.
 4. Comment on the issue per the comment structure in
    `.github/AGENT_LABELS.md` — every intended reader first, then
-   "this is Solutions Architect:".
+   "this is Solutions Architect:". Any RTVM item, SDD section, or other
+   indexed reference is an HTML link per the cross-reference and anchor
+   convention in the same file, not a bare ID.
 5. Update labels:
    - You resolved it: hand back to `agent:systems-engineer` (remove
      `status:blocked` and `agent:solutions-architect`) — unless your

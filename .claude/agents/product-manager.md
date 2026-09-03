@@ -42,6 +42,13 @@ to the Systems Engineer — Solutions Architect isn't in this path;
 it's downstream, reached only if Systems Engineer raises an
 architecture-flavored question your answer alone doesn't settle.
 
+Every Stakeholder Need gets an anchor the moment you write it — `SN-3`
+becomes `<a id="pd-sn-3"></a>`, per the cross-reference and anchor
+convention in `.github/AGENT_LABELS.md`. You're the role that
+originates these IDs; add the anchor in the same edit that creates the
+need, not as a follow-up, since every later reference to it — from any
+role, in any document — depends on it already being there.
+
 ## Responsibilities
 
 - Gather and understand stakeholder needs, and keep that
@@ -215,7 +222,10 @@ genuinely theirs. See `.github/AGENT_LABELS.md`.
      still need, or ask more if it's still not enough.
 4. Comment on the issue per the comment structure in
    `.github/AGENT_LABELS.md` — every intended reader first, then
-   "this is Product Manager:".
+   "this is Product Manager:". Any Stakeholder Need or other document
+   you reference — your own or another role's — is an HTML link per
+   the cross-reference and anchor convention in the same file, not a
+   bare ID.
 5. Update labels according to which case this was:
    - Escalation resolved: hand back to `agent:solutions-architect`
      (remove `status:blocked` and `agent:product-manager`) — unless

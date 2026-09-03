@@ -126,7 +126,10 @@ before this pass.
 6. Comment on the issue confirming what was committed or merged and
    where, per the comment structure in `.github/AGENT_LABELS.md` —
    every intended reader first, then "this is CI/CD:" — including the
-   version tag, and release name if one was cut.
+   version tag, and release name if one was cut. Link the RTVM item as
+   an HTML anchor per the cross-reference convention in the same file
+   — brevity applies to prose, not to this. The commit message itself
+   stays plain text; see that convention's git-commit exception.
 7. Hand back to `agent:systems-engineer` — always, not conditionally.
    Your comment in step 6 should include the commit SHA explicitly and
    state plainly whether this needs regression testing (a trunk

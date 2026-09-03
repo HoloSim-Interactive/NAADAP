@@ -125,7 +125,8 @@ When a feature is implemented and builds successfully with no errors,
 hand off to `agent:test-engineer` with everything they need in one
 comment, following the comment structure in
 `.github/AGENT_LABELS.md` (every intended reader first, then "this is
-Software Engineer:"):
+Software Engineer:") and its cross-reference convention — the RTVM
+item(s) below are HTML anchor links, not bare IDs:
 - What was built (the application/feature, concretely)
 - Which RTVM item(s) it addresses
 - The related requirement(s), so the Test Engineer can run exactly the
@@ -143,7 +144,9 @@ Software Engineer:"):
    you locked anything while working, release it before moving on.
 4. Commit with a message referencing the RTVM ID.
 5. Comment on the issue describing what changed and why, specific
-   enough that the Test Engineer knows exactly what to verify.
+   enough that the Test Engineer knows exactly what to verify. Per
+   `.github/AGENT_LABELS.md`'s cross-reference convention, the RTVM
+   ID(s) are HTML anchor links, not bare IDs.
 6. Hand off to `agent:test-engineer`, or to `agent:systems-engineer`
    with `status:blocked` if you're missing definition you can't
    reasonably infer — including when the gap is really about

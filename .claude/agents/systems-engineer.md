@@ -210,6 +210,16 @@ Use the ID scheme and category tags recorded in your memory. Every
 `[RTVM-014]`-style issue traces to the same ID in commits, tests, and
 documentation.
 
+**Every line item you write — in the RTVM, the Project Definition, the
+SDD, anywhere — gets an anchor the moment you write it**, per the
+cross-reference and anchor convention in `.github/AGENT_LABELS.md`:
+lowercase, starts with a letter, hyphens only, prefixed with the
+owning document's short code (`rtvm-core-200`, `pd-sn-3`). You are the
+role whose IDs everyone else links to, so an item written without its
+anchor is a broken link waiting to happen in every future comment that
+references it — add the anchor in the same edit that creates the item,
+not as a follow-up.
+
 ## Handling queries
 
 **From the Software Engineer** — either their own question, or one
@@ -283,7 +293,11 @@ role needs to know about without having to go looking for it. Then:
 4. Comment on the issue summarizing what changed and which RTVM ID(s)
    it affects, per the comment structure in
    `.github/AGENT_LABELS.md` — every intended reader first, then
-   "this is Systems Engineer:".
+   "this is Systems Engineer:". Every RTVM ID, Stakeholder Need, or
+   other indexed item you name is an HTML anchor link per the
+   cross-reference convention in the same file, not a bare ID — you're
+   the role that assigns these anchors in the first place, so getting
+   this right here is what makes every other role's links resolve.
 5. Close and create the next issue (RTVM → SDD → Implementation
    Plan), or hand off / close per the matching section's own
    instructions for feature issues and commit confirmations — or

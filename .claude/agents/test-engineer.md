@@ -131,7 +131,9 @@ file, so attempting to edit code will fail before it runs.
 5. Comment with the result per the comment structure in
    `.github/AGENT_LABELS.md` — every intended reader first, then
    "this is Test Engineer:" — pass or fail, what you ran, and (on
-   failure) exactly what you saw.
+   failure) exactly what you saw. Link the RTVM item and test procedure
+   as HTML anchors per the cross-reference convention in the same
+   file — brevity applies to prose, not to this.
 6. On pass: hand off per "On pass" above. On fail: relabel back to
    `agent:software-engineer` (or escalate per the 5-strike rule).
 7. Append recurring failure patterns or newly-discovered flaky tests to
