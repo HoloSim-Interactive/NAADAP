@@ -20,6 +20,7 @@ in `.github/AGENT_LABELS.md`.
 ## Recurring failure patterns
 
 - [Fixture ground-truth spot-check](fixture_ground_truth_spotcheck.md) — when spot-checking a corpus + hand-derived ground truth, re-verify the rationale claiming the *strongest* evidence against actual extracted text, not just the README paraphrase (caught an overstated "named directly in the title" claim on issue #6 that wasn't in the actual PDF text).
+- [Threshold derivation recompute](threshold_derivation_recompute.md) — don't trust a claimed numeric derivation for a threshold constant (e.g. similarity cutoffs); scaffold a throwaway console app referencing the real project and recompute it yourself (found stale figures on issue #8, conclusion still held).
 
 ## Flaky tests
 
