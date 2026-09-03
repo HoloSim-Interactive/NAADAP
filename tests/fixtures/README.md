@@ -61,7 +61,7 @@ the SAM.gov opportunity the file came from and why it was picked.
 | `v1-01-nswccd-pws.pdf`, `v1-02-nswccd-cdrl-a001-inspection.pdf`, `v1-03-nswccd-cdrl-a002-calibration.pdf` | NSWCCD C07 (PR 1301408430), TA Instruments/Waters equipment maintenance | `https://sam.gov/opp/718e9398c04946f280fa3cebaf1b421a/view` | A single Navy solicitation that happens to carry all three of PWS, CDRL — real, attached, small, text-extractable files, directly useful for DATA-IN-100's PWS/CDRL doc types. |
 | `v1-04-fusionsupport-sow.pdf`, `v1-05-fusionsupport-cdrl.pdf` | N5523626Q0102 FUSION SUPPORT (system/software engineering & technical writing services) | `https://sam.gov/opp/163559872c7e4ed3b1ec7486b5bb8203/view` | Real SOW+CDRL pair for a professional/technical-services requirement — the SeaPort-NxG-shaped scope this corpus needed more examples of. |
 | `v1-06-advanced-power-sow.docx`, `v1-07-advanced-power-followon-rfi.docx` | PD-44-0123 Advanced Electrical Power Systems Services (Sources Sought) | `https://sam.gov/opp/613d814a8f344eb3b9c8a1b4295b27c7/view` | Only DOCX-format SOW found with real content during this search — needed for DATA-IN-100's DOCX format coverage; also a genuine sources-sought SOW. |
-| `v2-01-sbrac-vi-solicitation.pdf` | N6274226R1801, SBRAC VI (ID/IQ Small Business Environmental Remedial Action Contract, Hawaii/Guam/Pacific) | `https://sam.gov/opp/01e61934220a4be4a428e53633e23598/view` | The solicitation for a real, currently-active vehicle, named in its own title — the strongest, least-inferred ground-truth anchor in the set. |
+| `v2-01-sbrac-vi-solicitation.pdf` | N6274226R1801, SBRAC VI (ID/IQ Small Business Environmental Remedial Action Contract, Hawaii/Guam/Pacific) | `https://sam.gov/opp/01e61934220a4be4a428e53633e23598/view` | The solicitation for a real, currently-active vehicle. The SAM.gov opportunity-listing title names it directly ("...Naval Facilities Engineering Systems Command Pacific Area of Responsibility VI (SBRAC VI)"), confirmed via the `sam.gov/api/prod/opps/v2/opportunities/{id}` `title` field; the string "SBRAC" does not itself appear anywhere in the 177-page PDF's extracted text (the document's own title reads "...Environmental Remedial Action for Sites in Hawaii, Guam, and Other Areas within [NAVFAC Pacific]" with no vehicle nickname) — so this mapping is content-consistent, not text-matched within the file, and is not stronger evidence than the other rationales below. |
 | `v2-02-ev35-biosparge-sow.pdf`, `v2-03-ev35-ppi-log02.pdf` | N4008525R0058, EV35 NLON Site 11 Biosparge O&M, Naval Submarine Base New London | `https://sam.gov/opp/f1ab24dcbab4411f84f7312474dff79d/view` | Real environmental-remediation SOW to pair with the SBRAC solicitation above — same requirement category, different document. |
 | `v3-01-beq-m400-paintflooring-sow.pdf` | 26M087CN, NAVFAC Mid-Atlantic BEQ M400 Paint-Flooring Repairs | `https://sam.gov/opp/b2a0ee6d49244b12a35cba64985fcad0/view` | Small, clean facility-repair SOW — also reused in `smoke/` for TP-100's SOW slot. |
 | `v3-02-parkinglot-repairs-sow.pdf`, `v3-03-parkinglot-repairs-rfp.pdf` | 26M092CN, FY26 Multiple Location BEQ Parking Lot Repairs | `https://sam.gov/opp/f3454dad786e4e4ba4c9af334d4b9c29/view` | Same NAVFAC office/category as the paint-flooring SOW, deepening that cluster with a second real solicitation. |
@@ -90,7 +90,15 @@ example, not an exclusive filter).
 candidate contract vehicles. This mapping is **not fabricated** — it's
 inspection-based, following each document's actual stated scope and,
 in one case (SBRAC), the vehicle's own name appearing directly in the
-solicitation title:
+SAM.gov opportunity-listing title (confirmed via the SAM.gov
+opportunities API `title` field for that solicitation) — not in the
+PDF's own text, which was checked full-text and does not contain the
+string "SBRAC" anywhere in its 177 pages. That distinction is
+corrected here after a Test Engineer full-text check on this issue
+found the earlier "named in its own title" phrasing overstated the
+anchor's strength; treat `v2-01-sbrac-vi-solicitation.pdf`'s mapping
+as content-consistent (same as the other non-SBRAC-named documents in
+this cluster), not as text-matched within the document itself:
 
 1. Read each document's title, scope section, and issuing office.
 2. Grouped documents whose stated scope matches a real, named
