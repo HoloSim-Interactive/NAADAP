@@ -36,13 +36,12 @@ back here.
 
 ## What's here
 
-- **`build-and-test.yml`** — the ordinary CI gate. Detects CMake and
-  .NET, builds and tests on both ubuntu-latest and windows-latest.
+- **`build-and-test.yml`** — the ordinary CI gate. Detects .NET,
+  builds and tests on both ubuntu-latest and windows-latest.
 - **`windows-verification.yml`** — deeper Windows-only evidence pass.
   Detects C++/MSBuild and C#/.NET, runs only the matching legs,
   publishes an evidence artifact. Produces evidence, never verdicts.
 
-Neither builds engine projects — Unreal and Unity aren't on hosted
-runners. A library built with CMake that an engine later consumes *is*
-covered, and that's usually where a game project's testable logic
-should live.
+NAADAP is a pure .NET 9.0 solution, so hosted runners cover the whole
+build: the SDK ships on the ubuntu-latest image and the same
+`.sln`/`.csproj` builds on windows-latest without modification.

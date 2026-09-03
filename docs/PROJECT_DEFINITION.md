@@ -17,9 +17,10 @@ open-source material such as Congressional testimony — to identify
 common acquisition requirements across otherwise disparate contracts,
 and to recommend candidate strategic contract vehicles for
 consolidation. The system is being built as HoloSim's entry to the
-NAVAIR/NAWCAD "Advanced Acquisition Documentation Analysis" Prize
-Challenge run by the Central Florida Tech Grove (issue #1 body is the
-full official challenge announcement).
+NAVAIR/NAWCAD NAADAP prize challenge (issue #1 body is the full
+official challenge announcement). "NAADAP" is this project's internal
+shorthand for the challenge; use it in place of the challenge's full
+title in all repository content, which is public.
 
 ## Value
 
@@ -41,7 +42,7 @@ at the $150K prize pool and follow-on OTA/CRADA opportunities.
 | SN-1 | Challenge judges / NAVAIR technical evaluators (PGIL) | [CONFIRMED] Solution must process a document set and return a candidate list of contract vehicles within 30 minutes; must reproduce the same top-5 results ≥95% of the time; is scored 2 points per correct prediction (within a PGIL-predetermined group of 20) on the initial technical evaluation, plus a live Demo Day identification of 5 manually-selected candidates. |
 | SN-2 | Challenge judges — resource/cost scoring | [CONFIRMED] Score rewards low compute footprint (best at 1 core/2GB RAM, degrading at 4c/8GB and 8c/16GB, zero above that), horizontal replicability without changing results, and either no LLM use or low LLM token spend (<50k tokens/retrieval) if one is used. |
 | SN-3 | NAVAIR IL4 deployment environment | [CONFIRMED] Must run inside a Docker container with all dependencies bundled, be deployable to a U.S. Government-owned/operated IL4-accredited cloud, and must not call any external service except USN-approved models/microservices — no outbound calls to industry-hosted models. |
-| SN-4 | HoloSim engineering team (build/maintain) | [CONFIRMED] Source code (C#) is a must-have deliverable; final IDE target is Microsoft Visual Studio, but that conversion is deferred to the very end — Ubuntu + CMake is fine for interim development. Avoid 3rd-party plugins/software unless explicitly necessary. SDLC follows MBSE; team process follows Agile Systems Engineering practices; documentation follows the US Navy SETR review process (SDD, PDR, CDR, PEDDAL, etc. as articles/deliveries). |
+| SN-4 | HoloSim engineering team (build/maintain) | [CONFIRMED] Source code (C#) is a must-have deliverable; final IDE target is Microsoft Visual Studio, but that is a packaging step, not a port — Ubuntu + .NET 9.0 SDK for interim development. Avoid 3rd-party plugins/software unless explicitly necessary. SDLC follows MBSE; team process follows Agile Systems Engineering practices; documentation follows the US Navy SETR review process (SDD, PDR, CDR, PEDDAL, etc. as articles/deliveries). |
 | SN-5 | Government evaluators running the submission | [CONFIRMED, scope of docs still open — see Open Questions] Must be able to build and run the packaged solution from the submitted materials alone (challenge explicitly forbids "just a link to a website") and interpret its output: algorithm documentation, deployment instructions, dependency documentation, and a description of validation methodology are required Phase 2 submission artifacts. |
 | SN-6 | NAVAIR — analysis transparency | [CONFIRMED] A visual representation of both the analysis method and the results is a required deliverable, as is a summary metric describing algorithm performance. |
 
@@ -49,7 +50,7 @@ at the $150K prize pool and follow-on OTA/CRADA opportunities.
 
 - **Target platform:** [CONFIRMED] Docker container, built to run in a
   U.S. Government IL4-accredited cloud environment; developed on
-  Ubuntu with CMake acceptable for the build during development.
+  Ubuntu with the .NET 9.0 SDK for the build during development.
   [PROPOSED] Final Visual Studio solution conversion is treated as a
   late-stage packaging task, not something the MVP needs to carry
   throughout development — confirm this reading matches the client's
@@ -116,9 +117,18 @@ at the $150K prize pool and follow-on OTA/CRADA opportunities.
 - [CONFIRMED] Final deliverable must open as a Microsoft Visual Studio
   project/solution; that conversion is explicitly deferred until the
   final stage of the project rather than maintained throughout.
-- [CONFIRMED] Development may proceed on Ubuntu using CMake if that's
-  faster, as long as it converges on a Visual Studio-openable solution
-  by delivery.
+- [CONFIRMED] Development proceeds on Ubuntu using the .NET 9.0 SDK
+  (`dotnet build` / `dotnet test` over `.csproj`). NOTE — CORRECTION
+  (client, 2026-09-03): the kickoff comment said "CMake"; C# does not
+  use CMake, its build system is MSBuild driven by the `dotnet` CLI.
+  No CMake anywhere in this project.
+- [CONFIRMED] The Visual Studio deliverable is NOT a later port. A
+  `.sln`/`.csproj` generated on Ubuntu opens directly in Visual Studio
+  on Windows — same files, no conversion step. The only real trap is a
+  Windows-only target framework, so the core stays on plain `net9.0`
+  and avoids WPF/WinForms. This is also required by the IL4 Linux
+  Docker constraint. Do not budget schedule for a "convert to VS"
+  phase; it does not exist.
 - [CONFIRMED] Avoid requiring third-party plugins or software unless
   explicitly necessary; minimize NuGet/external dependencies.
 - [CONFIRMED] SDLC follows MBSE (Model-Based Systems Engineering).

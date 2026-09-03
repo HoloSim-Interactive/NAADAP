@@ -19,9 +19,13 @@ are non-negotiable, alongside HoloSim itself).
 Client-mandated technical constraints (2026-09-03, issue #1 comment,
 all [CONFIRMED] in `docs/PROJECT_DEFINITION.md`):
 - Language: C#. Source code is a must-have deliverable.
-- Final IDE target is Microsoft Visual Studio, but that conversion is
-  explicitly deferred to the very end of the project — Ubuntu +
-  CMake is fine for interim development speed.
+- Final IDE target is Microsoft Visual Studio. This is a PACKAGING
+  step, not a port: a `.sln`/`.csproj` built on Ubuntu opens directly
+  in Visual Studio. Build on Ubuntu with the .NET 9.0 SDK.
+- NOT CMake. The kickoff comment said "CMake"; the client corrected
+  this on 2026-09-03. C# builds with MSBuild via the `dotnet` CLI.
+  Keep the core on plain `net9.0` (no `net9.0-windows`, WPF, WinForms)
+  — it must also run in a Linux IL4 Docker container.
 - Avoid 3rd-party plugins/software unless explicitly necessary.
 - SDLC must follow MBSE (Model-Based Systems Engineering).
 - Team process must follow Agile Systems Engineering best practices.

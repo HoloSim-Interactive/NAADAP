@@ -11,7 +11,7 @@ you fill in the table.
 
 | Field | Value |
 | --- | --- |
-| Project Name | Advanced Acquisition Documentation Analysis |
+| Project Name | NAADAP |
 | Client Name | Kyle (Human) on behalf of NAVAIR/NAWCAD |
 | Preferred Software Programming Language | TBD |
 | Description of deliverable(s) | Software Application and source code |
@@ -23,7 +23,7 @@ you fill in the table.
 - **User documentation needed?** — Not just a user manual this time. We're going full pedantic mode on this, completely defining what we are going to build, validating that what we are building is the right thing, and completely verifying through testing rigor and traceability that we built what we said we would.
 
 - **Client Name** — For this effort you can continue to refer to me (Kyle) as the client. But this application will ultimate go directly to the US Navy's Naval Air Systems Command (NAVAIR) and Naval Air Warfare Center Aircraft Division (NAWCAD). 
-- **Description of deliverable(s)** — A software application that represents an innovative solution for advanced acquisition documentation analysis. The Navy seeks intelligent recommender systems that leverage advanced data science, natural language processing, and machine learning to analyze procurement documentation, identify common acquisition requirements, and recommend strategic contract vehicles that improve efficiency and streamline the acquisition process. The final product need to function perfectly, with stable useability and conformity to government standards. More than that, the source code must be documented in a professional manner following industry standard best practices.  And just as important as the functional deliverable itself is the documentation that must be provided to go along with it demonstrating the path to completion, including following US Navy Systems Engineering Technical Review process (SETR) and MBSE practices. Ideally this will also demonstrate a strong underlying Agile Systems Engineering approach.
+- **Description of deliverable(s)** — A software application that represents an innovative solution for the NAADAP challenge. The Navy seeks intelligent recommender systems that leverage advanced data science, natural language processing, and machine learning to analyze procurement documentation, identify common acquisition requirements, and recommend strategic contract vehicles that improve efficiency and streamline the acquisition process. The final product need to function perfectly, with stable useability and conformity to government standards. More than that, the source code must be documented in a professional manner following industry standard best practices.  And just as important as the functional deliverable itself is the documentation that must be provided to go along with it demonstrating the path to completion, including following US Navy Systems Engineering Technical Review process (SETR) and MBSE practices. Ideally this will also demonstrate a strong underlying Agile Systems Engineering approach.
 - **General budget (time/tokens)** — 
 Project Timeline:
 7/30/26: Prize Challenge Release and Pre-Screening application portal open on USA.gov and the Tech Grove Website.

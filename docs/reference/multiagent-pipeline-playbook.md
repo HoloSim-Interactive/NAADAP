@@ -65,11 +65,12 @@ the engine-specific command patterns.
   test* — indistinguishable by exit code from a failing test. Every
   automation leg asserts an **executed-test count**, never an exit
   code alone.
-- `ctest` running a single aggregated test binary exits 1 for one
-  failing case and for many — grade on executed counts plus the
-  failing-case set matched exactly against a known-red register
-  (Systems-Engineer-maintained, each entry naming the issue that will
-  grade it).
+- `dotnet test` exits 1 for one failing case and for many, and a
+  filter that matches nothing can still exit **0** — the vacuous pass
+  in its purest form. Grade on the executed-test count parsed from the
+  `.trx`, plus the failing-case set matched exactly against a known-red
+  register (Systems-Engineer-maintained, each entry naming the issue
+  that will grade it).
 - Editor stdout is filtered by default: read log expectations from
   `<host>/Saved/Logs/<Host>.log` **with a named positive-control line**
   proving the log was captured, or an "expected: absent" check passes

@@ -17,11 +17,16 @@
 # docs/ci/windows-verification.yml is the deeper Windows-only evidence pass;
 # the two are complementary, not duplicates.
 #
-# NOT covered: engine builds. Unreal and Unity aren't installed on hosted
-# runners, so an engine project's C++ can't be compiled here. Verify that by
-# client acceptance, or set up a self-hosted runner. A CMake-built library
-# that an engine later consumes IS covered — build and test it here, where
-# it's cheap.
+# .NET ONLY (2026-09-03). The template shipped this gate detecting both
+# CMake/CTest and .NET. NAADAP is C# on .NET 9.0 and will never contain a
+# CMakeLists.txt -- C# builds with MSBuild via the `dotnet` CLI, not CMake --
+# so those legs were dead weight that could only mislead a future agent into
+# scaffolding a second build system. Removed rather than left inert.
+#
+# The windows-latest leg is kept deliberately, even though the deliverable
+# ships as a Linux IL4 container: it is what proves the same `.sln`/`.csproj`
+# builds under Windows too, so the final Visual Studio hand-off stays a
+# packaging step rather than a port.
 
 name: build-and-test
 
@@ -52,34 +57,30 @@ jobs:
   detect:
     runs-on: ubuntu-latest
     outputs:
-      cmake: ${{ steps.scan.outputs.cmake }}
       dotnet: ${{ steps.scan.outputs.dotnet }}
       any: ${{ steps.scan.outputs.any }}
     steps:
       - uses: actions/checkout@v4
       - id: scan
         run: |
-          CMAKE=$(find . -name 'CMakeLists.txt' -not -path './**/build/*' | head -1)
           CS=$(find . -name '*.csproj' -not -path './**/obj/*' -not -path './publish/*' | head -1)
-          [[ -n "$CMAKE" ]] && echo "cmake=true"  >> "$GITHUB_OUTPUT" || echo "cmake=false"  >> "$GITHUB_OUTPUT"
-          [[ -n "$CS"    ]] && echo "dotnet=true" >> "$GITHUB_OUTPUT" || echo "dotnet=false" >> "$GITHUB_OUTPUT"
-          if [[ -n "$CMAKE" || -n "$CS" ]]; then
-            echo "any=true" >> "$GITHUB_OUTPUT"
+          if [[ -n "$CS" ]]; then
+            echo "dotnet=true" >> "$GITHUB_OUTPUT"
+            echo "any=true"    >> "$GITHUB_OUTPUT"
           else
-            echo "any=false" >> "$GITHUB_OUTPUT"
+            echo "dotnet=false" >> "$GITHUB_OUTPUT"
+            echo "any=false"    >> "$GITHUB_OUTPUT"
           fi
           {
-            echo "## Toolchains detected"
+            echo "## Toolchain detected"
             echo ""
             echo "| Toolchain | Present |"
             echo "| --- | --- |"
-            echo "| CMake/CTest | $([[ -n "$CMAKE" ]] && echo yes || echo no) |"
-            echo "| .NET | $([[ -n "$CS" ]] && echo yes || echo no) |"
-            if [[ -z "$CMAKE" && -z "$CS" ]]; then
+            echo "| .NET 9.0 | $([[ -n "$CS" ]] && echo yes || echo no) |"
+            if [[ -z "$CS" ]]; then
               echo ""
-              echo "_No buildable toolchain found. If this project's code lives in an"
-              echo "engine (Unreal/Unity), that's expected — hosted runners can't build"
-              echo "it. Verification is by client acceptance._"
+              echo "_No .csproj found yet -- expected until the Software Engineer"
+              echo "scaffolds the solution. This gate no-ops until then._"
             fi
           } >> "$GITHUB_STEP_SUMMARY"
 
@@ -95,40 +96,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # ---------- CMake / CTest ----------
-      - name: Configure (CMake)
-        if: needs.detect.outputs.cmake == 'true'
-        shell: bash
-        run: |
-          # Discover the top-level CMakeLists.txt rather than assuming a path.
-          ROOT=$(find . -name 'CMakeLists.txt' -not -path './**/build/*' \
-                 | awk -F/ '{print NF-1"\t"$0}' | sort -n | head -1 | cut -f2)
-          ROOT_DIR=$(dirname "$ROOT")
-          echo "CMAKE_ROOT=$ROOT_DIR" >> "$GITHUB_ENV"
-          cmake -S "$ROOT_DIR" -B build -DCMAKE_BUILD_TYPE=Release
-
-      - name: Build (CMake)
-        if: needs.detect.outputs.cmake == 'true'
-        shell: bash
-        run: cmake --build build --config Release
-
-      - name: Test (CTest)
-        if: needs.detect.outputs.cmake == 'true'
-        shell: bash
-        run: |
-          # --output-on-failure so a red run says why without digging into
-          # artifacts. --no-tests=error so an empty suite fails loudly rather
-          # than reporting a green pass for zero tests.
-          ctest --test-dir build --build-config Release \
-                --output-on-failure --no-tests=error
-
-      # ---------- .NET ----------
+      # ---------- .NET 9.0 ----------
       - name: Set up .NET
         if: needs.detect.outputs.dotnet == 'true'
         uses: actions/setup-dotnet@v4
         with:
           global-json-file: ${{ hashFiles('global.json') != '' && 'global.json' || '' }}
-          dotnet-version: ${{ hashFiles('global.json') == '' && '8.0.x' || '' }}
+          # 9.0.x, not the template's 8.0.x (2026-09-03): the client pinned
+          # .NET 9.0. A global.json in the repo still wins, so the SDK can be
+          # pinned exactly without editing this file.
+          dotnet-version: ${{ hashFiles('global.json') == '' && '9.0.x' || '' }}
 
       - name: Build and test (.NET)
         if: needs.detect.outputs.dotnet == 'true'
@@ -149,6 +126,5 @@ jobs:
           name: test-results-${{ matrix.os }}-${{ github.sha }}
           path: |
             test-results/
-            build/Testing/
           retention-days: 30
           if-no-files-found: ignore

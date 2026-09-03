@@ -59,8 +59,9 @@ requirement's number; every commit subject carries the ID it serves.
 - Windows 11, Git for Windows, GitHub CLI (`gh`), authenticated
 - Claude Code installed natively (path matters — see §4.3)
 - A Claude subscription with enough headroom (see §7 on budget)
-- Whatever the project's own toolchain needs (for Unreal work: UE 5.6,
-  Visual Studio 2022 with Desktop C++, CMake 3.20+)
+- Whatever the project's own toolchain needs (for NAADAP: the .NET 9.0
+  SDK, which is preinstalled on GitHub's ubuntu-latest image; Visual
+  Studio 2022 only for the final packaged solution)
 
 **On GitHub:**
 
