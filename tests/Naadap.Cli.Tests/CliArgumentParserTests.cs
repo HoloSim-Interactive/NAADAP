@@ -17,6 +17,33 @@ public class CliArgumentParserTests
     }
 
     [Fact]
+    public void TryParse_WithoutEnableLlmStepFlag_DefaultsToDisabled()
+    {
+        var ok = CliArgumentParser.TryParse(
+            ["--input", "/tmp/in", "--output", "/tmp/out"],
+            out var arguments,
+            out _);
+
+        Assert.True(ok);
+        Assert.False(arguments!.EnableLlmStep);
+    }
+
+    [Fact]
+    public void TryParse_WithEnableLlmStepFlag_SetsFlagTrue()
+    {
+        // CORE-250's explicit config-flag gate: a bare switch, order-independent
+        // relative to --input/--output.
+        var ok = CliArgumentParser.TryParse(
+            ["--input", "/tmp/in", "--enable-llm-step", "--output", "/tmp/out"],
+            out var arguments,
+            out var error);
+
+        Assert.True(ok);
+        Assert.Null(error);
+        Assert.True(arguments!.EnableLlmStep);
+    }
+
+    [Fact]
     public void TryParse_MissingInput_Fails()
     {
         var ok = CliArgumentParser.TryParse(

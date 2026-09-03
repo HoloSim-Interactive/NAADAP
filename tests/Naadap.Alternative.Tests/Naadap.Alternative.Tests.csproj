@@ -26,4 +26,11 @@
     <ProjectReference Include="..\..\src\Naadap.Alternative\Naadap.Alternative.csproj" />
   </ItemGroup>
 
+  <!-- Copies the checked-in TP-200 fixture set alongside the test binaries
+       so RetrievalAugmentedClusteringComponentTests can read it via a
+       relative path, same convention as Naadap.Core.Tests. -->
+  <ItemGroup>
+    <None Include="..\fixtures\synthetic-core200\**\*" CopyToOutputDirectory="PreserveNewest" LinkBase="fixtures\synthetic-core200" />
+  </ItemGroup>
+
 </Project>

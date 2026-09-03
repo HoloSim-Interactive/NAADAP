@@ -6,4 +6,13 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <!-- CORE-250's model client uses System.Net.Http.HttpClient, which ships
+       in the net9.0 BCL, so no PackageReference is needed here. Per
+       docs/SDD.md's dependency policy this project is where an HTTP client
+       for the USN-approved model allowlist was expected to live; it turns
+       out the BCL already covers it. -->
+  <ItemGroup>
+    <ProjectReference Include="..\Naadap.Core\Naadap.Core.csproj" />
+  </ItemGroup>
+
 </Project>

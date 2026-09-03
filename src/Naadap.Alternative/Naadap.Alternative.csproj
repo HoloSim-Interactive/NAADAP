@@ -4,6 +4,24 @@
     <TargetFramework>net9.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <OutputType>Exe</OutputType>
   </PropertyGroup>
+
+  <!-- CORE-260's comparison harness. Per docs/SDD.md's block diagram this is
+       a separate assembly precisely so it can reference whatever an
+       alternative approach needs without CORE-240's zero-dependency rule
+       ever having to reason about it, never referenced by Naadap.Core or
+       Naadap.Cli (see docs/SDD.md Coding Standards). This offline analysis
+       run reuses Naadap.Ingestion (to load the reference-20 corpus the same
+       way Naadap.Cli does) and Naadap.Output (VehicleRecommender,
+       MetricCalculator, GroundTruth) so the comparison scores both
+       approaches by the exact same ranking and precision@5 definitions the
+       production pipeline uses, not a reimplementation that could drift
+       from OUT-420's real metric. -->
+  <ItemGroup>
+    <ProjectReference Include="..\Naadap.Core\Naadap.Core.csproj" />
+    <ProjectReference Include="..\Naadap.Ingestion\Naadap.Ingestion.csproj" />
+    <ProjectReference Include="..\Naadap.Output\Naadap.Output.csproj" />
+  </ItemGroup>
 
 </Project>

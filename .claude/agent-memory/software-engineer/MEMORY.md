@@ -18,6 +18,8 @@ in `.github/AGENT_LABELS.md`.
 - [NAADAP shared DTOs live in Core](naadap_shared_dtos_live_in_core.md) — cross-stage records (DocumentRecord etc.) go in Naadap.Core, never in the producing stage, to keep CORE-240's zero-dependency check trivial.
 
 - [Embed a static doc as a resource for a runtime bundle](embed_static_doc_as_resource_for_runtime_bundle.md) — pattern for a doc needed both standalone and copied into every run's output (OUT-430); also notes a `.csproj` XML-comment `--` gotcha.
+- [Fail-closed allowlist gate for an optional network step](fail_closed_allowlist_gate_for_optional_network_step.md) — CORE-250's "off by default, allowlist-restricted when on, auditable either way" pattern; reusable for any future gated outbound call.
+- [Offline analysis harness as a separate Exe project](offline_analysis_harness_as_separate_exe.md) — CORE-260's "documented, rejected comparison, never wired into production" pattern; standalone project, never referenced by the CLI.
 
 ## Platform-specific notes
 

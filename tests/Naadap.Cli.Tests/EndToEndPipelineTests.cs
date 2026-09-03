@@ -68,4 +68,41 @@ public class EndToEndPipelineTests : IDisposable
             Assert.True(candidate.GetProperty("contributingDocuments").GetArrayLength() > 0);
         }
     }
+
+    [Fact]
+    public void Main_LlmStepNotEnabled_NeverWritesLlmRunLog()
+    {
+        // NFR-510/CORE-250 default path: the LLM step's own audit artifact
+        // must not even appear on disk when the feature was never asked
+        // for -- not merely "empty", genuinely absent.
+        var exitCode = Program.Main(["--input", SmokeInputDirectory, "--output", outputDirectory]);
+
+        Assert.Equal(0, exitCode);
+        Assert.False(File.Exists(Path.Combine(outputDirectory, "llm-run-log.json")));
+    }
+
+    [Fact]
+    public void Main_LlmStepEnabledWithNoEndpointConfigured_WritesRunLogRecordingSkipAndStillExitsZero()
+    {
+        // CORE-250 enabled via --enable-llm-step but with no
+        // NAADAP_LLM_ENDPOINT configured in this test environment: the run
+        // must still complete (never abort the pipeline for an optional,
+        // misconfigured step) and the run log must explain why nothing ran.
+        var exitCode = Program.Main(["--input", SmokeInputDirectory, "--output", outputDirectory, "--enable-llm-step"]);
+
+        Assert.Equal(0, exitCode);
+
+        var runLogPath = Path.Combine(outputDirectory, "llm-run-log.json");
+        Assert.True(File.Exists(runLogPath));
+
+        using var runLog = JsonDocument.Parse(File.ReadAllText(runLogPath));
+        Assert.True(runLog.RootElement.GetProperty("enabled").GetBoolean());
+        Assert.True(runLog.RootElement.GetProperty("skipped").GetBoolean());
+        Assert.Equal(0, runLog.RootElement.GetProperty("totalTokensUsed").GetInt32());
+        Assert.Empty(runLog.RootElement.GetProperty("networkCalls").EnumerateArray());
+
+        // manifest.json (OUT-440) must still be produced, unaffected by the
+        // optional step's outcome.
+        Assert.True(File.Exists(Path.Combine(outputDirectory, "manifest.json")));
+    }
 }
