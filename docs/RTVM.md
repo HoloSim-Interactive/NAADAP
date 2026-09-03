@@ -72,7 +72,7 @@ smaller set for a narrower check (e.g. a 5–6 document smoke test).
 | CORE-250 | Where an LLM is used at all (summarization/interpretation/visualization step only), a single run's token spend is <50,000 tokens, and every model/microservice call target is on the USN-approved allowlist configured for IL4 operation. | SN-2, SN-3 | Test | Approved | |
 | CORE-260 | At least one alternative clustering strategy (e.g. LLM-assisted or retrieval/RAG-based) is implemented and run against the same validation set as the chosen non-LLM core, with accuracy, runtime, and cost recorded for both, to substantiate the non-LLM core's selection in the algorithm documentation (DELIV-970). Not a second production path — a documented, rejected comparison. | SN-1, SN-2 | Analysis | Approved | |
 | DATA-OUT-300 | Internal result representation: a ranked candidate contract-vehicle list per run, each candidate carrying a numeric confidence/score and the set of source documents that contributed to it. | SN-1, SN-6 | Test | Approved | |
-| DATA-OUT-310 | If a database or persistent store is used, each run's result set is persisted in a documented schema (DELIV-950) and is re-readable/auditable without re-executing the pipeline. Withdrawn if the implementation ships without a database (file-based output only satisfies OUT-440 instead). | SN-6 | Test | Draft | |
+| DATA-OUT-310 | ~~If a database or persistent store is used, each run's result set is persisted in a documented schema (DELIV-950) and is re-readable/auditable without re-executing the pipeline.~~ **Withdrawn (SDD issue, 2026-09-03): no database is used — see `docs/SDD.md` Data Architecture. OUT-440's file-based manifest bundle satisfies the re-readable/auditable need instead.** | SN-6 | Test | Withdrawn | |
 | OUT-400 | A visualization of the analysis method (e.g. pipeline stages / cluster structure diagram) is produced per run. | SN-6 | Test | Approved | |
 | OUT-410 | A visualization of the results (ranked candidate list / cluster-to-vehicle mapping) is produced per run. | SN-6 | Test | Approved | |
 | OUT-420 | A single summary performance metric (e.g. precision@5 or F1 against the validation ground truth) is produced per run, alongside the raw counts it's computed from. | SN-1, SN-6 | Test | Approved | |
@@ -80,14 +80,14 @@ smaller set for a narrower check (e.g. a 5–6 document smoke test).
 | OUT-440 | A single reviewable output bundle per run collects the candidate list (DATA-OUT-300), both visualizations (OUT-400/410), the summary metric (OUT-420), and a pointer to the validation methodology (OUT-430), indexed by one manifest file. | SN-1, SN-5, SN-6 | Test | Approved | |
 | NFR-500 | The Docker image bundles every runtime dependency; no dependency is fetched over the network at container run time. | SN-3 | Test | Approved | |
 | NFR-510 | In default (no-LLM / LLM-disabled) operation, the container makes zero outbound network connections. When the optional LLM step is enabled, outbound connections are limited to the configured USN-approved allowlist only. | SN-3 | Test | Approved | |
-| NFR-520 | Horizontal replicability: running the same input set across multiple concurrent instances/replicas does not change the top-5 candidate result versus a single-instance run. **Status: Draft — semantics ambiguous, see Open Items below; not to be implemented against until Solutions Architect resolves it.** | SN-2 | Test | Draft | |
+| NFR-520 | Horizontal replicability: running N independent, fully stateless full-replica instances of the container against the same input set, each in isolation, reproduces the same top-5 candidate result (per CORE-210's ≥95% reproducibility bar) independently in each replica — not a single logical run sharded/partitioned across replicas. **Resolved in the SDD issue (2026-09-03), see `docs/SDD.md` Data Architecture — flagged to Solutions Architect for review; revisit before implementation if they disagree.** | SN-2 | Test | Approved | |
 | NFR-530 | The deployment configuration never provisions more than 8 cores / 16GB RAM for the pipeline (hard ceiling — the challenge scores zero above this tier). | SN-2 | Inspection | Approved | |
 | DELIV-900 | Full C# source code (not just compiled binaries) is included in the submission package, buildable from a clean clone. | SN-4 | Inspection | Approved | |
 | DELIV-910 | The generated `.sln`/`.csproj` opens directly in Visual Studio on Windows with no conversion step; the core project(s) target plain `net9.0` (no `net9.0-windows`, WPF, or WinForms). | SN-4 | Demonstration | Approved | |
 | DELIV-920 | Every NuGet/third-party dependency beyond the .NET 9 BCL has an explicit, on-file justification; nothing is added without one. | SN-4 | Inspection | Approved | |
 | DELIV-930 | Build/run documentation takes a reader with no prior project exposure from a fresh clone to a completed run producing the OUT-440 bundle, using only that documentation: prerequisites, Docker build steps, expected input format/location with ≥1 worked example, launch command, and a description of correct output. | SN-5 | Demonstration | Approved | |
 | DELIV-940 | Maintainer-extension documentation gives a concrete walkthrough — files to add/edit, interface to implement — for both adding a new input document type and adding a new clustering/algorithm component. | SN-4, SN-5 | Inspection | Approved | |
-| DELIV-950 | Database schema and ETL process are documented in `docs/SDD.md`'s Data Architecture section, conditional on the implementation actually using a database (see DATA-OUT-310). Withdrawn if no database is used. | SN-6 | Inspection | Draft | |
+| DELIV-950 | ~~Database schema and ETL process are documented in `docs/SDD.md`'s Data Architecture section, conditional on the implementation actually using a database (see DATA-OUT-310).~~ **Withdrawn (SDD issue, 2026-09-03): no database is used — see `docs/SDD.md` Data Architecture.** | SN-6 | Inspection | Withdrawn | |
 | DELIV-960 | The SETR documentation-artifact list (per NAVAIR Instruction 4355.19D, researched below) is reconciled against this project's `docs/RTVM.md` / `docs/SDD.md` / `docs/IMPLEMENTATION_PLAN.md` pipeline artifacts in `docs/SDD.md`, naming which pipeline document (or which review event) satisfies which SETR artifact, for at least the reviews reachable before the 2026-09-22 Submissions Deadline. | SN-4 | Inspection | Approved | |
 | DELIV-970 | Algorithm documentation, dependency documentation, and deployment instructions each exist as discrete, individually locatable submission artifacts (not merged into one narrative document). | SN-5 | Inspection | Approved | |
 
@@ -167,10 +167,9 @@ smaller set for a narrower check (e.g. a 5–6 document smoke test).
   candidate vehicle; each entry has a numeric score and a non-empty
   list of contributing source documents.
 
-- **TP-310** (DATA-OUT-310, conditional): Input: one complete run.
-  Expected (only if a DB is used): the run's result row(s) exist
-  post-run, match the schema in `docs/SDD.md`, and are readable by a
-  separate process with the pipeline not running.
+- **TP-310** (DATA-OUT-310) — **Withdrawn, SDD issue 2026-09-03: no
+  database is used (see `docs/SDD.md` Data Architecture).** Superseded
+  by TP-440's manifest-based re-readability check.
 
 - **TP-400 / TP-410** (OUT-400/410): Input: the CORE-200 test set.
   Expected: two distinct visualization artifacts are written to the
@@ -206,8 +205,15 @@ smaller set for a narrower check (e.g. a 5–6 document smoke test).
   allowlist-only egress rule: run completes; log shows connections
   only to the allowlisted endpoint(s).
 
-- **TP-520** (NFR-520) — blocked on the Open Item below; do not write
-  until NFR-520's semantics are resolved.
+- **TP-520** (NFR-520): Input: the N=20 reference set. Launch 5
+  independent, isolated instances of the built container concurrently,
+  each pointed at the same input directory and its own output
+  directory (no shared volume, no coordination between instances).
+  Expected: each of the 5 instances independently produces a top-5
+  candidate list matching the single-instance-run baseline (from
+  TP-210) in ≥95% of a repeated-run sample per instance — i.e. no
+  instance's result diverges from the others due to concurrent
+  execution.
 
 - **TP-530** (NFR-530) — Inspection: review the deployment
   configuration (Docker/orchestration resource limits) and confirm no
@@ -240,9 +246,9 @@ smaller set for a narrower check (e.g. a 5–6 document smoke test).
   contain a concrete, followable walkthrough for both extension
   points named in DATA-IN-120.
 
-- **TP-950** (DELIV-950, conditional) — Inspection: if a database is
-  used, confirm `docs/SDD.md`'s Data Architecture section documents
-  its schema and ETL process; Withdrawn otherwise.
+- **TP-950** (DELIV-950) — **Withdrawn, SDD issue 2026-09-03: no
+  database is used** — `docs/SDD.md`'s Data Architecture section
+  documents this decision and the file-based alternative instead.
 
 - **TP-960** (DELIV-960) — Inspection: confirm `docs/SDD.md` contains
   a mapping table correlating each SETR review/artifact this project
@@ -317,14 +323,14 @@ verified review list above and fold in PEDDAL once clarified.
 
 ## Open Items
 
-- **NFR-520 (horizontal replicability semantics)** — SN-2 requires
-  "horizontal replicability without changing results" but doesn't say
-  whether that means (a) one logical run's work sharded across
-  multiple concurrent container replicas, or (b) multiple independent
-  full replica runs (e.g. for availability) that must each
-  independently reproduce the same result. These have different
-  architectural implications (shared/partitioned state vs. fully
-  stateless replicas) and belong to Solutions Architect to resolve
-  during the SDD issue. Requirement and test procedure are marked
-  Draft, not Approved, until then — do not implement against NFR-520
-  before it's resolved.
+- ~~**NFR-520 (horizontal replicability semantics)**~~ — **Resolved in
+  the SDD issue (2026-09-03).** Interpretation (b) — independent,
+  fully stateless full-replica runs — was chosen; see `docs/SDD.md`
+  Data Architecture for the full rationale. Flagged to Solutions
+  Architect for review; revisit before implementation if they
+  disagree. NFR-520 and TP-520 above are now Approved/written on that
+  basis, not Draft.
+- **DELIV-960 (SETR mapping)** — resolved in `docs/SDD.md`'s new "SETR
+  Documentation Mapping" section for every review reachable before
+  2026-09-22. "PEDDAL" (SN-4) remains an open question back to Product
+  Manager — not blocking.
