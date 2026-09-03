@@ -1,16 +1,23 @@
+using Naadap.Core;
 using Naadap.Ingestion;
+using Naadap.Output;
 
 namespace Naadap.Cli;
 
 /// <summary>
-/// UI-001 entrypoint. Reads no interactive input (safe to run with
-/// <c>&lt;/dev/null</c>) and parses arguments, ensures the output directory
-/// exists, then runs the Ingestion stage (DATA-IN-1xx). Real
-/// Core -&gt; Output (+ optional LlmStep) wiring lands as each stage is
-/// implemented in later RTVM issues; see the activity diagram in
-/// docs/SDD.md. Ingestion never terminates the run early (DATA-IN-110) —
-/// this entrypoint always reaches exit 0 for a well-formed invocation,
-/// regardless of how many individual files were skipped.
+/// UI-001 entrypoint: a single invocation, pointed at an input document
+/// directory and an output directory, runs the full pipeline end to end
+/// with no interactive prompts (reads no interactive input; safe to run
+/// with <c>&lt;/dev/null&gt;</c>) — Ingestion (DATA-IN-1xx) -&gt; Core
+/// clustering (CORE-200) -&gt; Output ranking/visualization/metrics/bundling
+/// (DATA-OUT-300, OUT-4xx), matching the activity diagram in docs/SDD.md.
+/// The optional LLM step (CORE-250) is not wired in here yet — it stays
+/// off the default path until it exists and is gated behind an explicit
+/// config flag, per docs/SDD.md's activity diagram. Neither Ingestion
+/// (DATA-IN-110) nor any Output step aborts the run early — this entrypoint
+/// always reaches exit 0 for a well-formed invocation, regardless of how
+/// many individual files were skipped or how few clusters/candidates were
+/// found.
 /// </summary>
 public static class Program
 {
@@ -26,32 +33,16 @@ public static class Program
         Directory.CreateDirectory(arguments!.OutputDirectory);
 
         var ingestionResult = IngestionRunner.CreateDefault().IngestDirectory(arguments.InputDirectory);
-        WriteIngestionReport(arguments.OutputDirectory, ingestionResult);
 
-        // Pipeline stages are wired in one by one as their RTVM items land:
-        // Core (CORE-2xx) -> Output.Recommend (DATA-OUT-300) -> Output
-        // visualization/metrics/bundler (OUT-4xx), with the optional LlmStep
-        // (CORE-250) gated behind config between Recommend and Viz. Nothing
-        // downstream of Ingestion to run yet.
+        var clusters = new TfIdfCosineClusteringComponent().Cluster(ingestionResult.Records);
+
+        OutputBundler.Bundle(
+            arguments.InputDirectory,
+            arguments.OutputDirectory,
+            ingestionResult.Records,
+            clusters,
+            ingestionResult.SkippedFiles);
+
         return 0;
-    }
-
-    /// <summary>
-    /// DATA-IN-110: writes a human-readable run report listing every
-    /// skipped file and its reason (plus the successful-ingestion count) to
-    /// the output directory. This is superseded/absorbed by OUT-440's full
-    /// manifest bundle once the Output stage exists; until then it is the
-    /// reviewable record DATA-IN-110 requires.
-    /// </summary>
-    private static void WriteIngestionReport(string outputDirectory, IngestionResult result)
-    {
-        var lines = new List<string>
-        {
-            $"Ingested {result.Records.Count} document(s); skipped {result.SkippedFiles.Count} file(s).",
-        };
-
-        lines.AddRange(result.SkippedFiles.Select(skipped => $"SKIPPED: {skipped.SourceFilename} - {skipped.Reason}"));
-
-        File.WriteAllLines(Path.Combine(outputDirectory, "ingestion-report.txt"), lines);
     }
 }
