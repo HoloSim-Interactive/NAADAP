@@ -39,3 +39,15 @@ actually execute and pass) moved to In Test; CORE-220/230 stayed
 Approved. Read the SE/TE comments for per-requirement caveats like
 this rather than assuming a uniform PASS covers every ID in the
 issue title.
+
+**Post-Verified regression close-out needs no RTVM edit if nothing
+changed.** After CI/CD's commit confirmation sets an item to Verified
+with a SHA, that item's chain still routes through one more
+regression-testing round-trip (CI/CD flagged trunk merge → TE
+regression → back to you). Confirmed 2026-09-03 on issue #8: TE's
+regression PASS reported code unchanged since the merge SHA already
+recorded in RTVM, so the correct action was to re-confirm the existing
+Verified/SHA entries (no edit), comment confirming, and close the
+issue — not to re-run the RTVM update step. Only re-touch RTVM here if
+TE's regression comment reports something that actually changed
+(different SHA, a regression found, etc).
