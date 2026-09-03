@@ -19,6 +19,10 @@ in `.github/AGENT_LABELS.md`.
 
 ## Platform-specific test considerations
 
+## Test harness gotchas (mine, not the product's)
+
+- [.NET HttpClient chunked-encoding mock gotcha](dotnet_httpclient_chunked_mock_gotcha.md) — a hand-rolled Content-Length-only mock server will falsely look like a client bug against .NET's chunked-encoded POSTs; also, use Bash's `run_in_background` not `nohup ... &` for helper servers in this sandbox.
+
 ## Recurring failure patterns
 
 - [Fixture ground-truth spot-check](fixture_ground_truth_spotcheck.md) — when spot-checking a corpus + hand-derived ground truth, re-verify the rationale claiming the *strongest* evidence against actual extracted text, not just the README paraphrase (caught an overstated "named directly in the title" claim on issue #6 that wasn't in the actual PDF text).
