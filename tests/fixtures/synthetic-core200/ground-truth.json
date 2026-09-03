@@ -1,0 +1,23 @@
+{
+  "$comment": "CORE-200 / TP-200 fixture. This 10-document set is deliberately synthetic (not sourced from SAM.gov) per the issue #6 scope -- it exists to give the clustering algorithm an unambiguous, hand-constructed answer to check itself against.",
+  "expectedClusters": [
+    {
+      "clusterId": "flight-line-engineering",
+      "documents": ["doc-a.txt", "doc-c.txt", "doc-e.txt"],
+      "sharedTheme": "Flight-line engineering disposition support for avionics/airframe discrepancies during aircraft turnaround (NATOPS-referenced)."
+    },
+    {
+      "clusterId": "shipboard-fire-control-maintenance",
+      "documents": ["doc-b.txt", "doc-d.txt"],
+      "sharedTheme": "Shipboard fire-control radar / weapons-direction system preventive and corrective maintenance (MIP/3-M referenced)."
+    }
+  ],
+  "distractors": ["doc-f.txt", "doc-g.txt", "doc-h.txt", "doc-i.txt", "doc-j.txt"],
+  "distractorThemes": {
+    "doc-f.txt": "Dining facility custodial/grounds-keeping",
+    "doc-g.txt": "IT service desk Tier-1 help desk",
+    "doc-h.txt": "Medical supply warehouse inventory/distribution",
+    "doc-i.txt": "Cybersecurity awareness training development",
+    "doc-j.txt": "Base landscaping / athletic field turf management"
+  }
+}

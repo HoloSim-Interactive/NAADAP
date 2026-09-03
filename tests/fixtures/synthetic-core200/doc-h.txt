@@ -1,0 +1,16 @@
+STATEMENT OF WORK (SYNTHETIC — CORE-200 TEST FIXTURE — DISTRACTOR)
+Solicitation No.: SYN-H-0008
+Title: Medical Supply Warehouse Inventory and Distribution Support
+
+1. SCOPE
+The Contractor shall provide warehouse inventory management and
+distribution support for medical supply items at the notional
+installation's medical logistics warehouse.
+
+2. REQUIREMENTS
+2.1 Maintain cycle-count accuracy of medical supply inventory.
+2.2 Process outbound distribution requests to clinic sites.
+2.3 Track expiration dates and flag items for rotation.
+
+3. PLACE OF PERFORMANCE
+Medical logistics warehouse, notional installation.

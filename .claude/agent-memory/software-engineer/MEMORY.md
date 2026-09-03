@@ -21,6 +21,8 @@ in `.github/AGENT_LABELS.md`.
 
 ## Reusable solutions
 
+- [SAM.gov public API for document sourcing](samgov_public_api_for_document_sourcing.md) — how to search/download real SOW/PWS/CDRL attachments from SAM.gov for test fixtures; NAVAIR-specific gotcha re: PIEE redirects.
+
 ## Coding standards
 
 ## Project notes

@@ -1,0 +1,25 @@
+STATEMENT OF WORK (SYNTHETIC — CORE-200 TEST FIXTURE)
+Solicitation No.: SYN-A-0001
+Title: Flight-Line Engineering Support Services, Naval Air Station (Notional)
+
+1. SCOPE
+The Contractor shall provide flight-line engineering support services,
+including aircraft turnaround inspection support, flight-line
+troubleshooting of avionics and airframe discrepancies, and technical
+liaison between flight-line maintenance crews and engineering
+disposition authorities.
+
+2. REQUIREMENTS
+2.1 The Contractor shall furnish flight-line engineers qualified to
+    review discrepancy write-ups and recommend corrective engineering
+    dispositions consistent with the applicable Naval Air Training and
+    Operating Procedures Standardization (NATOPS) manuals.
+2.2 The Contractor shall support time-critical flight-line
+    troubleshooting during turnaround operations, including
+    engineering judgment calls on airworthiness impact.
+2.3 The Contractor shall document all flight-line engineering
+    dispositions in the government-furnished maintenance data system.
+
+3. PLACE OF PERFORMANCE
+Flight line and adjacent maintenance hangars, notional Naval Air
+Station.

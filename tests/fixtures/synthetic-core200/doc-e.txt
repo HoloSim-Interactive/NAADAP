@@ -1,0 +1,21 @@
+PERFORMANCE WORK STATEMENT (SYNTHETIC — CORE-200 TEST FIXTURE)
+Solicitation No.: SYN-E-0005
+Title: On-Call Flight-Line Engineering Disposition Support
+
+1. OBJECTIVE
+Provide on-call engineering personnel to the flight line to support
+turnaround inspections, troubleshoot avionics and airframe
+discrepancies, and issue engineering dispositions affecting aircraft
+airworthiness.
+
+2. TASKS
+2.1 Respond to flight-line troubleshooting requests raised during
+    turnaround maintenance within the response window specified by the
+    squadron maintenance officer.
+2.2 Render engineering dispositions for avionics/airframe discrepancy
+    write-ups in accordance with NATOPS-referenced procedures.
+2.3 Maintain a running disposition log in the maintenance data system
+    for audit by the engineering disposition authority.
+
+3. PLACE OF PERFORMANCE
+Flight line and hangar deck, notional Naval Air Station.

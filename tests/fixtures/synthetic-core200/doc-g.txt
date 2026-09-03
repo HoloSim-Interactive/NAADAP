@@ -1,0 +1,17 @@
+STATEMENT OF WORK (SYNTHETIC — CORE-200 TEST FIXTURE — DISTRACTOR)
+Solicitation No.: SYN-G-0007
+Title: IT Service Desk Tier-1 Help Desk Support
+
+1. SCOPE
+The Contractor shall staff a Tier-1 IT help desk providing password
+resets, account provisioning, and basic troubleshooting for office
+productivity software across the installation's unclassified network.
+
+2. REQUIREMENTS
+2.1 Staff the help desk during core business hours.
+2.2 Log and triage all incoming tickets in the government-furnished
+    ticketing system.
+2.3 Escalate Tier-2/3 issues to the network operations center.
+
+3. PLACE OF PERFORMANCE
+Administrative building, notional installation.

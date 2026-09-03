@@ -1,0 +1,21 @@
+STATEMENT OF WORK (SYNTHETIC — CORE-200 TEST FIXTURE)
+Solicitation No.: SYN-B-0002
+Title: Shipboard Fire-Control System Preventive Maintenance
+
+1. SCOPE
+The Contractor shall perform scheduled preventive maintenance,
+calibration, and corrective maintenance on shipboard fire-control
+radar and weapons-direction system components aboard notional surface
+combatants during in-port availabilities.
+
+2. REQUIREMENTS
+2.1 The Contractor shall perform preventive maintenance checks and
+    services (PMCS) on fire-control system line-replaceable units per
+    the applicable technical manual maintenance index page (MIP).
+2.2 The Contractor shall calibrate fire-control radar alignment per
+    the ship's combat systems maintenance plan.
+2.3 The Contractor shall document all fire-control maintenance actions
+    in the ship's 3-M (Maintenance and Material Management) system.
+
+3. PLACE OF PERFORMANCE
+Pierside, notional Naval Station, aboard assigned surface combatants.

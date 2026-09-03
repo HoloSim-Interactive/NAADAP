@@ -1,0 +1,19 @@
+STATEMENT OF WORK (SYNTHETIC — CORE-200 TEST FIXTURE — DISTRACTOR)
+Solicitation No.: SYN-I-0009
+Title: Cybersecurity Awareness Training Development
+
+1. SCOPE
+The Contractor shall develop and deliver annual cybersecurity
+awareness training modules for installation personnel, covering
+phishing recognition, removable-media handling, and incident
+reporting procedures.
+
+2. REQUIREMENTS
+2.1 Develop computer-based training modules compatible with the
+    government learning management system.
+2.2 Update modules annually to reflect current threat guidance.
+2.3 Provide completion-tracking reports to the Information Systems
+    Security Manager.
+
+3. PLACE OF PERFORMANCE
+Contractor facility, with on-site kickoff at notional installation.

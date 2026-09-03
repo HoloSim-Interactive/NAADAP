@@ -1,0 +1,54 @@
+{
+  "$comment": "Derived ground truth for the N=20 reference set (docs/RTVM.md 'Reference scale for test data'). Used by TP-210 (reproducibility), TP-220/230 (runtime/resource), and TP-420 (precision@5). See tests/fixtures/README.md 'Ground truth derivation methodology' for how each mapping below was reasoned out from the actual solicitation content -- this is not an assumption, it is documented per-document.",
+  "candidateVehicles": [
+    {
+      "vehicleId": "SEAPORT-NXG",
+      "name": "SeaPort-NxG",
+      "description": "Navy-wide multiple-award IDIQ for professional, engineering, and technical support services. Several source documents explicitly restrict eligibility to SeaPort-NxG MAC holders or are engineering/technical-services SOWs/PWS/CDRLs of the kind SeaPort-NxG task orders typically carry."
+    },
+    {
+      "vehicleId": "NAVFAC-MACC-JOC",
+      "name": "NAVFAC Multiple Award Construction Contract / Job Order Contract (MACC/JOC)",
+      "description": "NAVFAC's standing vehicle for facility repair, renovation, minor construction, and building-systems inspection/testing work. Documents in this cluster are NAVFAC-issued repair/renovation SOWs and one facility-controls sources-sought notice."
+    },
+    {
+      "vehicleId": "SBRAC",
+      "name": "Small Business Environmental Remedial Action Contract (SBRAC)",
+      "description": "NAVFAC Pacific's IDIQ specifically for environmental remediation. One document in this cluster is the SBRAC VI solicitation itself; the others are environmental O&M/remediation task documents of the kind issued under an SBRAC-family vehicle."
+    },
+    {
+      "vehicleId": "GSA-MAS",
+      "name": "GSA Multiple Award Schedule (MAS), Professional Services / Real Estate SINs",
+      "description": "Used for non-military-specific administrative/professional and real-estate services (title/escrow) that do not map to a Navy engineering or facilities-construction IDIQ."
+    }
+  ],
+  "documents": [
+    {"file": "v1-01-nswccd-pws.pdf", "solicitation": "NSWCCD C07 (PR 1301408430)", "docType": "PWS", "vehicleId": "SEAPORT-NXG", "rationale": "Performance Work Statement for equipment maintenance/calibration engineering support at Naval Surface Warfare Center Carderock Division -- technical support services of the type contracted via SeaPort-NxG task orders."},
+    {"file": "v1-02-nswccd-cdrl-a001-inspection.pdf", "solicitation": "NSWCCD C07 (PR 1301408430)", "docType": "CDRL", "vehicleId": "SEAPORT-NXG", "rationale": "CDRL A001 (equipment inspection deliverable) attached to the same C07 PWS above; same solicitation, same vehicle inference."},
+    {"file": "v1-03-nswccd-cdrl-a002-calibration.pdf", "solicitation": "NSWCCD C07 (PR 1301408430)", "docType": "CDRL", "vehicleId": "SEAPORT-NXG", "rationale": "CDRL A002 (equipment calibration deliverable) attached to the same C07 PWS above."},
+    {"file": "v1-04-fusionsupport-sow.pdf", "solicitation": "N5523626Q0102 FUSION SUPPORT", "docType": "SOW", "vehicleId": "SEAPORT-NXG", "rationale": "SOW for system/software engineering, analysis, and technical writing support -- squarely the professional/technical-services scope SeaPort-NxG exists for."},
+    {"file": "v1-05-fusionsupport-cdrl.pdf", "solicitation": "N5523626Q0102 FUSION SUPPORT", "docType": "CDRL", "vehicleId": "SEAPORT-NXG", "rationale": "CDRL (Exhibit A) attached to the same FUSION SUPPORT solicitation as the SOW above."},
+    {"file": "v1-06-advanced-power-sow.docx", "solicitation": "PD-44-0123 Advanced Electrical Power Systems Services", "docType": "SOW", "vehicleId": "SEAPORT-NXG", "rationale": "Sources-sought SOW for engineering services; sources-sought notices of this kind at NAVAIR/NAVSEA activities are routinely pre-qualification steps ahead of a SeaPort-NxG task order."},
+    {"file": "v1-07-advanced-power-followon-rfi.docx", "solicitation": "PD-44-0123 Advanced Electrical Power Systems Services (follow-on RFI)", "docType": "sources-sought/RFI", "vehicleId": "SEAPORT-NXG", "rationale": "Follow-on RFI to the same engineering-services requirement as the SOW above; same vehicle inference."},
+    {"file": "v2-01-sbrac-vi-solicitation.pdf", "solicitation": "N6274226R1801 SBRAC VI", "docType": "solicitation (IDIQ base)", "vehicleId": "SBRAC", "rationale": "This is the IDIQ base solicitation whose SAM.gov opportunity-listing title names the vehicle directly ('...Naval Facilities Engineering Systems Command Pacific Area of Responsibility VI (SBRAC VI)'). The string 'SBRAC' does not appear in the PDF's own extracted text (177 pages checked full-text) -- the document's own title reads 'Small Business Indefinite Delivery Indefinite Quantity (IDIQ) Contract for Environmental Remedial Action for Sites in Hawaii, Guam, and Other Areas within [NAVFAC Pacific]' with no vehicle nickname. Content-consistent, not text-matched within the file; corrected from an earlier 'direct, not inferred' claim per Test Engineer full-text spot-check."},
+    {"file": "v2-02-ev35-biosparge-sow.pdf", "solicitation": "N4008525R0058 EV35 NLON Site 11 Biosparge O&M", "docType": "SOW", "vehicleId": "SBRAC", "rationale": "Environmental remediation (biosparge operations & maintenance) SOW at a Navy site -- the task category SBRAC-family vehicles are used for."},
+    {"file": "v2-03-ev35-ppi-log02.pdf", "solicitation": "N4008525R0058 EV35 NLON Site 11 Biosparge O&M", "docType": "supporting doc (pre-proposal inquiry log)", "vehicleId": "SBRAC", "rationale": "Same solicitation as the biosparge SOW above."},
+    {"file": "v3-01-beq-m400-paintflooring-sow.pdf", "solicitation": "26M087CN BEQ M400 Area Paint-Flooring Repairs", "docType": "SOW", "vehicleId": "NAVFAC-MACC-JOC", "rationale": "Minor interior-repair SOW at a NAVFAC-managed barracks building -- classic Job Order Contract scope."},
+    {"file": "v3-02-parkinglot-repairs-sow.pdf", "solicitation": "26M092CN FY26 Multiple Location BEQ Parking Lot Repairs", "docType": "SOW", "vehicleId": "NAVFAC-MACC-JOC", "rationale": "Facility repair (parking lot) SOW issued by the same NAVFAC Mid-Atlantic office as the paint-flooring SOW above."},
+    {"file": "v3-03-parkinglot-repairs-rfp.pdf", "solicitation": "26M092CN FY26 Multiple Location BEQ Parking Lot Repairs", "docType": "solicitation", "vehicleId": "NAVFAC-MACC-JOC", "rationale": "Base RFP paired with the parking-lot-repairs SOW above; same solicitation."},
+    {"file": "v3-04-as4108-oilfiltration-sow.pdf", "solicitation": "25-0433 AS4108 Oil Filtration Cart Power", "docType": "SOW", "vehicleId": "NAVFAC-MACC-JOC", "rationale": "Facility equipment repair SOW issued by NAVFAC Mid-Atlantic -- same repair/renovation task category as the other NAVFAC-MACC-JOC documents."},
+    {"file": "v3-05-firepumps-r38-sow.pdf", "solicitation": "N4008526R0270 Inspection & Testing of Fire Pumps, NWS Earle", "docType": "SOW", "vehicleId": "NAVFAC-MACC-JOC", "rationale": "Building-systems inspection/testing SOW at a NAVFAC-managed facility -- routine JOC scope."},
+    {"file": "v3-06-firepumps-r38-solicitation.pdf", "solicitation": "N4008526R0270 Inspection & Testing of Fire Pumps, NWS Earle", "docType": "solicitation", "vehicleId": "NAVFAC-MACC-JOC", "rationale": "Base solicitation paired with the fire-pumps SOW above; same requirement."},
+    {"file": "v3-07-forklift-lease-sow.pdf", "solicitation": "Lease of Electric Forklift", "docType": "SOW", "vehicleId": "NAVFAC-MACC-JOC", "rationale": "Facility equipment lease/support SOW; grouped with facility O&M work rather than a standalone supply vehicle for this MVP's simplified 4-vehicle taxonomy (see README)."},
+    {"file": "v3-08-rot-frcs-sources-sought.pdf", "solicitation": "Sources Sought Notice -- Facility Related Control Systems, NAVSTA Rota", "docType": "sources-sought notice", "vehicleId": "NAVFAC-MACC-JOC", "rationale": "Facility building-controls requirement issued by NAVFAC Europe Africa Central -- facility-systems scope, same cluster as the other NAVFAC-MACC-JOC documents."},
+    {"file": "v4-01-title-escrow-sow.pdf", "solicitation": "Real Property Title Evidence, Insurance, Closing, and Escrow Services, Tarrant County TX", "docType": "SOW", "vehicleId": "GSA-MAS", "rationale": "Administrative/real-estate professional services with no military-engineering or facility-construction content -- does not fit SeaPort-NxG, SBRAC, or NAVFAC-MACC-JOC; GSA MAS is the closest real-world vehicle for this scope."},
+    {"file": "v4-02-title-escrow-solicitation.pdf", "solicitation": "Real Property Title Evidence, Insurance, Closing, and Escrow Services, Tarrant County TX", "docType": "solicitation", "vehicleId": "GSA-MAS", "rationale": "Base solicitation paired with the title/escrow SOW above; same requirement."}
+  ],
+  "topFiveGroundTruth": [
+    {"rank": 1, "vehicleId": "NAVFAC-MACC-JOC", "documentCount": 8},
+    {"rank": 2, "vehicleId": "SEAPORT-NXG", "documentCount": 7},
+    {"rank": 3, "vehicleId": "SBRAC", "documentCount": 3},
+    {"rank": 4, "vehicleId": "GSA-MAS", "documentCount": 2}
+  ],
+  "precisionAt5Note": "Only 4 distinct vehicles are represented in this 20-document set, so a perfect pipeline result is a top-4 (not top-5) list matching topFiveGroundTruth's order; OUT-420's headline metric should report precision@5 against this list (a 5th predicted candidate not in this set counts against precision, consistent with the metric definition in docs/RTVM.md OUT-420)."
+}
