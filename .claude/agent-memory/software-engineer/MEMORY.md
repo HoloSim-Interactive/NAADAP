@@ -32,3 +32,4 @@ in `.github/AGENT_LABELS.md`.
 ## Project notes
 
 - [Repo .gitignore missing .NET patterns](repo_gitignore_missing_dotnet_patterns.md) — template skeleton's `.gitignore` is C/C++-flavored; add `bin/`/`obj/`/etc. yourself on first .NET scaffold.
+- [Derive thresholds empirically against fixtures](derive_thresholds_empirically_against_fixtures.md) — how CORE-200's 0.35 similarity threshold was measured (Python scratch script vs. checked-in fixture), reuse this technique for future tuned constants.

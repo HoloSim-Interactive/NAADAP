@@ -24,3 +24,13 @@ needed the same name, worked around by naming the constructor param
 private or static-readonly fields, run `dotnet format Naadap.sln
 --verify-no-changes` and fix any IDE1006 hits — don't assume the
 `_field` convention is fine just because it's idiomatic elsewhere.
+
+Also applies to `private const` fields, not just instance/static
+fields — Roslyn's naming-rule "field" symbol kind covers `const` too.
+Caught in issue #8 (Core clustering): `private const int TopTermCount`
+and a PascalCase `private static readonly HashSet<string> StopWords`
+both failed IDE1006 until renamed to `topTermCount` / `stopWords`. The
+one field that stays PascalCase is a `public const` used as a public
+API constant (e.g. a documented algorithm threshold) — that's a
+`const` symbol with `public` accessibility, a different naming-rule
+bucket than private fields.
