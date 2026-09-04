@@ -141,20 +141,47 @@ evidence for and against, options, and open questions. Details in
 3. State what kind of work it is and which vehicle families are plausible,
    with the document signals that led there (cheat sheet in
    `references/contract-vehicles.md`).
-4. Flag anything an SME would flag: personal-services language, hours in
-   a PWS, a J&A-shaped sole-source component, a small-business incumbent,
-   an ordering period that ends before the performance period.
+4. Decode every instrument number. The DoD PIID (DFARS 204.1603) is
+   six-character issuing DoDAAC, two-digit fiscal year, one instrument
+   letter, four-digit serial: C contract, D indefinite-delivery base,
+   F order under a D or BPA, A BPA, G basic ordering agreement, H other
+   agreement, L lease, M or P purchase order, Q request for quotation,
+   R request for proposal, S sales, U grant, V cooperative agreement.
+   A `-D-` number in a document names a vehicle; a `-F-` number names an
+   order on one; an `-R-` or `-Q-` number is a solicitation. NAVFAC real
+   estate offices use an `RP` series. Decode before reading prose.
+5. Flag anything an SME would flag: personal-services language, hours in
+   a PWS, a J&A-shaped sole-source component, an SF 1449 commercial
+   set-aside or an RFQ (these are 5237.102 exceptions and rarely belong
+   on a strategic vehicle), a small-business incumbent or set-aside
+   (consolidation may destroy a rule-of-two lot), a stated contract type
+   the vehicle forbids, OCONUS performance, and an ordering period that
+   ends before the performance period.
 
 ### B. Derive or audit ground truth
 
 Ground truth for this project is "which vehicle would a NAVAIR contracting
 professional put this on." Derive it by inspection with a written
-rationale per document, prefer the vehicle named in the document or its
-award record (Referenced IDV PIID), fall back to the mandatory-
-consideration vehicle for the work type, and record inferences as
-inferences. Never reverse-engineer ground truth from pipeline output. Keep
-the vehicle set open-ended; the reference set's four vehicles were what
-those twenty documents implied, not a taxonomy.
+rationale per document and record an evidence tier on every row:
+
+- **Tier A, named in the text.** The document states the vehicle or lists
+  the holder contract numbers. Quote the exact string.
+- **Tier B, named in the award record.** The later award's Referenced IDV
+  PIID in FPDS or USAspending identifies the vehicle.
+- **Tier C, inferred.** Work type plus issuing office plus the
+  mandatory-consideration rule point to a vehicle. Say so.
+
+Include a class for requirements that have no home on any strategic
+vehicle (standalone FAR Part 12 or 13 buys, OEM sole source, leases,
+real-estate instruments); the problem statement is about exactly those.
+Never reverse-engineer ground truth from pipeline output. Keep the vehicle
+set open-ended; the reference set's four vehicles were what those twenty
+documents implied, not a taxonomy. Check the corpus for issuing-office
+coverage: a validation set with no NAVAIR-issued document cannot exercise
+the vehicles PGIL will score. Two audits of the reference set on
+2026-09-04 found that only two of twenty documents name a vehicle, that
+neither vehicle was in the ground-truth set, and that no document was
+issued by a NAVAIR office.
 
 ### C. Design or review the vehicle-recommendation step
 
@@ -162,8 +189,12 @@ Follow `references/vehicle-matching.md`: knowledge base, requirement
 preparation, evidence channels, hard constraints, policy priors, the
 output record, and rubric-shaped validation (precision@k against Referenced
 IDV of later awards; LRAF anticipated vehicles as weak labels; ARI/NMI
-paired with purity). Recommend the smallest model that meets the bar and
-show the determinism controls for whatever is chosen.
+paired with purity). The headline accuracy metric should read like the
+rubric, per-document agreement with the human vehicle label, and it should
+be paired with a pairwise clustering measure such as B-cubed or pairwise
+F1 so that an all-singletons run and an all-one-cluster run both score
+badly. Recommend the smallest model that meets the bar and show the
+determinism controls for whatever is chosen.
 
 ### D. Write algorithm, validation, or deployment documentation
 

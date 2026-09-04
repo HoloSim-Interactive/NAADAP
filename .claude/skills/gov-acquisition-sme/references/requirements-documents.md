@@ -26,6 +26,23 @@ transition); Section J attachments (PWS, CDRL, DD 254, QASP, wage
 determinations); Section L proposal instructions; Section M evaluation
 factors (FAR 15.204-1, Table 15-1).
 
+## Reading contract and solicitation numbers
+
+DoD instrument numbers follow DFARS 204.1603: positions 1 to 6 are the
+issuing office DoDAAC, 7 and 8 the fiscal year, 9 the instrument type,
+10 to 13 the serial. Type letters that matter here: C contract; D
+indefinite-delivery base contract (a vehicle); F order or call under a
+D, A, or G instrument; A blanket purchase agreement; G basic ordering
+agreement; H other agreement; L lease; M and P purchase orders; Q request
+for quotation; R request for proposal; S sales contract; U grant; V
+cooperative agreement. Letters above V cover other transactions and
+reserved uses; confirm against DFARS 204.1603 before relying on them.
+Orders under a MAC therefore appear as a pair, base `N00178-yy-D-xxxx`
+and order `N00178-zz-F-xxxx`. A document that lists several `-D-`
+numbers as eligible offerors is a task-order competition on that vehicle.
+NAVFAC real-estate contracting officers use an `RP` series that is not in
+the DFARS table; treat it as observed practice.
+
 ## A useful acronym trap
 
 A SOW is not a specification and a PWS is not a SOW. If a "PWS" contains
