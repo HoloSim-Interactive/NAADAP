@@ -8,7 +8,7 @@ strategic contract vehicles for consolidation. See
 [`docs/PROJECT_DEFINITION.md`](docs/PROJECT_DEFINITION.md) for the
 full mission and stakeholder needs this satisfies.
 
-This document (DELIV-930) takes a reader with no prior exposure to
+This document ( <a href="https://github.com/HoloSim-Interactive/NAADAP/blob/main/docs/RTVM.md#rtvm-deliv-960" target="_blank">DELIV-960</a>) takes a reader with no prior exposure to
 this project from a fresh clone to a completed run, using only what's
 written here.
 
