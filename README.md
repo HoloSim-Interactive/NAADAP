@@ -1,8 +1,6 @@
 # NAADAP
 
-NAADAP ("NAVAIR Acquisition Analysis & Decision Aid Pipeline" — the
-project's internal shorthand for the NAVAIR/NAWCAD prize challenge it
-implements) is a batch analysis pipeline that reads a directory of
+NAADAP  is a batch analysis pipeline that reads a directory of
 procurement documents (SOWs, PWSs, CDRLs, sources-sought notices, and
 open-source text such as Congressional testimony), clusters them by
 shared acquisition-requirement content, and recommends candidate
