@@ -95,13 +95,4 @@ Done
 
 Done
 
-## Default Task for the Human Client: UE host project (added 2026-08-27)
 
-For any Unreal Engine plugin project, BEFORE the Generate Code Base
-issue runs: confirm a barebones UE host project exists for build and
-test staging, or copy `resources/ue-host-project/` into the staging
-location (its README has the two commands). Agents must never spend
-budget regenerating this boilerplate from scratch — the resource is
-text-only, engine-pinned, and proven against UE 5.6 headless runs.
-If the client prefers to generate it themselves in the editor, that
-is equally fine; what matters is it exists before code generation.
