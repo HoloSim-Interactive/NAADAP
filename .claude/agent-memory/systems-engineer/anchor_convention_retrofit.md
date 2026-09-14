@@ -63,3 +63,18 @@ Resolved by keeping the anchor/link-bearing version of every row's text
 but taking the Status/Commit columns from whichever side had the
 fresher data — don't just pick one side wholesale when a table row was
 edited by both.
+
+**Follow-up closed (issue #14, 2026-09-04):** the deferred `SN-#`
+piece — RTVM.md's Stakeholder Need column and scattered `SN-#` prose
+in RTVM.md/SDD.md — once `docs/PROJECT_DEFINITION.md`'s `pd-sn-1..6`
+anchors existed (added by PM in #13's second half). Technique that
+worked cleanly for a same-format, whole-file sweep like this: a single
+Python `re.sub(r'\bSN-(\d+)\b', ...)` pass over both files at once,
+rather than per-line edits — `\b` boundaries naturally avoid
+false-positives like `USN-approved` (no digit follows) and correctly
+turn comma-separated multi-need cells (`SN-1, SN-5`) into one link per
+ID for free, since each ID is matched independently. Verify after with
+a bare-mention regex sweep (`grep -nE 'SN-[0-9]+' ... | grep -v '<a
+href'`) to confirm zero remain, and `git diff` to confirm no other
+text moved. This whole-file-regex approach generalizes to any future
+"link all bare mentions of ID scheme X to their anchors" sweep.

@@ -1,8 +1,6 @@
 # NAADAP
 
-NAADAP ("NAVAIR Acquisition Analysis & Decision Aid Pipeline" — the
-project's internal shorthand for the NAVAIR/NAWCAD prize challenge it
-implements) is a batch analysis pipeline that reads a directory of
+NAADAP  is a batch analysis pipeline that reads a directory of
 procurement documents (SOWs, PWSs, CDRLs, sources-sought notices, and
 open-source text such as Congressional testimony), clusters them by
 shared acquisition-requirement content, and recommends candidate
@@ -10,7 +8,7 @@ strategic contract vehicles for consolidation. See
 [`docs/PROJECT_DEFINITION.md`](docs/PROJECT_DEFINITION.md) for the
 full mission and stakeholder needs this satisfies.
 
-This document (DELIV-930) takes a reader with no prior exposure to
+This document ( <a href="https://github.com/HoloSim-Interactive/NAADAP/blob/main/docs/RTVM.md#rtvm-deliv-960" target="_blank">DELIV-960</a>) takes a reader with no prior exposure to
 this project from a fresh clone to a completed run, using only what's
 written here.
 

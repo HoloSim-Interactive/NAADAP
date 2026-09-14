@@ -22,7 +22,7 @@ does not earn its place here. What follows is the subset that does.
 <a id="sdd-why-no-use-case-diagram-icd"></a>
 ### Why no use case diagram / ICD
 
-Confirmed reading of SN-5/Scope: this is a batch analysis + report
+Confirmed reading of <a href="https://github.com/HoloSim-Interactive/NAADAP/blob/main/docs/PROJECT_DEFINITION.md#pd-sn-5" target="_blank">SN-5</a>/Scope: this is a batch analysis + report
 deliverable, not an interactive application. There is exactly one
 actor with one interaction shape — an operator (human or CI job)
 invokes the container with an input/output path pair and later reads
@@ -33,7 +33,7 @@ the ICD trigger in systems-engineer.md ("stops being optional the
 moment the project has a UI") does not apply. **The implication for
 the Implementation Plan: no `agent:ui-designer` track is created.**
 The input document format and the OUT-440 output bundle layout are
-still a real contract (SN-5, DELIV-930/940) — they're specified under
+still a real contract (<a href="https://github.com/HoloSim-Interactive/NAADAP/blob/main/docs/PROJECT_DEFINITION.md#pd-sn-5" target="_blank">SN-5</a>, DELIV-930/940) — they're specified under
 Build & Toolchain Conventions and Data Architecture below instead of
 in a standalone ICD, since there's only one consumer (a human/CI
 reviewer reading files) rather than a second system to build against.
@@ -204,8 +204,8 @@ consolidation issue, not per `[RTVM-014]`-style feature.
   Engineer should not budget schedule for a 'convert to VS' phase."
   Treating it as a per-feature gate would reintroduce exactly the
   phase the client said doesn't exist.
-- The actual runtime target (SN-3) is Linux/Docker in an IL4 cloud —
-  Windows/VS is a maintainability deliverable (SN-4) for HoloSim's own
+- The actual runtime target (<a href="https://github.com/HoloSim-Interactive/NAADAP/blob/main/docs/PROJECT_DEFINITION.md#pd-sn-3" target="_blank">SN-3</a>) is Linux/Docker in an IL4 cloud —
+  Windows/VS is a maintainability deliverable (<a href="https://github.com/HoloSim-Interactive/NAADAP/blob/main/docs/PROJECT_DEFINITION.md#pd-sn-4" target="_blank">SN-4</a>) for HoloSim's own
   engineers, not the execution environment. Gating every feature on it
   would add a second execution environment's setup/permissions
   overhead to every one of ~15 feature issues, to protect against a
@@ -266,8 +266,8 @@ NFR-520 blocking):
 - Scope already rules out (a): "Horizontal multi-container
   replicability as a day-one feature" is explicitly out of MVP scope,
   and CORE-220's 30-minute runtime target is already met on the
-  *lowest* resource tier (1c/2GB) per SN-1/SN-2 — there is no
-  performance problem sharding would solve. SN-2's actual ask is a
+  *lowest* resource tier (1c/2GB) per <a href="https://github.com/HoloSim-Interactive/NAADAP/blob/main/docs/PROJECT_DEFINITION.md#pd-sn-1" target="_blank">SN-1</a>/<a href="https://github.com/HoloSim-Interactive/NAADAP/blob/main/docs/PROJECT_DEFINITION.md#pd-sn-2" target="_blank">SN-2</a> — there is no
+  performance problem sharding would solve. <a href="https://github.com/HoloSim-Interactive/NAADAP/blob/main/docs/PROJECT_DEFINITION.md#pd-sn-2" target="_blank">SN-2</a>'s actual ask is a
   compute-footprint/robustness score, not throughput scaling.
 - The system already has zero shared mutable state by construction
   (see data flow above: everything is in-memory per-process, and the

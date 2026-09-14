@@ -1,0 +1,6 @@
+- [NAVAIR runs on GitHub-hosted Ubuntu](navair-github-hosted-runners.md) — public repo blocks self-hosted runners entirely; free unlimited minutes, 20 concurrent jobs.
+- [NAVAIR is a $150K prize challenge](navair-prize-challenge.md) — hard external deadline, IL4 offline Docker, determinism gate.
+- [C# on Ubuntu is not a port](csharp-on-ubuntu-is-not-a-port.md) — .sln/.csproj open straight in Visual Studio; C# uses MSBuild, not CMake.
+- [The Next: line is machine-parsed](next-line-is-machine-parsed.md) — its wording decides whether a parked issue is retriggered hourly; template match was too narrow.
+- [Cross-reference and anchor convention](cross-reference-anchor-convention.md) — standing rule: indexed items get prefixed lowercase anchors, references are HTML `<a target="_blank">` links, never markdown shorthand.
+- [Template fixes need manual porting](template-fixes-need-manual-porting.md) — NAADAP's agent-relay.yml diverged from =TEMPLATE=; a template fix (e.g. the overloaded-error classifier bug) doesn't reach NAADAP automatically.
