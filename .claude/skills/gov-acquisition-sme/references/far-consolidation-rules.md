@@ -72,9 +72,30 @@ unreasonable (CRS R41133).
   year.
 - **5237.102**: SeaPort consideration is mandatory for Annex 22 functional
   areas. Exceptions: FAR 6.302 actions, under SAT, 8(a) set-asides, Part 12
-  commercial, Part 13 simplified. Not using SeaPort without a J&A requires a
-  D&F to DASN(P) with HCA endorsement covering commerciality, contract type,
-  competitiveness, vehicle, and prior contract history (5237.103).
+  commercial, Part 13 simplified — **confirmed** against the DON Best
+  Practices Handbook for Services Acquisitions FY2024, which also bundles
+  FAR 8.4 into the Part 12 commercial exception (so the exception list is
+  more precisely "FAR 6.302, below-SAT, 8(a) set-asides, and FAR Part 12/8.4
+  commercial buys, plus Part 13 simplified"). Not using SeaPort without a
+  J&A requires a D&F to DASN(P) with HCA endorsement covering commerciality,
+  contract type, competitiveness, vehicle, and prior contract history
+  (5237.103).
+
+  **The actual SeaPort waiver D&F checklist** (from the DON Best Practices
+  Handbook — this is genuinely new, concrete content, not previously in
+  this file): the HCA's D&F must address (1) does the requirement fit
+  Engineering Services or Program Management Services under Annex 22; (2) is
+  it commercial or non-commercial, and would another CM-tiered solution
+  work; (3) is this a follow-on, and are prior contract numbers provided;
+  (4) if a follow-on, is the incumbent available in SeaPort; (5) were prior
+  awardees large or small businesses; (6) was there a previous SeaPort
+  waiver; (7) per EDA/SAM.gov, how many orders were placed under the
+  previous MAC; (8) did prior orders include options or surge CLINs; (9) per
+  EDA/SAM.gov, how many prior orders were FFP versus cost-type; (10) will
+  the new contract be single- or multiple-award; (11) if SeaPort genuinely
+  cannot support the requirement, is there another tiered contract solution
+  that meets mission needs. Treat this as the concrete evidence set a
+  vehicle recommendation should assemble before anyone drafts the D&F.
 - **5216.504**: single-award IDIQ D&F approved by the Deputy or Assistant
   Commander for Contracts; DASN(P) is the task-order ombudsman and
   Competition Advocate General.
@@ -101,30 +122,140 @@ unreasonable (CRS R41133).
   based services need approval (up to $100M designated official, above
   that SPE); 237.172 QASP prepared with the SOW; PGI 237.102-77 ARRT tool
   for PWS/QASP/PRS.
-- **DoDI 5000.74** (services at or above SAT): S-CAT tiers on the IGCE
-  (I at or above $1B or over $300M in a year; II $250M to $1B; III $100M to
-  $250M; IV $10M to $100M; V SAT to $10M); Services Requirements Review
-  Board at or above $10M including IDIQ base and each order at or above
-  $10M; strategy must include "a summary that addresses consolidated or
-  bundled requirements"; existing government-wide contracts "should be
-  used to the maximum extent practicable"; requirements addressed at an
-  enterprise level (Component-wide, DoD-wide, or Best-in-Class).
+- **DoDI 5000.74** (services at or above SAT; verified against the real
+  esd.whs.mil PDF, effective 10 Jan 2020, Change 1 24 Jun 2021). S-CAT tiers
+  on the IGCE, **each with its own decision authority** (an earlier version
+  of this file gave the thresholds without authorities, which invites
+  assuming USD(A&S) approves ordinary S-CAT I — wrong):
+
+  | S-CAT | Threshold | Decision authority |
+  | --- | --- | --- |
+  | Special Interest | any value, designated by ASD(A) | USD(A&S) or designee — the *only* tier USD(A&S) itself decides |
+  | I | ≥ $1B, or > $300M in any one year | SAE/CAE or designee |
+  | II | $250M to < $1B | SAE/CAE or designee |
+  | III | $100M to < $250M | Component SSM or designee |
+  | IV | $10M to < $100M | Component SSM or designee |
+  | V | SAT to < $10M | Component SSM or designee |
+
+  Services Requirements Review Board at or above $10M including IDIQ base
+  and each order at or above $10M, approved before Step 5 (Develop
+  Acquisition Strategy) of the **Seven Steps to the Services Acquisition
+  Process** (DAG Chapter 10, confirmed): Plan phase — 1 Form the Team, 2
+  Review Current Strategy, 3 Perform Market Research (explicitly including
+  "whether or not any existing contract vehicles are available to execute
+  the requirement," and required before soliciting anything that "could
+  lead to a consolidation of contract requirements" or a bundled contract);
+  Develop phase — 4 Define Requirements, 5 Develop Acquisition Strategy
+  (gated by SRRB approval); Execute phase — 6 Execute Strategy, 7 Manage
+  Performance.
+
+  **SRRB content** (tailored, not limited to): mission need; strategic
+  alignment; issues and risks; workforce analysis (insource/outsource);
+  relationship to other requirements; projected cost through the FYDP (5
+  years); prioritization; contract and work functions (inherently-
+  governmental screen); metrics.
+
+  **Acquisition-strategy content** for services above SAT but below the
+  full acquisition-plan threshold, four parts: (a) requirements development
+  — source of requirement, outcomes/metrics, how previously satisfied,
+  market research summary, **"a summary that addresses consolidated or
+  bundled requirements, if it applies"** (verbatim), analysis-of-
+  alternatives summary; (b) acquisition planning — approach/milestones,
+  cost estimate, funding, PBA implementation or rationale for not using it,
+  small-business opportunities, evaluation criteria, other-than-full-and-
+  open rationale, multi-year contracting, waivers; (c) solicitation and
+  award — business arrangement type (single contract, MATOC, order under an
+  existing MAC), duration, pricing arrangement; (d) risk/issue/opportunity
+  summary and a performance-management/metrics plan.
+
+  Existing government-wide contracts "should be used to the maximum extent
+  practicable"; requirements addressed at an enterprise level (Component-
+  wide, DoD-wide, or Best-in-Class).
+
+  **Two more DoD-level triggers not previously in this file:** an
+  Independent Management Review is required post-award for services
+  contracts of **$100M or more**, evaluating cost/schedule/requirements
+  performance, contracting-mechanism choice, subcontractor management,
+  oversight staffing, and pass-through charges — distinct from the S-CAT and
+  SRRB thresholds above. And a Portfolio Manager must run a **business case
+  analysis at $50M** for any acquisition that "may significantly overlap
+  with the requirements of an existing contract, DoD or government-wide
+  acquisition contract, or BIC contract" — a second, DoD-level overlap-
+  detection threshold, separate from FAR 7.107-2's $2M consolidation
+  determination. A bridge contract used because of inadequate planning also
+  triggers a notification duty (10 U.S.C. 2329(e)): first use, notify the
+  commander/senior civilian for contracts under $10M or the SAE/agency
+  head/COCOM/USD(A&S) for $10M or more; a second use under $10M escalates
+  further.
 - **DFARS 208.74**: commercial software must go through DoD ESI enterprise
   agreements; DON ESL is mandatory for DON software by 2012 memo.
 
-## Category management (OMB M-19-13)
+## Category management (OMB M-19-13, plus later amendments)
 
-Spend Under Management tiers: Tier 0 unaligned agency spend; Tier 1
-agency-wide managed spend with mandatory-use policy; Tier 2 government-wide
-multi-agency solutions that are not BIC; Tier 3 Best-in-Class solutions.
-Analyses of alternatives are required 18 to 24 months before award for
-planned acquisitions over $50M that would be Tier 0 and over $100M that
-would be Tier 1, and must explain why Tier 2 or BIC vehicles are
-unsuitable. Not required for defense-centric spend. Statutory
-small-business goals are unchanged and agencies must prioritize them over
-BIC goals when both cannot be met (CRS IF12374). Addressable spend is
-identified by PSC. Navy-specific vehicles (SeaPort-NxG, NAVFAC MACCs,
-NAWCAD MACs) are Tier 1 or 2, not BIC.
+**Amendments not previously noted here, both primary-sourced:** OMB
+M-19-13 was amended by **M-22-03, "Advancing Equity in Federal
+Procurement" (2 December 2021)**, which aligned category management with
+Executive Order 13985 to increase awards to socio-economic small
+businesses — the DON's own services handbook calls the combined result
+"M-19-13-1." A further memo, **M-25-31, "Category Management Policy" (18
+July 2025)**, is referenced by the DON Category Management Program Office
+as a current governing document under a "Revolutionary FAR Overhaul"
+heading — **its text was not obtained and its content is unverified; treat
+its existence as confirmed but do not cite specific rules to it** until the
+memo itself is read.
+
+**Spend Under Management tiers, verbatim from GSA's own government-wide
+Category Management PMO playbook** (March 2024, corrects an earlier
+paraphrase in this file that was imprecise on Tier 2): Tier 3 – Best-in-
+Class, "dollars obligated on government-wide contracts that satisfy the
+most rigorous standards set for leadership, strategy, data, tools, and
+metrics"; Tier 2 – Multi-Agency Solutions, "dollars obligated on multi-
+agency contracts that satisfy rigorous standards" (its own bar, distinct
+from and lower than BIC's — not simply "not BIC"); Tier 1 – Mandatory-Use
+Agency-Wide Solutions, "dollars obligated on agency-wide contracts with
+mandatory use or mandatory-consideration policies"; Tier 0 – spend not
+aligned to CM principles. SUM = Tier 1 + Tier 1 SB + Tier 2 + Tier 2 SB +
+BIC; Tier 0 is excluded from SUM. Analyses of alternatives are required 18
+to 24 months before award for planned acquisitions over $50M that would be
+Tier 0 and over $100M that would be Tier 1, and must explain why Tier 2 or
+BIC vehicles are unsuitable. Not required for defense-centric spend.
+Statutory small-business goals are unchanged and agencies must prioritize
+them over BIC goals when both cannot be met (CRS IF12374).
+
+Addressable spend is identified by PSC. **Whether Navy-specific vehicles
+(SeaPort-NxG, NAVFAC MACCs, NAWCAD MACs) are formally Tier 1 or Tier 2 is
+not confirmed by any primary source obtained** — no document in hand names
+a specific tier for a specific Navy vehicle; treat the "Tier 1 or 2, not
+BIC" claim as a reasonable inference from SeaPort's DON-mandatory-
+consideration status, not a sourced fact. DON has its own CM priority rule
+beyond the OMB text: "tiered DON contracts shall have priority
+consideration" over tiered contracts written by other agencies (DON Best
+Practices Handbook FY2024) — a reason to check DON vehicles before
+government-wide ones even when both are equally tiered.
+
+**Real government tooling for finding duplicative spend**, from GSA's CM
+PMO playbook (a genuinely new source, not DON-specific but directly
+relevant to how NAADAP should think about consolidation evidence): the
+**CM Reporting Workbench (Awards Explorer)** on the Acquisition Gateway/D2D
+portal pulls FPDS award data enriched with CM fields, including **"BIC
+Addressable"** and **"Tier 2 Addressable"** flags — "indicate that the
+requirement could potentially be met on a particular solution because it
+has been used to meet similar requirement(s) previously... a starting
+point for market research using historical data from FPDS." A worked
+**Contract Reduction Playbook**: identify top vendors by total spend,
+identify vendors with the most contracts, identify vendors with the most
+Tier-0 contracts and Tier-0 spend, export vendor/requirement-description/
+POC/addressability/completion-date detail, then validate by contacting the
+POC and the target solution's program office about migration. A **SUM-
+Increase Playbook**: search the Acquisition Gateway **Solutions Finder**
+(over 300 government-wide solutions, filterable by keyword/agency/PSC/
+NAICS) before soliciting, and use Awards Explorer's "Ultimate/Final
+completion date" and IDV "Expiration date" fields to flag *approaching*
+contract expirations as the trigger to check addressability, not only
+active re-competes. This is a real, if login-gated, government system
+doing close to what NAADAP's own vehicle recommender aims to do —
+reinforces vehicle-matching.md's framing of the project as "an automated
+MRAS."
 
 ## Vehicle taxonomy by friction, lowest first
 
@@ -193,12 +324,17 @@ NAWCAD MACs) are Tier 1 or 2, not BIC.
    period, NAICS pool, fee, and ordering eligibility checked.
 6. Quantify benefits against the 10% / 5%-or-$9.4M test and list
    lesser-consolidation alternatives.
-7. Approvals: DASN(P) or HCA determination; S-CAT decision authority;
-   SRRB at $10M; non-PBA approval; T&M D&F; J&A or fair-opportunity
-   exception; 217.770 review; DD 254; CMMC level.
+7. Approvals: DASN(P) or HCA determination; S-CAT decision authority
+   (Component SSM through S-CAT III-V, SAE/CAE for I-II, USD(A&S) only for
+   Special Interest); SRRB at $10M; a $50M DoD-level business-case analysis
+   if the acquisition may significantly overlap an existing contract or
+   BIC/GWAC solution; non-PBA approval; T&M D&F; J&A or fair-opportunity
+   exception; 217.770 review; DD 254; CMMC level; an Independent Management
+   Review at $100M or more post-award.
 8. Timeline: 30-day incumbent and PCR notices; 7-day GPE notice; 15/30-day
    synopsis rules; category-management AoA 18 to 24 months out for over
-   $50M/$100M.
+   $50M/$100M; if a bridge contract results from inadequate planning, a
+   10 U.S.C. 2329(e) notification (commander/SAE tier depends on value).
 
 ## FAR parts in one line each, for orientation
 

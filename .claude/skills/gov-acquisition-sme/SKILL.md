@@ -188,8 +188,11 @@ issued by a NAVAIR office.
 Follow `references/vehicle-matching.md`: knowledge base, requirement
 preparation, evidence channels, hard constraints, policy priors, the
 output record, and rubric-shaped validation (precision@k against Referenced
-IDV of later awards; LRAF anticipated vehicles as weak labels; ARI/NMI
-paired with purity). The headline accuracy metric should read like the
+IDV of later awards; ARI/NMI paired with purity). The NAVAIR LRAE has no
+vehicle-name field to mine as weak labels — verified against the real
+spreadsheet, see navair-navy-context.md — so do not plan on it for that
+purpose; its procurement-instrument and requirement-office fields are
+weaker proxy signals at best. The headline accuracy metric should read like the
 rubric, per-document agreement with the human vehicle label, and it should
 be paired with a pairwise clustering measure such as B-cubed or pairwise
 F1 so that an all-singletons run and an all-one-cluster run both score
@@ -223,10 +226,17 @@ Commit messages stay plain text.
 
 ## Known open questions on this project
 
-- "PEDDAL" in stakeholder need SN-4 is defined in no source found. Ask the
-  client to spell it out; do not guess.
-- In NAVAIRINST 4355.19D, "SDD" means System Development and
-  Demonstration. Confirm the client means Software Design Description.
+- "PEDDAL" in stakeholder need SN-4 is defined in no source found —
+  confirmed 2026-09-14 by a direct text search of NAVAIRINST 4355.19E and
+  the SETR Process Handbook v1.0, both now in `sources/`, not just web
+  search. Ask the client to spell it out; do not guess.
+- "SDD" in stakeholder need SN-4: the earlier claim that NAVAIRINST 4355.19D
+  uses "SDD" for System Development and Demonstration could not be
+  re-confirmed against the primary sources now in hand — the string "SDD"
+  does not appear in 4355.19E (which supersedes 19D) or the SETR Handbook.
+  Treat the meaning as genuinely open, not settled either way; confirm with
+  the client which meaning (System Development and Demonstration versus
+  Software Design Description, DI-IPSC-81435A) is intended.
 - The challenge listing's two date sets disagree (22 Sep / 9 Nov versus
   2 Oct / 19 Nov). Plan against the earlier set until Tech Grove answers.
 - Phase 1 pre-screening and GFI access were not yet obtained as of

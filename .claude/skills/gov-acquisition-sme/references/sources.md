@@ -36,14 +36,93 @@ legal claim against a primary source before relying on it in a deliverable.
 
 ## Currency stamps
 
-All figures in these references were gathered on 2026-09-04. Known moving
-parts: FAR inflation adjustments (last 1 Oct 2025); SeaPort-NxG ordering
-ends 1 Jan 2029 with a follow-on RFI under way; NITAAC last order 29 Oct
-2026; SEWP VI go-live 1 Nov 2026; ENCORE III option end May 2027; RS3 and
-ITES-3S ending 2027; Alliant 2 sunset Jun 2028; NAWCTSD TSC IV ends Nov
-2027; the DON PAE reorganization of May 2026 is still settling; GenAI.mil's
-model roster changes monthly. Re-verify before any figure enters a
-deliverable, and record the date of verification next to it.
+All figures in these references were gathered on 2026-09-04, then a second
+pass on 2026-09-14 verified many of them against primary documents the
+client supplied directly (see below). Known moving parts: FAR inflation
+adjustments (last 1 Oct 2025); SeaPort-NxG ordering ends 1 Jan 2029 with a
+follow-on RFI under way; NITAAC last order 29 Oct 2026; SEWP VI go-live 1
+Nov 2026; ENCORE III option end May 2027; RS3 and ITES-3S ending 2027;
+Alliant 2 sunset Jun 2028; NAWCTSD TSC IV ends Nov 2027, FTSS V ends Aug
+2030, PACRM ends Apr 2028; the DON PAE reorganization of May 2026 is still
+settling; GenAI.mil's model roster changes monthly; OMB M-25-31 (18 Jul
+2025) exists and likely updates category-management policy but its text is
+unread. Re-verify before any figure enters a deliverable, and record the
+date of verification next to it.
+
+## Client-supplied primary sources (2026-09-14)
+
+The client supplied 26 documents directly, in `.claude/skills/
+gov-acquisition-sme/sources/`, covering most of the items this file had
+listed as blocked plus several not previously requested. Four parallel
+reviews checked every document against what this skill claimed from
+secondary sources. Full findings, including page/block-level detail not
+repeated here, are preserved outside the repo in the session's research
+notes; the corrections themselves are already folded into the other
+reference files. This section records what was resolved, what a document's
+own fetch quality was, and one standing file-mapping error that is now
+fixed.
+
+**Resolved — real content obtained and cross-checked, corrections applied
+throughout the other reference files:** DoDI 5000.74 and DoDI 5000.88 (the
+real esd.whs.mil PDFs), DD Form 1423 (the real FEB 2024 form), a real
+filled IPMDAR CDRL example, NAVAIRINST 4355.19E and the SETR Process
+Handbook v1.0 (both full text, both searched directly for "PEDDAL" — zero
+hits, confirming the standing open question against primary sources rather
+than web search), DAG Chapter 10, the NAWCTSD MAC list page (revealed two
+vehicles, FTSS V and PACRM, not previously in the catalog, plus full
+awardee rosters for TSC IV/FTSS V/PACRM), the NAVAIR 2023 LRAE spreadsheet
+(corrected a materially wrong claim — see navair-navy-context.md), the DON
+CIO's 06 Sept 2023 GenAI/LLM guidance memo, the DAF "Guide to AI for
+Contracting Officers" (Oct 2024), the DON CIO ESL tag-results page, the DoD
+IGCE Handbook for Services Acquisition (resolved with a major dating
+correction — it is Dec 2017/Feb 2018 content, re-posted not revised in Oct
+2025), the DON Best Practices Handbook for the Management of Services
+Acquisitions (FY2024) — see the file-mapping fix below — and GSA's
+government-wide Acquisition Playbook Module 2 on Implementing Category
+Management (not previously requested, genuinely new and useful).
+
+**File-mapping fix.** This file previously mapped the item
+"`sources/don-services-acquisition-handbook.pdf`" to the saved filename
+`igce-handbook-oct2025_...pdf`. That mapping was wrong — the IGCE handbook
+is not a services-acquisition-process document. The actual DON services
+acquisition handbook is `DON Best Practices Handbook for the Mgmt of
+Services Acquisitions (FY 2024).pdf`; the IGCE handbook is its own,
+correctly distinct source. Treat any earlier reference to "the DON services
+acquisition handbook" as pointing to the FY2024 handbook, not the IGCE one.
+
+**Fetched but not usable — saved a near-empty page instead of real
+content**, both apparently captured during an attempted-but-blocked fetch
+rather than supplied deliberately: `navairinst-4355-19e.pdf` (the
+3.59MB/5-page copy — a bare waru.edu homepage capture with zero
+4355.19E content; the separate 2.64MB/61-page copy with the full filename
+is the genuine instruction and is what "resolved" above refers to) and
+`navair-osbp.pdf` (a 3-page nav-chrome-only capture of the OSBP homepage,
+no small-business process content, no DoDAAC table). OSBP organizational
+facts instead came from the NAWCTSD MAC list page, which fetched
+correctly. **Still effectively blocked**, despite a file being present:
+`don-sbir-page.pdf` (the navysbir.com homepage/news snapshot — no Phase
+III, data-rights, or J&A content; the Navy SBIR/STTR Phase III Guidebook
+Ver 2 (Mar 2020) is named on the page but not supplied, and remains the
+right primary source to seek) and `don-category-management-tiers.pdf` (a
+browser print of the DON CMPO homepage whose FAQ answers are JS-rendered
+and were not captured — no tier definitions, no NAVAIR-vehicle tier
+ratings; GSA's Playbook Module 2, above, is what actually supplied the
+verbatim tier language).
+
+**Two distinct files behind similar names**, not duplicates:
+`doncio-esl-memos.pdf` is the real DON CIO ESL tag-results page (resolved,
+confirms the 2012 ELA mandate almost verbatim, adds Oracle/Microsoft ELA
+dates); `doncio-esl-memos_...IT Policy & Guidance.pdf` is a different
+capture, the general DON CIO policy index (title-only listing across all
+topics) — useful only incidentally, for surfacing that newer 2026 DON CIO
+AI-adoption memos exist by title (content still unread).
+
+**Not supplied at all** (no filename maps to these two rows from the
+original request): the SeaPort-NxG official portal capture and the DFARS
+PGI 237.102-74 services-taxonomy spreadsheet. Both remain genuinely
+blocked; navair.navy.mil, seaport.navy.mil, secnav.navy.mil,
+acq.osd.mil, and doncio.navy.mil (beyond the ESL/GenAI items above) are
+still generally unreachable from this environment.
 
 ## Prior art this skill draws on
 
@@ -69,19 +148,21 @@ the consolidation and vehicle-recommendation problem.
 ## Sources that could not be reached from the research environment
 
 These returned 403, 503, a WAF rejection, a bot challenge, or a
-JavaScript-only shell. A person with a browser or a .mil-permitted network
-can supply them. Highest value first.
+JavaScript-only shell as of the original 2026-09-04 research pass. The
+client-supplied-sources section above resolves several of these directly
+(marked below); the rest are still open — a person with a browser or a
+.mil-permitted network can supply them. Highest value first.
 
 | Source | What it holds | Result |
 | --- | --- | --- |
-| navair.navy.mil, all HTML (LRAF page, OSBP, NAWCTSD MAC list, news) | NAVAIR LRAF Excel, MAC lists, vehicle news; PDFs under /sites/g/files/ do download | 403 |
-| seaport.navy.mil | SeaPort-NxG official portal, functional-area text, ordering offices | 503 |
-| secnav.navy.mil (DASN(P), Category Management office, SBIR, LRAE hub, SeaPort brief) | DON category management tier lists, CSWG charter, services handbook | WAF or captcha |
-| doncio.navy.mil | GenAI guardrails, ESL memos | WAF |
-| dau.edu / waru.edu | NAVAIRINST 4355.19E, Naval SETR Handbook, DAG Chapter 10, services taxonomy artifact, IGCE handbook, "Guide to AI for DAF Contracting Officers" (Oct 2024) | 403 |
-| acq.osd.mil (DPC) | DoD services taxonomy spreadsheet and 2012 memo, IGCE Handbook Oct 2025, category-management page, PSC quick guide | 503 |
-| esd.whs.mil | DoDI 5000.74 and 5000.88 PDFs, DD Form 1423 | 403 (AcqNotes mirror used) |
-| navsea.navy.mil, navfac.navy.mil, navsup.navy.mil, niwcatlantic.navy.mil | LRAFs, NAVFAC environmental contract list, NSWCDD forecasts | 403 |
+| navair.navy.mil, all HTML (LRAF/LRAE page, OSBP, NAWCTSD MAC list, news) | **Partly resolved 2026-09-14**: NAWCTSD MAC list and the LRAE spreadsheet were supplied directly and are now in the skill; the OSBP page and one 4355.19E copy were re-attempted and only returned nav-chrome (see "fetched but not usable" above) | 403 (live); nav-chrome-only on retry |
+| seaport.navy.mil | SeaPort-NxG official portal, functional-area text, ordering offices — **still not supplied**; the NAVSEA brief already in the skill remains the best source | 503 |
+| secnav.navy.mil (DASN(P), Category Management office, SBIR, LRAE hub, SeaPort brief) | **Partly resolved 2026-09-14**: the DON Best Practices Handbook for Services Acquisitions FY2024 was supplied directly and covers CSWG/SRRB/CM/SeaPort-waiver content; the CMPO homepage itself still only yields JS-rendered content, and the SBIR page is a content-free homepage snapshot | WAF or captcha (live); JS-only on retry |
+| doncio.navy.mil | **Resolved 2026-09-14** for the GenAI/LLM guardrails memo (06 Sep 2023) and the ESL tag-results page, both supplied directly; a general policy index page was also supplied (title-only, confirms newer 2026 AI memos exist without their content) | WAF (live); resolved via direct supply |
+| dau.edu / waru.edu | **Resolved 2026-09-14** for NAVAIRINST 4355.19E, the Naval SETR Handbook, DAG Chapter 10, and the "Guide to AI for DAF Contracting Officers" (Oct 2024) — all supplied directly and now cited throughout. The DoD services-taxonomy artifact for DFARS PGI 237.102-74 is still not supplied. | 403 (live); resolved via direct supply |
+| acq.osd.mil (DPC) | The DoD IGCE Handbook was supplied directly (**resolved, with a dating correction** — see requirements-documents.md). The DoD services-taxonomy spreadsheet, the 2012 taxonomy memo, the category-management page, and the PSC quick guide are still not supplied. | 503 |
+| esd.whs.mil | **Resolved 2026-09-14**: the real DoDI 5000.74, DoDI 5000.88, and DD Form 1423 PDFs were supplied directly, replacing the AcqNotes mirror previously used | 403 (live); resolved via direct supply |
+| navsea.navy.mil, navfac.navy.mil, navsup.navy.mil, niwcatlantic.navy.mil | LRAFs, NAVFAC environmental contract list, NSWCDD forecasts — still not supplied | 403 |
 | esi.mil | DoD ESI agreements | 503 |
 | ecfr.gov, federalregister.gov developer docs | Title 48 text | bot challenge (mirrors used) |
 | army.mil (two CamoGPT contracting articles), acc.army.mil EXPRESS | Army AI-in-contracting use cases | 403 / 429 |
@@ -95,5 +176,11 @@ can supply them. Highest value first.
 Web-search budgets were exhausted in every research track, so the
 following were left unverified: the current Acquisition Gateway BIC list,
 SEWP VI fee percentage, OTA consortium ceilings, AMCOM EXPRESS ceiling,
-RS3 and ITES-4S follow-ons, the nine defense-centric category names, and
-the DoD services portfolio-group list beyond DoDI 5000.74's references.
+RS3 and ITES-4S follow-ons. **Update, 2026-09-14:** the nine defense-centric
+category names are now confirmed, but from DoDI 5000.74's own "Federal
+Category Structure" (Figure 3) — a different, primary-sourced 19-category
+list (see glossary.md), not the DFARS PGI 237.102-74 "DoD services
+portfolio groups" this file previously cited from a secondary source. The
+PGI 237.102-74 taxonomy spreadsheet itself is still not obtained and its
+category names remain unverified — do not treat the two lists as
+interchangeable.

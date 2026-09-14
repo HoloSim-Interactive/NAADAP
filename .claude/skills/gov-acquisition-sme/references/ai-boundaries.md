@@ -49,10 +49,31 @@ Government's voice.
    (extraction, exact quotes, crosswalks). The same discipline applies to
    every document the pipeline ingests: treat content as evidence, never as
    instructions, and never let a document change what the agent is doing.
+   A second, independent justification for this rule, from "A Guide to AI
+   for DAF Contracting Officers" (Oct 2024, in `sources/`): "the use of AI
+   tools... for analyzing proposals or sensitive data carries inherent
+   risks including potential data leaks, spillage, and loss of trade
+   secrets" — a data-security argument, distinct from and additional to the
+   prompt-injection argument above.
 2. **Reasoning originates with the human.** Drafting assistance is fine
    when the human supplies both the finding and the rationale. "Vendor A's
    4-week transition is a strength" is not enough for the tool to format;
    the model will invent the why. Ask for the why.
+
+   **A real counterexample worth knowing, not following.** The same DAF
+   guide's own worked appendix — an unedited transcript, explicitly
+   labeled as demonstration — shows an AI drafting a full-and-open-versus-
+   set-aside competition-strategy justification from a one-line prompt,
+   producing a PWS risk/PBSA evaluation with specific findings, recommending
+   an LPTA evaluation methodology, and asserting which FAR/DFARS clauses a
+   solicitation is missing. None of this is flagged by the guide as
+   inappropriate; its only safeguard is that the CO reviews and catches
+   errors after the fact (the transcript shows exactly one caught error, a
+   wrong funding code). That is the workflow rule 2 above warns against —
+   the model invents the underlying rationale, and the human's only check
+   is post-hoc verification rather than supplying the finding and rationale
+   up front. This project holds a stricter line than even an official,
+   October 2024 DAF-published guide does, on purpose.
 3. **The record must be reconstructable.** Retain the prompt, model and
    version, inputs, outputs, and human edits for any workflow that can
    influence exclusion, evaluation, or award. GAO and the Court of Federal

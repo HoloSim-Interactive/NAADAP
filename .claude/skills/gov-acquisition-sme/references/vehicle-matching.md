@@ -212,6 +212,18 @@ SMEs "identify and recommend the best available GSA acquisition vehicles,"
 posts a sources-sought RFQ to all holders of the chosen SIN, and returns a
 market research report. GSA's OASIS+ scope review confirms the domain a
 requirement belongs in. 18F's Discovery tool modeled Vehicle to Pool
-(defined by NAICS sets) to Vendor with FPDS history. No public Navy
-"vehicle finder" exists; the LRAF is the closest artifact. NAADAP's
-recommender is, in effect, an automated MRAS for the Navy's own vehicles.
+(defined by NAICS sets) to Vendor with FPDS history. The CM Reporting
+Workbench's Awards Explorer (see far-consolidation-rules.md's category-
+management section) does close to the same thing government-wide, flagging
+FPDS awards as "BIC Addressable" or "Tier 2 Addressable" against historical
+usage. No public Navy "vehicle finder" exists; the LRAE (see
+navair-navy-context.md — it is called LRAE, not LRAF, and carries no
+vehicle-type field, so it is a weaker artifact than earlier assumed here)
+is the closest thing. NAADAP's recommender is, in effect, an automated
+MRAS for the Navy's own vehicles.
+
+DoDI 5000.74's Seven Steps process (Step 3, Market Research) states this
+as an explicit purpose of market research: determining "whether or not any
+existing contract vehicles are available to execute the requirement" —
+direct DoD-level policy backing for building the vehicle-matching step at
+all, not just a good idea.

@@ -22,6 +22,8 @@ contract is not a strategic vehicle by that definition, however large.
 | NAWCAD PSMI MAC | NAWCAD | MAC IDIQ, 18 primes | $346.5M | not confirmed | NAVAIR PMAs | none | Product support management and logistics for PMAs |
 | NAVAIR PM CSS MAC | NAVAIR / NAWCAD | SB MAC IDIQ, 19 to 22 primes | $960M | expired Jun 2023 | NAVAIR PEOs/PMAs | none | PMA program-management support (successor capability is the SCI MAC) |
 | NAWCTSD TSC IV | NAWCTSD Orlando (N61340) | MAC IDIQ, 23 primes, NAICS 333318 | $980M | 29 Nov 2018 to 28 Nov 2027 | NAVAIR training-systems customers | none | Training system design, development, production, ISD |
+| NAWCTSD FTSS V | NAWCTSD Orlando (N61340) | MAC IDIQ, 9 primes (7 unrestricted + 2 SB) | $1.31B | Jul 2022 to Aug 2030 | NAVAIR training-systems customers | none | Contractor O&M and instructional services for training systems |
+| NAWCTSD PACRM | NAWCTSD Orlando (N61340) | MAC IDIQ, 4 primes | $90M | May 2021 to 30 Apr 2028 | NAVAIR training-systems customers | none | Pilot/aircrew curriculum revision and maintenance |
 | NAWCAD Cyber Warfare IDIQ | NAWCAD (N0042123D0021) | single-award SB CPFF IDIQ | $224M | to Sep 2028 | NAWCAD cyber departments | none | Cyber warfare requirements and operations |
 | NASC OTA | NAWCAD Pax River; consortium manager CMG | OTA consortium, 600+ members | n/a | 5-yr OT awarded 2019 | all NAWCs, FRCs, NAVAIR contracting offices | $500/yr dues (year 1 waived) | Prototypes in 11 naval-aviation technology areas |
 | NAVFAC MACC / MATOC / SATOC / JOC | NAVFAC FECs and FEADs | construction IDIQ | e.g. $8B NAVFAC Washington large-scale MACC (Jun 2026) | 8-yr ordering on that MACC | NAVFAC only | none | Construction, design-build, repair |
@@ -80,8 +82,11 @@ NMCARS 5237.102. Official portal seaport.navy.mil returned 503.
 - Decentralized ordering: 106 ordering offices across NAVSEA, NAVAIR,
   NAVWAR, NAVFAC, NAVSUP, USMC, ONR, NRL, MSC, SSP. "No direct ordering or
   exceptions to fair opportunity, 100% competition amongst vendors." No
-  user fee. About 2,400 primes, 85% small business; set-asides decided at
-  order level with Deputy for Small Business review.
+  user fee. About 2,400 primes as of the Aug 2024 NAVSEA brief (the initial
+  December 2018 award was to approximately 1,870, per the DON Best
+  Practices Handbook for Services Acquisitions FY2024 — the growth reflects
+  on-ramps since award), 85% small business; set-asides decided at order
+  level with Deputy for Small Business review.
 - Usage through Jul 2024: NAVSEA $22.1B, NAVWAR $14.4B, NAVSUP $5.9B,
   NAVAIR $3.95B (84 orders), USMC $1.57B; FY23 spend $7.38B. Ordering ends
   1 Jan 2029; the PMO began an RFI for the follow-on vehicle in FY25.
@@ -102,9 +107,41 @@ NMCARS 5237.102. Official portal seaport.navy.mil returned 503.
 - **NAWCAD PSMI MAC**: product support management integration, program
   management and logistics for weapon systems, sub-systems, and support
   equipment.
-- **NAWCTSD TSC IV**: training system design, development, production,
-  test, delivery, modification, and support, plus instructional systems
-  development. NAICS 333318. Orders N61340-19-D-xxxx.
+- **NAWCTSD's three current MACs**, all N61340 (Orlando), confirmed against
+  the command's own `nawctsd-mac-list.pdf`, with the numbering pattern
+  `N61340<YY>D<NNNN>` (YY = award fiscal year):
+  - **TSC IV**: training system design, development, production, test,
+    delivery, modification, and support, plus instructional systems
+    development. NAICS 333318. 23 basic contracts, **N61340-18-D-5001
+    through -5024** (-5010 skipped; the award year is 2018, not 2019 as an
+    earlier version of this entry stated). $980M, awarded Nov 2018, ordering
+    to Nov 2027, performance complete by 2029. Full 23-company awardee
+    roster: Apogee-SAIC Capabilities Integrator, Aero Simulation, Boeing,
+    CAE USA, CSRA, CymSTAR, DiSTI, General Dynamics One Source, J.F. Taylor,
+    Kratos Technology & Training Solutions, L3 Technologies, Lockheed
+    Martin, Logistic Services International, Pro-Active Technologies,
+    Rockwell Collins Simulation and Training Systems, Triton II JV, Veraxx
+    Engineering, Xebec, CACI Federal, TRU Simulation + Training, Advanced
+    Acoustic Concepts, SAIC, Alion Science and Technology.
+  - **FTSS V** (Fielded Training Systems Support V): contractor operation
+    and maintenance services and contractor instructional services for
+    training systems — a CSS-type enterprise vehicle, not a platform-
+    specific sustainment IDIQ, so it meets the challenge's "strategic
+    vehicle" bar. Nine basic contracts: Lot 1 unrestricted, N6134022D1001-
+    D1007 (CAE USA; BGI-Aero Simulation JV; Valiant Global Defense
+    Services; Delaware Resource Group of Oklahoma; Fidelity Technologies;
+    FlightSafety Defense; LB&B Associates); Lot 2 small-business set-aside,
+    N6134022D2001-D2002 (Engineering Support Personnel; LTSS Joint
+    Venture). $1.31B, awarded Jul 2022, ordering to Aug 2030, performance
+    complete by 2033. Not previously in this catalog.
+  - **PACRM** (Pilot and Aircrew Curriculum Revision and Maintenance):
+    planned and unplanned curriculum revision/maintenance for Navy, Marine
+    Corps, and FMS pilot/aircrew training — narrower scope than TSC
+    IV/FTSS V (curriculum content, not training systems or devices). Four
+    basic contracts, N6134021D0005-D0008 (A. Harold and Associates; BGI;
+    Carley Corporation; MilTrain JV). $90M, awarded May 2021, ordering to
+    30 Apr 2028, performance complete by 2032. Not previously in this
+    catalog.
 - **NAVAIR RDT&E IT support (N00421-19-D-0065)** bridged to Oct 2025
   pending recompete; NAVAIR Digital Department support solicitation
   N0042124R0044.
@@ -192,7 +229,9 @@ NMCARS 5237.102. Official portal seaport.navy.mil returned 503.
 | "SeaPort-NxG", N00178-...-D-..., engineering or PM functional areas, NAICS 541330 exception, no T&M | SeaPort-NxG |
 | N00421-25-D-00xx, TS/SCI acquisition life-cycle support, "PM CSS" | NAWCAD SCI MAC |
 | "PSMI", product support management integration | NAWCAD PSMI MAC |
-| "TSC IV", N61340, trainer, simulator, ISD, courseware | NAWCTSD TSC IV |
+| "TSC IV", N61340-18-D-5..., trainer, simulator, ISD, courseware | NAWCTSD TSC IV |
+| "FTSS V", N6134022D1.../D2..., contractor O&M or instructional services for training systems | NAWCTSD FTSS V |
+| "PACRM", N6134021D0..., pilot or aircrew curriculum revision/maintenance | NAWCTSD PACRM |
 | "prototype project", "white paper", "Request for Prototype Proposal", consortium name | OTA consortium (NASC for aviation) |
 | "Phase III", SBIR data rights | SBIR Phase III sole source |
 | "CLS", "PBL", "requirements contract", OEM, PMA-xxx platform | Platform sustainment IDIQ (source, not target) |

@@ -18,6 +18,7 @@ needs and clustering on which contracting office wrote the template.
 | Sources Sought / RFI | FAR 10.002(b)(2); 15.201(e); provision 52.215-3 | Market research; "not a solicitation" | Notice metadata, draft scope, capability questions | No |
 | J&A | FAR 6.303-2 | Justification for other than full and open | Twelve elements including authority cited, unique-source rationale, market research, future-competition actions | Contract file |
 | Acquisition plan | FAR 7.105 | Strategy | Background and objectives; plan of action including sources, competition, contract type, consolidation analysis | Contract file |
+| IGCE | DoD IGCE Handbook for Services Acquisition (OUSD(AT&L)/A&S, orig. Dec 2017, rev. Feb 2018) | Cost estimate, not a requirement | Direct labor by category/hours/rate; fringe, overhead, G&A, fee; ODCs; escalation; basis-of-estimate narrative | Contract file, price-reasonableness basis |
 
 Section C of a solicitation carries the SOW/PWS; Section B the CLINs and
 contract type per CLIN; Section F period and place of performance; Section
@@ -41,7 +42,10 @@ Orders under a MAC therefore appear as a pair, base `N00178-yy-D-xxxx`
 and order `N00178-zz-F-xxxx`. A document that lists several `-D-`
 numbers as eligible offerors is a task-order competition on that vehicle.
 NAVFAC real-estate contracting officers use an `RP` series that is not in
-the DFARS table; treat it as observed practice.
+the DFARS table; treat it as observed practice. CDRL sequence numbering
+specifically (the "A001" style Data Item Number in DD Form 1423 Block 1)
+is governed by DFARS 204.71, not 204.1603 — confirmed against the form's
+own instructions, which cite Subpart 204.71 by name.
 
 ## A useful acronym trap
 
@@ -82,22 +86,58 @@ OCI mitigation; SCIF requirements.
 
 ## Fields to extract from a CDRL (DD Form 1423)
 
-Blocks: 1 Data Item Number (A001...); 2 Title; 3 Subtitle; 4 Authority
+Verified against the real form (DD FORM 1423, FEB 2024, an XFA dynamic
+form on esd.whs.mil) and a real filled example, both in `sources/`. The
+18 numbered blocks were already right in this file and are confirmed
+as-is: 1 Data Item Number (A001...); 2 Title; 3 Subtitle; 4 Authority
 (DID number); 5 Contract Reference (the SOW/PWS paragraph); 6 Requiring
 Office; 7 DD 250 requirement; 8 Approval code; 9 Distribution statement;
 10 Frequency; 11 As-of date; 12 Date of first submission; 13 Subsequent
 submissions; 14 Distribution addressees and copies; 15 Total; 16 Remarks
 (tailoring, format, media); 17 Price group; 18 Estimated total price.
-Header: category (TDP, TM, Other), system/item, contract or PR number,
-contractor.
+
+**The header was previously under-described** — it is six lettered
+fields, A through F, not the four this file used to list: A Contract
+Line Item Number; B Exhibit; C Category (TDP, TM, Other); D System/Item;
+E Contract/PR Number; F Contractor. A signature block, lettered G through
+J, follows Block 18: G Prepared By; H Signature; I Approved By; J
+Signature (an older, Feb 2001 revision pairs H and J as dates instead of
+standalone signature fields — not consequential for extraction, but note
+it if matching an older CDRL).
 
 DID numbers read "DI-" plus a four-letter standardization area plus a
-five-digit serial plus revision: DI-MGMT (management, e.g., 81861 IPMR),
-DI-IPSC (software, e.g., 81435A SDD, 81433A SRS), DI-SESS (systems
-engineering, e.g., 81785 SEP), DI-MISC (e.g., 80508 technical report),
-DI-ADMN, DI-FNCL, DI-ILSS, DI-SAFT, DI-TMSS. DIDs live in ASSIST
-(quicksearch.dla.mil). Frequency codes: MTHLY, QRTLY, ASREQ, ONE/R.
-Distribution statements A through F.
+five-digit serial plus revision: DI-MGMT (management — **81861C is
+IPMDAR, Integrated Program Management Data and Analysis Report, not
+"IPMR"**; IPMR is a different, older, narrative-format EVM report that
+IPMDAR's XML/UN CEFACT schema superseded, so do not treat the two as
+interchangeable), DI-IPSC (software, e.g., 81435A SDD, 81433A SRS),
+DI-SESS (systems engineering, e.g., 81785 SEP), DI-MISC (e.g., 80508
+technical report), DI-ADMN, DI-FNCL, DI-ILSS, DI-SAFT, DI-TMSS. DIDs live
+in ASSIST (quicksearch.dla.mil). Frequency codes: MTHLY, QRTLY, ASREQ,
+ONE/R. Distribution statements A through F.
+
+**Worked example** (a real DI-MGMT-81861C template CDRL, `sources/IPMDAR
+CDRL Example_Incremental Dec 2021 FINAL.pdf`): header fields A-F were
+left entirely blank, as were Price Group (17) and Estimated Total Price
+(18) — common in a template/pre-award CDRL. Frequency was MONTHLY, but
+the actual submission dates were pushed into Block 16 Remarks ("SEE BLK
+16") rather than filled into Blocks 12-13 directly; Block 16 itself ran
+about three and a half pages of tailoring detail (delivery timing,
+required datasets, variance-reporting method, submission channel) that
+the structured fields could not capture. Block 14's addressee was an
+organizational repository code (EVM-CR, the DoD EVM Central Repository),
+not a named person. Lesson for extraction: expect the structured fields
+to be sparse and the real content to live in Block 16 prose.
+
+**Price Group** (per the form's own back-of-page instructions): Group I
+is data not otherwise essential to the contracted effort but required by
+the CDRL itself; Group II is essential data that requires extra
+conformance work beyond the contractor's normal practice; Group III is
+data the contractor must develop for its own internal use regardless;
+Group IV is data produced as part of normal operating procedure, usually
+shown at no separate cost. This is why a CDRL commonly shows $0 or a
+blank Estimated Total Price (Block 18) — Group III/IV data has no
+separately priced cost to report.
 
 Extract the Block 5 cross-references: they tie every deliverable back to
 a task paragraph, and the set of DID areas on a CDRL is a compact
@@ -123,6 +163,77 @@ An "Intent to Bundle" notice or a sources-sought asking "would
 consolidation of these requirements adversely affect your ability to
 compete" is direct evidence the Government is already contemplating the
 consolidation the pipeline would recommend.
+
+## The Independent Government Cost Estimate (IGCE)
+
+Primary source: the DoD IGCE Handbook for Services Acquisition, in
+`sources/` as `igce-handbook-oct2025_...pdf`. **A dating caveat first,
+since the filename misleads:** the substantive content is unrevised since
+February 2018 (it cites DoDI 5000.74 as "Jan 2016" and FY2017 obligation
+data); the "Oct 2025" in the filename and the PDF's own modification date
+reflect a 508-accessibility re-save, not a content revision. Cite it as
+"Dec 2017, rev. Feb 2018, re-posted Oct 2025," not as a current 2025
+document, and cross-check anything time-sensitive (thresholds, DoDI
+5000.74 provisions) against the actual current DoDI 5000.74 instead. This
+document never uses the term "S-CAT" — the S-CAT-to-dollar-threshold
+linkage belongs to DoDI 5000.74, not the IGCE Handbook.
+
+**Cost buildup.** An average work year is 2,080 hours; one FTE of
+*productive* labor is **1,880 hours** (2,080 minus 80 holiday, 80
+vacation, 40 sick). "Unburdened" labor is salary only; "burdened" or
+"fully loaded" adds overhead, G&A, profit/fee, and escalation. Standard
+components, each a percentage applied per the handbook's own worked
+examples (treat the percentages as illustrative, not fixed rates — actual
+rates come from wrap-rate presets or CO-supplied data):
+- **Fringe/payroll tax**: health and welfare, FICA, FUTA/SUTA, workers'
+  comp; a worked example used 39.372% of direct labor.
+- **Labor overhead**: a percentage of labor, e.g. 11% "based on the
+  average of previous billings over a ten-year period."
+- **Other Direct Costs**: subcontracts, materials/equipment/supplies,
+  travel and per diem (Joint Travel Regulations), consultants; a worked
+  example priced supplies at 15% of total labor cost and replacement
+  equipment at 150% of the supplies cost.
+- **G&A**: management/financial overhead applied to the total cost input
+  base (labor + fringe + overhead + ODC); a worked example used 15%.
+- **Profit/fee**: a percentage of total estimated cost; a worked example
+  used 8%. Statutory caps (FAR 15.404-4(b), 10 U.S.C. 2306(d)/41 U.S.C.
+  254(b)): CPFF experimental/developmental/R&D work, fee no more than
+  **15%** of estimated cost; architect-engineer public-works services,
+  price no more than **6%** of estimated construction cost; other CPFF
+  contracts, fee no more than **10%** of estimated cost.
+- **Escalation**: a per-annum percentage applied to future option years
+  using DoL CPI/PPI data; a worked example used 3% per year.
+
+**Basis-of-estimate methods**, in order of increasing effort and
+accuracy: **Analogy** (top-down, scales a known historical cost);
+**Parametric** (a statistical relationship between a technical
+characteristic and cost, used before specific tasks are known);
+**Engineering** (bottom-up, task-by-task, rolled up); **Actual Costs**
+(extrapolated from prior production lots, inflation-adjusted); **Expert
+Opinion** as a last resort when none of the four apply. The narrative
+must answer five questions: how was the estimate made, what assumptions
+were made, what information/tools were used, where the information came
+from, and how previous estimates compared to prices actually paid.
+
+**When required**: every new services acquisition above SAT; before RFP,
+RFQ, or IFB for new FFP and cost-reimbursement contracts; to cover the
+full period of performance including transition and multi-year periods;
+for individual projects under an existing contract when requested; when
+the CO requests one even below SAT; when a PWS change affects cost.
+**Not** typically required when exercising priced options, providing
+incremental funding, or for small task/delivery orders under an existing
+FFP IDIQ.
+
+**Tools**: DAU's Services Acquisition Mall / ARRT Cost Estimation tool
+("guides through the process of estimating costs of services detailed in
+the PWS"); GSA OASIS's automated labor-estimating tool (built on BLS
+statistics); GSA CALC (ceiling labor rates by SIN, average plus standard
+deviation — a benchmark starting point, not a fully burdened-rate
+calculator); the Economic Research Institute's rate database; the
+five-volume Contract Pricing Reference Guides. Non-exempt labor (typically
+blue-collar, some clerical) is priced to the applicable SCA or Davis-Bacon
+wage determination; exempt (professional/licensed) labor is priced to
+industry or Government comparables instead.
 
 ## Fields from an acquisition plan or J&A
 
