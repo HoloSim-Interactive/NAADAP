@@ -55,7 +55,39 @@ contract is not a strategic vehicle by that definition, however large.
 ## SeaPort-NxG, the Navy's presumptive services vehicle
 
 Sources: NAVSEA SeaPort Deputy PM brief, Aug 2024 (Navy Gold Coast);
-NMCARS 5237.102. Official portal seaport.navy.mil returned 503.
+NMCARS 5237.102. Official portal seaport.navy.mil returned 503 throughout
+this project's research — not a coincidence, per the finding below.
+
+**System transition in progress — a single secondary source, not yet
+primary-confirmed, but specific enough to act on provisionally.** OrangeSlices
+AI (a GovCon industry blog, not a Navy or PIEE source), dated 6 Feb 2026:
+SeaPort task-order solicitations, awards, and modifications are moving to
+**PIEE (Procurement Integrated Enterprise Environment), specifically the
+PIEE Solicitation Module (PIEE SOL)**; contracting officers "have already
+begun distributing solicitations through PIEE SOL." Stated milestones —
+**April 1, 2026**: the legacy SeaPort Portal locks, no further awards or
+administrative actions processed there; **June 30, 2026**: portal
+decommissioning begins, no access to download information after this
+date; **end of FY26**: full SeaPort system shutdown. The article itself
+cautions these dates are "subject to change based on Navy-wide ePS
+implementation goals." The client has independently reported the same
+transition and supplied a SAM.gov page as corroboration, which could not
+be fetched (JavaScript shell, the same failure mode every SAM.gov
+opportunity page hit during this project's research) — pending that
+document actually landing in `sources/`.
+
+**What this means operationally, provisionally:** if confirmed, the base
+IDIQ contracts, the Annex 22 functional-area scope, the NAICS/pricing
+rules, and the ordering-office list below do not go away — SeaPort-NxG
+remains the awarded vehicle through at least 1 Jan 2029 per its own
+ordering-period end. What changes is *where a solicitation or task-order
+action is posted and processed*: PIEE SOL, not the seaport.navy.mil portal
+or (for the underlying notices) necessarily SAM.gov as previously assumed.
+A pipeline whose vehicle-matching evidence relies on seaport.navy.mil
+activity, or that treats PIEE as an unfamiliar system, is looking in the
+wrong place as of 2026. Do not treat this transition as replacing
+SeaPort-NxG with a different vehicle — it is the same vehicle, on a new
+posting system. Confirm before citing as settled fact.
 
 - "The Department of the Navy's strategic contract vehicle for the
   procurement of engineering and professional support services." Not a

@@ -111,7 +111,13 @@ verified to carry the same column set as the command-level file above.
   FAR 6.302 sole-source actions, below-SAT buys, 8(a) set-asides, FAR Part 12
   commercial, and Part 13 simplified. Not using SeaPort requires a D&F to
   DASN(P) (5237.103). For any Navy professional-services requirement, the
-  first question is therefore "why not SeaPort-NxG?"
+  first question is therefore "why not SeaPort-NxG?" **Where to look for
+  that activity is changing in 2026** — see contract-vehicles.md's SeaPort
+  entry: task-order solicitations are reportedly moving to PIEE (the
+  Procurement Integrated Enterprise Environment) ahead of a staged
+  decommissioning of the seaport.navy.mil portal, per a single dated
+  secondary source not yet primary-confirmed. The vehicle and its rules are
+  unaffected; only the posting system is.
 - **Consolidation approvals.** NMCARS 5207.107-2 (consolidation
   determinations by DASN(P) or HCA) and 5207.107-3 (bundling, via DASN(P))
   implement FAR 7.107's $2M consolidation threshold — DFARS 207.170, which
