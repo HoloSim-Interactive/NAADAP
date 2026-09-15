@@ -31,6 +31,36 @@ buy the same service. Today "the process relies on an individual with
 knowledge of existing systems, requirements, and contracting vehicles."
 **That individual is the persona this skill encodes.**
 
+## Benefits (the sponsor's own words, and what they cite)
+
+> The primary benefits include increased buying power, reduction of
+> duplication significant process efficiencies, speed of acquisition, and
+> cost savings that directly support DoD acquisition reform efforts.
+
+The original omits a comma or conjunction between "duplication" and
+"significant"; this skill reads it as two items. Note the direction of
+the last clause: the benefits *support* reform — they do not define it.
+"DoD acquisition reform efforts" in 2026 is a specific, citable set of
+instruments, and this sentence is the sponsor naming what the algorithm
+documentation should cite:
+
+| Benefit | FAR 7.107 category | Reform instrument | Quantifiable from public data? |
+| --- | --- | --- | --- |
+| Increased buying power | Cost savings / price reduction (the *mechanism*) | OMB M-19-13 / M-22-03 category management; Better Buying Power lineage | Mostly no — needs pricing; CALC+ labor-rate ceilings are the only public hook |
+| Reduced duplication | Administrative cost savings (7.107-3's ≥10% test) | EO 14240 / OMB M-25-31 consolidation mandate | Yes — count of separate current contracts collapsed |
+| Process efficiency | Better terms; approvals avoided (7.107-1 inheritance, 5.202(a)(6) no synopsis, no new J&A) | OMB M-25-26 "Revolutionary FAR Overhaul"; DoDI 5000.74 Seven Steps | Partly — approvals avoided are countable |
+| Speed of acquisition | Reduced acquisition cycle time | DoDI 5000.74 Step 3 market research; NAVAIR's own 18–24-month → 4-month MAC rationale | Yes — PALT from SAM.gov solicitation date to FPDS award date |
+| Cost savings | Cost savings (the *outcome*) | All of the above | Partly — contract count, bridge avoidance, PALT-derived staff time |
+
+Buying power and cost savings are related but distinct (mechanism vs.
+outcome); process efficiency and speed are related but distinct (fewer
+steps vs. fewer days). The sponsor lists all five separately; keep them
+separate in any output record. The vehicle-definition paragraph adds a
+sixth, "maximize contract ceilings," which is a DoD portfolio-management
+goal rather than a FAR category: knowledge-base headroom feeds both a
+benefit (utilization) and a hard constraint (sufficient headroom), and
+those are different checks.
+
 ## Scoring rubric (exact)
 
 | Component | Points | Rule |
@@ -97,6 +127,33 @@ database schema and ETL docs if applicable, method visualization, results
 visualization, performance summary metrics, validation methodology,
 external-dependency documentation. "Must not consist solely of a link to a
 website." Phase 3: PowerPoint, live demo, Q&A, all within 30 minutes.
+
+## Questions for Tech Grove
+
+Open as of 2026-09-15. Each changes the design or the scoring strategy
+depending on the answer; none should be guessed at.
+
+1. **The date conflict** (above). Which set governs — the summary box
+   (22 Sep / 9 Nov) or the TIMELINE section (2 Oct / 19 Nov)?
+2. **Prediction granularity.** The rubric awards two points per "data
+   point in the dataset with a correct prediction," judged against a
+   group of 20 PGIL predetermined. It never defines what one prediction
+   is: a vehicle name, a document-to-vehicle pairing, or a
+   cluster-to-vehicle pairing. These produce materially different outputs
+   and different scores. Related: do "new strategic vehicle indicated"
+   entries count as predictions, given the list of 20 is of vehicles?
+3. **"Recommending common requirements."** The Problem Statement's first
+   sentence asks for "evaluating, identifying, and recommending common
+   requirements." Two readings: (a) recommend *that* a set of requirements
+   be treated as common — the cluster with its consolidation evidence; or
+   (b) recommend *a* common requirement — draft the consolidated PWS
+   language the merged requirement would carry. (a) is captured. (b) is
+   a significant addition and sits on the reserved-decision boundary (the
+   tool may draft a candidate for human review; it may not originate the
+   requirement). Which is intended? Related: the closing sentence, "identify
+   contracts suitable to be used *as* strategic vehicles" — is that the
+   ordinary routing case, or a third output mode identifying existing
+   contracts that could be promoted to strategic-vehicle status?
 
 ## Rules that constrain behavior
 

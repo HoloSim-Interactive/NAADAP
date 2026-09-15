@@ -170,6 +170,20 @@ Ordered. Each gates the next.
 | **G5** | Vehicle KB schema and initial curation | Step 3 of Run needs it; today it does not exist. Start from the ~15 NAVAIR/DON vehicles in contract-vehicles.md with provenance columns from day one | one to two days |
 | **G6** | Accept the design into the SDD | Solutions Architect owns the SDD; Systems Engineer owns the RTVM. This document is a proposal to both | review cycle |
 
+### RTVM amendments riding with G3
+
+Agreed with the client on 2026-09-15 from the Critical Technical Criteria
+and Benefits review; deliberately **not** hand-edited into Verified rows
+ahead of the vet pass. They go to the Systems Engineer with the vetted
+requirements.
+
+| Item | Amendment | Why |
+| --- | --- | --- |
+| <a href="https://github.com/HoloSim-Interactive/NAADAP/blob/main/docs/RTVM.md#rtvm-deliv-950" target="_blank">DELIV-950</a> (Withdrawn) | Reopen **narrowly**: document the vehicle knowledge base's schema and the build-time FPDS → KB pipeline as schema-and-ETL documentation, even though no database is used | The no-database decision predates the KB. A versioned, schema-validated table fed by an extract-transform-load pipeline is what an evaluator who wrote "ETL" into the criteria will recognize. Cheap insurance; removes a Demo Day question. |
+| <a href="https://github.com/HoloSim-Interactive/NAADAP/blob/main/docs/RTVM.md#rtvm-out-420" target="_blank">OUT-420</a> (Verified) | Change the named metric from "precision@5 or F1 against validation ground truth" to **MRR and Recall@5**, labeled **"agreement with historical practice"** | One correct vehicle per requirement, no graded relevance, so NDCG/F1 machinery is inert; and a confounded model scores *better* on held-out accuracy by learning office habit, so "accuracy" overclaims. See `docs/research/km-capture/C-learning-from-decisions.md`. |
+| <a href="https://github.com/HoloSim-Interactive/NAADAP/blob/main/docs/RTVM.md#rtvm-deliv-920" target="_blank">DELIV-920</a> (Verified) | Add a **license** column to the dependency-justification table and make license compatibility with permanent Government access part of the justification | Packaging a dependency in Docker does nothing about its license. The research found vendorable-but-unusable tools (non-commercial, patent-encumbered, GPL-3.0). "Fits in the container" is necessary, not sufficient. |
+| <a href="https://github.com/HoloSim-Interactive/NAADAP/blob/main/docs/RTVM.md#rtvm-deliv-970" target="_blank">DELIV-970</a> (Verified) | The algorithm documentation traces each claimed benefit to a named DoD acquisition-reform instrument by memo or instruction number (table in `challenge-brief.md`, Benefits section) | The sponsor wrote "directly support DoD acquisition reform efforts." An evaluator who wrote that will look for the citations. Verification: inspection — every benefit claim cites at least one instrument. |
+
 ## Timeline
 
 Today is 2026-09-15. Submission deadline is **2026-09-22** on the

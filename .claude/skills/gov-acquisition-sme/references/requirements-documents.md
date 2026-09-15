@@ -64,6 +64,15 @@ handbooks are guidance, not standards. HE program requirements belong in
 the SOW tasking statement plus DI-HFAC CDRL line items; MIL-STD-1472 (a
 true standard) is the correct citation for HE design-criteria compliance.
 
+A third trap, for engineers reading acquisition text: **"performance" means
+performance-based, not performant.** A "performance work statement," a
+"performance requirements summary," and the challenge's own "consistent and
+performance scope requirements" all refer to FAR 37.6's outcome-measured
+model — objectives, standards, AQLs, surveillance method — and say nothing
+about speed or throughput. Reading "performant" into it turns a
+contracting constraint into a software one and will be noticed by any
+reviewer who buys services for a living.
+
 ## Fields to extract from a SOW, PWS, or SOO
 
 **Identity.** Title; document type from headings; version and date;

@@ -76,7 +76,7 @@ decoration. Citations are to the FAR unless noted.
 | Term | Meaning | Cite |
 | --- | --- | --- |
 | MPT / SAT | Micro-purchase threshold ($15,000) / Simplified acquisition threshold ($350,000) as displayed Sep 2026 | 2.101 |
-| PBA / PBSA | Performance-based (services) acquisition | 37.6 |
+| PBA / PBSA | Performance-based (services) acquisition — outcomes with measurable standards and AQLs, not prescribed methods; the preferred approach for services per 37.102(a). **Term-of-art trap:** "performance" in acquisition text means *performance-based*, never "performant" (fast, high-throughput). The challenge's "levy consistent and performance scope requirements to vendors" is this sense. | 37.6, 37.102(a) |
 | A&AS | Advisory and assistance services | 37.2 |
 | Rule of two | Set aside above SAT when two or more small businesses can compete | 19.502-2 |
 | 8(a), HUBZone, SDVOSB, WOSB, EDWOSB | Socioeconomic programs | 19.8, 19.13, 19.14, 19.15 |
