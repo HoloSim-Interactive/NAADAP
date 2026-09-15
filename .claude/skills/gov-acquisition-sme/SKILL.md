@@ -226,10 +226,13 @@ Commit messages stay plain text.
 
 ## Known open questions on this project
 
-- "PEDDAL" in stakeholder need SN-4 is defined in no source found —
-  confirmed 2026-09-14 by a direct text search of NAVAIRINST 4355.19E and
-  the SETR Process Handbook v1.0, both now in `sources/`, not just web
-  search. Ask the client to spell it out; do not guess.
+- "PEDDAL" in stakeholder need SN-4 — **closed, 2026-09-15, do not
+  research further.** Confirmed absent from every primary source obtained.
+  The client's own recollection (informal, likely a companion document to
+  engineering design drawings and logistics content on a prior NAWCTSD
+  project, expansion of "P" not recalled) is recorded in
+  `references/navair-navy-context.md`. Treat it as client-specific
+  terminology, not a formal Navy/NAVAIR acronym to keep chasing.
 - "SDD" in stakeholder need SN-4: the earlier claim that NAVAIRINST 4355.19D
   uses "SDD" for System Development and Demonstration could not be
   re-confirmed against the primary sources now in hand — the string "SDD"
