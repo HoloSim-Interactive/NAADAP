@@ -108,14 +108,12 @@ add a few minor, non-contradicting confirmations and new facts: an
 example base contract number, **N00178-19-D-7621**; task-order
 performance periods "up to 5 years"; and "prime contractors may add
 unlimited number of small or large business partners to their teams."
-**It also surfaces one discrepancy worth flagging, not yet resolved**: it
-lists SeaPort-NxG's available contract types as "fixed price, cost
-reimbursement, award fee, incentive fee, and **labor hour terms**" — Labor
-Hour is a T&M-family type under FAR 16.6, which conflicts with this file's
-"no T&M" statement below. This is a single secondary source, not strong
-enough to overturn the claim outright; re-verify against the SeaPort-NxG
-basic contract's own Section B/H terms before citing either version as
-settled.
+**It also listed "labor hour terms" among SeaPort-NxG's contract types —
+a discrepancy against this file's "no T&M" statement, now resolved against
+primary data.** FPDS FY2025 shows zero T&M or labor-hour pricing on any of
+the 134 SeaPort-NxG orders NAVAIR offices placed (126 CPFF, 6 cost-no-fee,
+2 FFP). The vendor page's claim is not borne out; "no T&M" stands. Caveat:
+one fiscal year, NAVAIR offices only — DON-wide orders were not checked.
 
 - "The Department of the Navy's strategic contract vehicle for the
   procurement of engineering and professional support services." Not a
@@ -137,10 +135,11 @@ settled.
   NGEN); computer systems analysts.
 - Single NAICS 541330 with the military/aerospace exception ($47M) for all
   task-order solicitations. Cost, fixed, or hybrid CLINs; **no T&M and no
-  undefinitized orders** — flagged for re-verification, see "Update
-  2026-09-15" above (a secondary vendor source lists "labor hour terms" as
-  an available SeaPort contract type); profit and pass-through capped at
-  8%; no pre-negotiated rates.
+  undefinitized orders** — **confirmed on primary data 2026-09-15**: of 134
+  distinct FY2025 SeaPort-NxG orders placed by NAVAIR offices in FPDS, 126
+  are CPFF, 6 cost-no-fee, 2 FFP, and none T&M or labor-hour (see
+  `docs/research/g1-fpds/G1-FINDINGS.md`, F14); profit and pass-through
+  capped at 8%; no pre-negotiated rates.
 - Decentralized ordering: 106 ordering offices across NAVSEA, NAVAIR,
   NAVWAR, NAVFAC, NAVSUP, USMC, ONR, NRL, MSC, SSP. "No direct ordering or
   exceptions to fair opportunity, 100% competition amongst vendors." No

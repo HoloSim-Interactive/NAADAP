@@ -1,0 +1,27 @@
+{
+  "NAVAIR HQ BOA (G)": {
+    "U COST PLUS FIXED FEE": 415,
+    "J FIRM FIXED PRICE": 324,
+    "Y TIME AND MATERIALS": 2,
+    "V COST PLUS INCENTIVE FEE": 10,
+    "L FIXED PRICE INCENTIVE": 6,
+    "S COST NO FEE": 5
+  },
+  "SeaPort-NxG": {
+    "U COST PLUS FIXED FEE": 126,
+    "S COST NO FEE": 6,
+    "J FIRM FIXED PRICE": 2
+  },
+  "NAWCAD SCI MAC": {
+    "J FIRM FIXED PRICE": 36,
+    "U COST PLUS FIXED FEE": 55,
+    "S COST NO FEE": 49
+  },
+  "TSC IV": {
+    "J FIRM FIXED PRICE": 19,
+    "U COST PLUS FIXED FEE": 1
+  },
+  "FTSS V": {
+    "J FIRM FIXED PRICE": 20
+  }
+}

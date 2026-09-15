@@ -1,0 +1,991 @@
+{
+  "tiers": {
+    "SINGLE/LOW": 1334,
+    "SINGLE-OFFICE HIGH-VOLUME (>=10 orders)": 134,
+    "MULTI (2 offices or >=3 programs)": 84,
+    "ENTERPRISE (>=3 offices or 2 offices+3 programs)": 37
+  },
+  "tier_orders": {
+    "SINGLE/LOW": 2967,
+    "SINGLE-OFFICE HIGH-VOLUME (>=10 orders)": 2749,
+    "MULTI (2 offices or >=3 programs)": 376,
+    "ENTERPRISE (>=3 offices or 2 offices+3 programs)": 686
+  },
+  "enterprise": [
+    {
+      "piid": "N6600124A0034",
+      "offices": [
+        "N00421",
+        "N61340",
+        "N68335",
+        "N68520",
+        "N68936"
+      ],
+      "n_programs": 0,
+      "orders": 36,
+      "svc_pct": 13,
+      "sb_pct": 0,
+      "top_desc": "VMWARE CLOUD FOUNDATION 5",
+      "top_psc": [
+        [
+          "7A21",
+          21
+        ],
+        [
+          "7A20",
+          7
+        ],
+        [
+          "DA10",
+          4
+        ]
+      ]
+    },
+    {
+      "piid": "N6600121A0083",
+      "offices": [
+        "N00019",
+        "N00421",
+        "N68335",
+        "N68520",
+        "N68936"
+      ],
+      "n_programs": 1,
+      "orders": 18,
+      "svc_pct": 22,
+      "sb_pct": 0,
+      "top_desc": "AZURE ANNUAL SUBSCRIPTION",
+      "top_psc": [
+        [
+          "7A21",
+          9
+        ],
+        [
+          "DA10",
+          3
+        ],
+        [
+          "7B22",
+          2
+        ]
+      ]
+    },
+    {
+      "piid": "N6600119A0051",
+      "offices": [
+        "N00421",
+        "N61340",
+        "N68335",
+        "N68520",
+        "N68936"
+      ],
+      "n_programs": 0,
+      "orders": 12,
+      "svc_pct": 41,
+      "sb_pct": 0,
+      "top_desc": "AUTOCAD SOFTWARE SUBSCRIPTION",
+      "top_psc": [
+        [
+          "DA10",
+          5
+        ],
+        [
+          "7A20",
+          4
+        ],
+        [
+          "7A21",
+          2
+        ]
+      ]
+    },
+    {
+      "piid": "N0001921G0006",
+      "offices": [
+        "N00019",
+        "N00421",
+        "N61340",
+        "N68335"
+      ],
+      "n_programs": 5,
+      "orders": 66,
+      "svc_pct": 25,
+      "sb_pct": 0,
+      "top_desc": "P-8A INTEGRATED LOGISTICS SUPPORT (ILS) FOLLOW-ON SUSTAINMENT.",
+      "top_psc": [
+        [
+          "1680",
+          19
+        ],
+        [
+          "1410",
+          11
+        ],
+        [
+          "1510",
+          8
+        ]
+      ]
+    },
+    {
+      "piid": "N0001919G0029",
+      "offices": [
+        "N00019",
+        "N61340",
+        "N68335",
+        "N68936"
+      ],
+      "n_programs": 6,
+      "orders": 53,
+      "svc_pct": 11,
+      "sb_pct": 0,
+      "top_desc": "OPTION 1 SYSTEM HARDWARE",
+      "top_psc": [
+        [
+          "1520",
+          33
+        ],
+        [
+          "1680",
+          3
+        ],
+        [
+          "1650",
+          3
+        ]
+      ]
+    },
+    {
+      "piid": "NNG15SC82B",
+      "offices": [
+        "N00421",
+        "N68335",
+        "N68520",
+        "N68936"
+      ],
+      "n_programs": 0,
+      "orders": 40,
+      "svc_pct": 17,
+      "sb_pct": 100,
+      "top_desc": "TW14-P-1301204118_ROUTERS AND SWITCHES FOR ORGANIZATION TW0 FY: 2025, ",
+      "top_psc": [
+        [
+          "7A21",
+          12
+        ],
+        [
+          "DA10",
+          7
+        ],
+        [
+          "7E20",
+          5
+        ]
+      ]
+    },
+    {
+      "piid": "N0001916G0001",
+      "offices": [
+        "N00019",
+        "N00421",
+        "N61340",
+        "N68335"
+      ],
+      "n_programs": 2,
+      "orders": 40,
+      "svc_pct": 20,
+      "sb_pct": 0,
+      "top_desc": "RETROFIT DESIGN&DEVELOPMENT",
+      "top_psc": [
+        [
+          "1680",
+          11
+        ],
+        [
+          "1510",
+          9
+        ],
+        [
+          "1410",
+          7
+        ]
+      ]
+    },
+    {
+      "piid": "NNG15SD74B",
+      "offices": [
+        "N00421",
+        "N68335",
+        "N68520",
+        "N68936"
+      ],
+      "n_programs": 0,
+      "orders": 30,
+      "svc_pct": 20,
+      "sb_pct": 100,
+      "top_desc": "INFORMATICA FAST CLONE ADDITIONAL DATABASE SOURCE CPU-CORE",
+      "top_psc": [
+        [
+          "7A21",
+          10
+        ],
+        [
+          "DA10",
+          6
+        ],
+        [
+          "7A20",
+          5
+        ]
+      ]
+    },
+    {
+      "piid": "NNG15SC71B",
+      "offices": [
+        "N00421",
+        "N61340",
+        "N68335",
+        "N68936"
+      ],
+      "n_programs": 0,
+      "orders": 17,
+      "svc_pct": 5,
+      "sb_pct": 100,
+      "top_desc": "TW14-P-1301213509_ ROUTER FOR ORGANIZATION 4.11 FY: 2025, AMS: N00421-",
+      "top_psc": [
+        [
+          "7K20",
+          5
+        ],
+        [
+          "7E20",
+          4
+        ],
+        [
+          "7G21",
+          1
+        ]
+      ]
+    },
+    {
+      "piid": "NNG15SC98B",
+      "offices": [
+        "N00421",
+        "N61340",
+        "N68335",
+        "N68936"
+      ],
+      "n_programs": 0,
+      "orders": 16,
+      "svc_pct": 25,
+      "sb_pct": 0,
+      "top_desc": "RECUR RED HAT",
+      "top_psc": [
+        [
+          "7A21",
+          10
+        ],
+        [
+          "DA10",
+          2
+        ],
+        [
+          "DA01",
+          1
+        ]
+      ]
+    },
+    {
+      "piid": "N6600120A0022",
+      "offices": [
+        "N00421",
+        "N61340",
+        "N68520",
+        "N68936"
+      ],
+      "n_programs": 0,
+      "orders": 13,
+      "svc_pct": 23,
+      "sb_pct": 0,
+      "top_desc": "SPLUNK SOFTWARE LICENSE",
+      "top_psc": [
+        [
+          "7A21",
+          8
+        ],
+        [
+          "DA10",
+          3
+        ],
+        [
+          "6910",
+          1
+        ]
+      ]
+    },
+    {
+      "piid": "N6600123A0049",
+      "offices": [
+        "N00421",
+        "N61340",
+        "N68520",
+        "N68936"
+      ],
+      "n_programs": 0,
+      "orders": 13,
+      "svc_pct": 23,
+      "sb_pct": 0,
+      "top_desc": "P/N: 8240036",
+      "top_psc": [
+        [
+          "7A21",
+          7
+        ],
+        [
+          "7A20",
+          3
+        ],
+        [
+          "DA10",
+          2
+        ]
+      ]
+    },
+    {
+      "piid": "N6600119A0054",
+      "offices": [
+        "N00421",
+        "N68335",
+        "N68520",
+        "N68936"
+      ],
+      "n_programs": 0,
+      "orders": 12,
+      "svc_pct": 41,
+      "sb_pct": 0,
+      "top_desc": "CREO CAD SOFTWARE",
+      "top_psc": [
+        [
+          "7A21",
+          7
+        ],
+        [
+          "DA10",
+          5
+        ]
+      ]
+    },
+    {
+      "piid": "N6600119A0010",
+      "offices": [
+        "N00019",
+        "N00421",
+        "N68520",
+        "N68936"
+      ],
+      "n_programs": 1,
+      "orders": 7,
+      "svc_pct": 28,
+      "sb_pct": 0,
+      "top_desc": "RECUR SAP SECURE ENTERPRISE",
+      "top_psc": [
+        [
+          "7A21",
+          3
+        ],
+        [
+          "7A20",
+          1
+        ],
+        [
+          "DA10",
+          1
+        ]
+      ]
+    },
+    {
+      "piid": "N0001421D4002",
+      "offices": [
+        "N00421",
+        "N61340",
+        "N68520",
+        "N68936"
+      ],
+      "n_programs": 0,
+      "orders": 5,
+      "svc_pct": 100,
+      "sb_pct": 100,
+      "top_desc": "FRCSW-FST FUNDING FOR NREIP SUMMER INTERN STIPENDS",
+      "top_psc": [
+        [
+          "R408",
+          3
+        ],
+        [
+          "U009",
+          2
+        ]
+      ]
+    },
+    {
+      "piid": "N0001920G0005",
+      "offices": [
+        "N00019",
+        "N68335",
+        "N68520"
+      ],
+      "n_programs": 4,
+      "orders": 63,
+      "svc_pct": 38,
+      "sb_pct": 0,
+      "top_desc": "NON-RECURRING ENGINEERING",
+      "top_psc": [
+        [
+          "1680",
+          11
+        ],
+        [
+          "1550",
+          8
+        ],
+        [
+          "AC12",
+          7
+        ]
+      ]
+    },
+    {
+      "piid": "N0001920G0007",
+      "offices": [
+        "N00019",
+        "N00421",
+        "N68936"
+      ],
+      "n_programs": 8,
+      "orders": 56,
+      "svc_pct": 19,
+      "sb_pct": 0,
+      "top_desc": "CWPE_J SOFTWARE UPDATE AND QUALIFICATION",
+      "top_psc": [
+        [
+          "1410",
+          22
+        ],
+        [
+          "1680",
+          12
+        ],
+        [
+          "5841",
+          6
+        ]
+      ]
+    },
+    {
+      "piid": "N6600119A0120",
+      "offices": [
+        "N00421",
+        "N61340",
+        "N68936"
+      ],
+      "n_programs": 0,
+      "orders": 13,
+      "svc_pct": 0,
+      "sb_pct": 0,
+      "top_desc": "DATA LOCKERS",
+      "top_psc": [
+        [
+          "7A21",
+          7
+        ],
+        [
+          "7E20",
+          2
+        ],
+        [
+          "7J20",
+          2
+        ]
+      ]
+    },
+    {
+      "piid": "N6134019D1010",
+      "offices": [
+        "N00019",
+        "N00421",
+        "N68936"
+      ],
+      "n_programs": 0,
+      "orders": 12,
+      "svc_pct": 100,
+      "sb_pct": 0,
+      "top_desc": "NAVAL TEST WING PACIFIC AIRCRAFT MAINTENANCE (VX-30 AND VX-31)",
+      "top_psc": [
+        [
+          "J015",
+          10
+        ],
+        [
+          "K015",
+          2
+        ]
+      ]
+    },
+    {
+      "piid": "47QSWA18D008F",
+      "offices": [
+        "N00421",
+        "N61340",
+        "N68936"
+      ],
+      "n_programs": 0,
+      "orders": 11,
+      "svc_pct": 36,
+      "sb_pct": 0,
+      "top_desc": "ADOBE RENEWAL",
+      "top_psc": [
+        [
+          "7A21",
+          5
+        ],
+        [
+          "DA10",
+          2
+        ],
+        [
+          "6910",
+          1
+        ]
+      ]
+    },
+    {
+      "piid": "NNG15SC94B",
+      "offices": [
+        "N00421",
+        "N68335",
+        "N68936"
+      ],
+      "n_programs": 0,
+      "orders": 10,
+      "svc_pct": 0,
+      "sb_pct": 100,
+      "top_desc": "CISCO CATALYST 9500 DNA",
+      "top_psc": [
+        [
+          "7G21",
+          6
+        ],
+        [
+          "7K20",
+          2
+        ],
+        [
+          "7E20",
+          1
+        ]
+      ]
+    },
+    {
+      "piid": "NNG15SD42B",
+      "offices": [
+        "N00421",
+        "N68520",
+        "N68936"
+      ],
+      "n_programs": 0,
+      "orders": 10,
+      "svc_pct": 50,
+      "sb_pct": 100,
+      "top_desc": "TW121 NEW ATLASSIAN JIRA, CONFLUENCE, BITBUCKET AND BAMBOO SOFTWARE LI",
+      "top_psc": [
+        [
+          "DA10",
+          5
+        ],
+        [
+          "7A21",
+          3
+        ],
+        [
+          "7E20",
+          1
+        ]
+      ]
+    },
+    {
+      "piid": "47QTCA22D003G",
+      "offices": [
+        "N00421",
+        "N68520",
+        "N68936"
+      ],
+      "n_programs": 0,
+      "orders": 10,
+      "svc_pct": 0,
+      "sb_pct": 0,
+      "top_desc": "DELL PRO MAX 18 PLUS",
+      "top_psc": [
+        [
+          "7B22",
+          5
+        ],
+        [
+          "7K20",
+          2
+        ],
+        [
+          "7E20",
+          1
+        ]
+      ]
+    },
+    {
+      "piid": "N6600121A0029",
+      "offices": [
+        "N00421",
+        "N68520",
+        "N68936"
+      ],
+      "n_programs": 0,
+      "orders": 10,
+      "svc_pct": 20,
+      "sb_pct": 100,
+      "top_desc": "MONTHLY SUBSCRIPTION SERVICES/MAINTENANCE",
+      "top_psc": [
+        [
+          "7A21",
+          5
+        ],
+        [
+          "DA10",
+          2
+        ],
+        [
+          "7A20",
+          1
+        ]
+      ]
+    },
+    {
+      "piid": "47QTCA23D008L",
+      "offices": [
+        "N00421",
+        "N68520",
+        "N68936"
+      ],
+      "n_programs": 0,
+      "orders": 9,
+      "svc_pct": 33,
+      "sb_pct": 0,
+      "top_desc": "THE CONTRACTOR SHALL PROVIDE ONE (1) YEAR SOFTWARE MAINTENANCE AGREEME",
+      "top_psc": [
+        [
+          "7A21",
+          3
+        ],
+        [
+          "DA10",
+          2
+        ],
+        [
+          "DE10",
+          1
+        ]
+      ]
+    },
+    {
+      "piid": "N6134019D1006",
+      "offices": [
+        "N00019",
+        "N00421",
+        "N68520"
+      ],
+      "n_programs": 2,
+      "orders": 7,
+      "svc_pct": 100,
+      "sb_pct": 0,
+      "top_desc": "THE PROCUREMENT OF MQ-9A REAPER UNMANNED AVIATION NAVY AND MARINE CORP",
+      "top_psc": [
+        [
+          "J015",
+          7
+        ]
+      ]
+    },
+    {
+      "piid": "NNG15SD09B",
+      "offices": [
+        "N00421",
+        "N68520",
+        "N68936"
+      ],
+      "n_programs": 0,
+      "orders": 7,
+      "svc_pct": 28,
+      "sb_pct": 100,
+      "top_desc": "KEYSIGHT SIMULATION VIEW BUNDLE SW SUPPORT SUBSCRIPTION",
+      "top_psc": [
+        [
+          "DA10",
+          2
+        ],
+        [
+          "7A21",
+          1
+        ],
+        [
+          "7E20",
+          1
+        ]
+      ]
+    },
+    {
+      "piid": "NNG15SC20B",
+      "offices": [
+        "N00421",
+        "N68335",
+        "N68936"
+      ],
+      "n_programs": 0,
+      "orders": 7,
+      "svc_pct": 28,
+      "sb_pct": 100,
+      "top_desc": "TW14-P-1301217354_ HARDWARE AND SOFTWARE SUPPORT FOR ORGANIZATION 4.11",
+      "top_psc": [
+        [
+          "7B22",
+          2
+        ],
+        [
+          "DA10",
+          2
+        ],
+        [
+          "7A21",
+          1
+        ]
+      ]
+    },
+    {
+      "piid": "NNG15SC61B",
+      "offices": [
+        "N00421",
+        "N61340",
+        "N68936"
+      ],
+      "n_programs": 0,
+      "orders": 6,
+      "svc_pct": 16,
+      "sb_pct": 100,
+      "top_desc": "XD BRIDGE CROSS DOMAIN SOLUTION AND DATA DIODES",
+      "top_psc": [
+        [
+          "7J20",
+          3
+        ],
+        [
+          "7A21",
+          2
+        ],
+        [
+          "DA10",
+          1
+        ]
+      ]
+    },
+    {
+      "piid": "NNG15SD73B",
+      "offices": [
+        "N00421",
+        "N68335",
+        "N68936"
+      ],
+      "n_programs": 0,
+      "orders": 5,
+      "svc_pct": 0,
+      "sb_pct": 100,
+      "top_desc": "CISCO CATALYST 9300 SERIES SWITCHE, 8 GB DRAM, 16 GB FLASH, 48- PORT 1",
+      "top_psc": [
+        [
+          "7B22",
+          2
+        ],
+        [
+          "5340",
+          1
+        ],
+        [
+          "7K20",
+          1
+        ]
+      ]
+    },
+    {
+      "piid": "NNG15SD26B",
+      "offices": [
+        "N00421",
+        "N61340",
+        "N68335"
+      ],
+      "n_programs": 0,
+      "orders": 4,
+      "svc_pct": 0,
+      "sb_pct": 100,
+      "top_desc": "NETAPP",
+      "top_psc": [
+        [
+          "7E20",
+          2
+        ],
+        [
+          "6910",
+          1
+        ],
+        [
+          "7G20",
+          1
+        ]
+      ]
+    },
+    {
+      "piid": "NNG15SD80B",
+      "offices": [
+        "N00019",
+        "N00421",
+        "N68936"
+      ],
+      "n_programs": 1,
+      "orders": 4,
+      "svc_pct": 25,
+      "sb_pct": 100,
+      "top_desc": "TO ACQUIRE SOFTWARE LICENSES TO FACILITATE THE DEVELOPMENT, SECURITY, ",
+      "top_psc": [
+        [
+          "7A21",
+          3
+        ],
+        [
+          "DA10",
+          1
+        ]
+      ]
+    },
+    {
+      "piid": "N0017819D7949",
+      "offices": [
+        "N00421",
+        "N68520",
+        "N68936"
+      ],
+      "n_programs": 0,
+      "orders": 4,
+      "svc_pct": 100,
+      "sb_pct": 0,
+      "top_desc": "CONTRACTOR SUPPORT SERVICES FOR THE MULTI-DOMAIN ELECTRONIC WARFARE SE",
+      "top_psc": [
+        [
+          "K016",
+          2
+        ],
+        [
+          "R425",
+          2
+        ]
+      ]
+    },
+    {
+      "piid": "GS35F0265X",
+      "offices": [
+        "N00421",
+        "N68520",
+        "N68936"
+      ],
+      "n_programs": 0,
+      "orders": 4,
+      "svc_pct": 50,
+      "sb_pct": 0,
+      "top_desc": "REDSEAL TECHNOLOGY",
+      "top_psc": [
+        [
+          "DA10",
+          2
+        ],
+        [
+          "7A21",
+          2
+        ]
+      ]
+    },
+    {
+      "piid": "N0024424D0005",
+      "offices": [
+        "N00421",
+        "N61340",
+        "N68936"
+      ],
+      "n_programs": 0,
+      "orders": 3,
+      "svc_pct": 100,
+      "sb_pct": 0,
+      "top_desc": "AT&T MOBILITY WIRELESS SERVICES AND DEVICES",
+      "top_psc": [
+        [
+          "DG11",
+          3
+        ]
+      ]
+    },
+    {
+      "piid": "N0001923G0002",
+      "offices": [
+        "N00019",
+        "N68335"
+      ],
+      "n_programs": 4,
+      "orders": 36,
+      "svc_pct": 16,
+      "sb_pct": 0,
+      "top_desc": "DALO HOT DESK SUPPORT FOLLOW ON CONTRACT",
+      "top_psc": [
+        [
+          "1520",
+          18
+        ],
+        [
+          "1410",
+          4
+        ],
+        [
+          "1680",
+          2
+        ]
+      ]
+    },
+    {
+      "piid": "N0001915G0026",
+      "offices": [
+        "N00019",
+        "N68335"
+      ],
+      "n_programs": 3,
+      "orders": 17,
+      "svc_pct": 23,
+      "sb_pct": 0,
+      "top_desc": "NAVY PROCESSOR UPGRADE AND CIRCM INTEGRATION",
+      "top_psc": [
+        [
+          "5865",
+          3
+        ],
+        [
+          "5841",
+          2
+        ],
+        [
+          "7610",
+          2
+        ]
+      ]
+    }
+  ]
+}

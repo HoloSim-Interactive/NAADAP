@@ -193,6 +193,38 @@ generic SAM.gov "Contracting" help/navigation page with no NAVAIR or OSBP
 content at all; appears to have been captured while looking for NAVAIR
 OSBP contracting detail but landed on SAM.gov's generic hub page instead.
 
+## Third round — fetched directly from OUSD(R&E) (2026-09-15)
+
+`ac.cto.mil` and `www.cto.mil` answer 200 from this environment, unlike
+DAU (`dau.edu` now redirects to `waru.edu`, which returns 403). Three
+primary documents pulled into `sources/`, each verified as a genuine PDF by
+magic bytes and page count:
+
+- **DoD Systems Engineering Plan (SEP) Outline, Version 4.1** (May 2023,
+  OUSD(R&E); `SEP-Outline-4.1.pdf`, 62 pages, created 2023-05-05; the
+  editable `.docx` alongside). The governing outline for SEP content under
+  DoDI 5000.88. Structure is *not* the older three-part outline this skill
+  had recalled: 1 Introduction; 2 Program Technical Definition (2.1
+  Requirements Development, 2.2 Architectures and Interface Control, 2.3
+  Specialty Engineering, 2.4 Modeling Strategy, 2.5 Design Considerations,
+  2.6 Technical Certifications); 3 Program Technical Management (3.1
+  Technical Planning, 3.2 Technical Tracking, …); appendices including
+  **Appendix C, Agile and DevSecOps Software Development Metrics**. The
+  outline calls for tailored entry and exit criteria per event-driven
+  review and a stated software-development methodology. Any SEP this
+  project writes is written against this document.
+- **Systems Engineering Guidebook** (Feb 2022, OUSD(R&E);
+  `SE-Guidebook-Feb2022.pdf`, 240 pages).
+- **Engineering of Defense Systems Guidebook, Change 1** (July 2024,
+  OUSD(R&E); `Eng-Def-Sys-Change1-July2024.pdf`, 186 pages) — the
+  companion guidance to DoDI 5000.88.
+
+Also obtained this round, not a document: the USAspending FY2025 DoD
+contracts archive, streamed for gate G1; findings and derived files in
+`docs/research/g1-fpds/`. It resolved the SeaPort-NxG "labor hour"
+discrepancy from the second round (no T&M on 134 NAVAIR orders) and
+corrected this skill's description of the archive's structure.
+
 ## Prior art this skill draws on
 
 - 1102tools/federal-contracting-skills and acqagent/skills (MIT): boundary
