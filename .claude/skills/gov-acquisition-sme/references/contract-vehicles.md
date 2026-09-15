@@ -89,6 +89,34 @@ wrong place as of 2026. Do not treat this transition as replacing
 SeaPort-NxG with a different vehicle — it is the same vehicle, on a new
 posting system. Confirm before citing as settled fact.
 
+**Update 2026-09-15: the client's promised SAM.gov corroboration has now
+landed and been checked — it does not corroborate the transition.** Two
+"SeaPort-NxG official portal" documents were supplied. The first is the
+literal SAM.gov page the client flagged (Notice ID N0017818R7000,
+NSWC Dahlgren) — it is the original **2018 SeaPort-NxG base-solicitation
+record** (published Feb 2018, last logged event Nov 2018); the page was
+captured live in 2026 but every date inside its content is 2018, and it
+is silent on PIEE, a portal lock, or a decommissioning date. The second is
+a third-party contractor marketing page (eTRANSERVICES Corp, © 2023),
+also silent on PIEE. **Neither document confirms or refutes the
+transition** — the provisional/unconfirmed status above stands exactly as
+worded. Future re-verification should look for a *current, dated*
+seaport.navy.mil or PIEE.gov capture, not rely on either of these two.
+
+The eTRANSERVICES page, cited only as a secondary (vendor) source, does
+add a few minor, non-contradicting confirmations and new facts: an
+example base contract number, **N00178-19-D-7621**; task-order
+performance periods "up to 5 years"; and "prime contractors may add
+unlimited number of small or large business partners to their teams."
+**It also surfaces one discrepancy worth flagging, not yet resolved**: it
+lists SeaPort-NxG's available contract types as "fixed price, cost
+reimbursement, award fee, incentive fee, and **labor hour terms**" — Labor
+Hour is a T&M-family type under FAR 16.6, which conflicts with this file's
+"no T&M" statement below. This is a single secondary source, not strong
+enough to overturn the claim outright; re-verify against the SeaPort-NxG
+basic contract's own Section B/H terms before citing either version as
+settled.
+
 - "The Department of the Navy's strategic contract vehicle for the
   procurement of engineering and professional support services." Not a
   schedule or GWAC; Navy only.
@@ -109,8 +137,10 @@ posting system. Confirm before citing as settled fact.
   NGEN); computer systems analysts.
 - Single NAICS 541330 with the military/aerospace exception ($47M) for all
   task-order solicitations. Cost, fixed, or hybrid CLINs; **no T&M and no
-  undefinitized orders**; profit and pass-through capped at 8%; no
-  pre-negotiated rates.
+  undefinitized orders** — flagged for re-verification, see "Update
+  2026-09-15" above (a secondary vendor source lists "labor hour terms" as
+  an available SeaPort contract type); profit and pass-through capped at
+  8%; no pre-negotiated rates.
 - Decentralized ordering: 106 ordering offices across NAVSEA, NAVAIR,
   NAVWAR, NAVFAC, NAVSUP, USMC, ONR, NRL, MSC, SSP. "No direct ordering or
   exceptions to fair opportunity, 100% competition amongst vendors." No
@@ -184,8 +214,40 @@ posting system. Confirm before citing as settled fact.
   ($2.87B, 2026), V-22 PBL, F/A-18 FMS support, C-12 CLS recompete (FY27).
   Signals: "CLS", "PBL", N00019-xx-D-xxxx, PMA-xxx, OEM sole source. These
   are consolidation *sources*, rarely consolidation *targets*.
-- **SBIR/STTR Phase III**: a sole-source pathway, not a vehicle; no J&A
-  beyond a D&F; SBIR data rights.
+- **SBIR/STTR Phase III**: a sole-source pathway, not a vehicle. **Confirmed
+  against the primary source** — the DON SBIR/STTR Phase III Guidebook Ver
+  2 (Mar 2020), in `sources/`. Phase III is statutorily defined (15 U.S.C.
+  638(e)(4)(C); SBA PD 4(c)) as work that "derives from, extends, or
+  completes" a prior SBIR/STTR Phase I or II effort, funded by non-SBIR
+  sources — it can be funded with procurement, O&M, construction, research,
+  or any other agency money (except SBIR/STTR program funds themselves),
+  under any contract type, and can be awarded **competitively or
+  non-competitively** at the CO's discretion. **SBA PD 4(c)(7)** ("to the
+  greatest extent practicable") is the special acquisition requirement
+  that lets the Government make the Phase III award non-competitively,
+  sole-source, to the SBC that developed the technology. **No J&A is
+  required** for a non-competitive Phase III award (SBA PD 2(j)(4)(iii)
+  also eliminates the advance-notice/publication requirement) — reference
+  instead goes in the contract file to the authority (15 U.S.C. 638(r)(4)),
+  the SBIR topic number, and the related Phase I/II contract number. There
+  is no size, dollar, duration, or award-count limit on Phase III (only
+  the ordinary NAICS size standard applies), and Phase III eligibility
+  survives a successor-in-interest event (acquisition, not mere licensing)
+  even once the SBC has grown past the small-business size standard.
+  **Data rights**: DoD Phase III awards carry SBIR/STTR data rights under
+  **DFARS 252.227-7018**; those rights cannot be made a condition of
+  waiver at any tier (prime or sub) and must flow down to any sub-award
+  whenever the prime is notified the work is Phase III content, unless the
+  KO disapproves the subcontract. **Five-question eligibility check** a
+  PM/DPM/KO should run before treating an award as Phase III: (1) is the
+  asserted-rights technology necessary or likely to be included in the
+  work; (2) can the assertion be traced to a specific Phase I/II award;
+  (3) is the assertion valid (i.e., the data is not otherwise available to
+  the Government unrestricted); (4) was the data actually delivered with
+  SBIR restrictive markings; (5) is the asserting SBC the true owner or
+  documented successor in interest. Signal in text: "Phase III", "SBIR
+  data rights", "15 U.S.C. 638", "DFARS 252.227-7018", a referenced prior
+  Phase I/II topic or contract number.
 - **NASC OTA**: focus areas support equipment and ALRE; warfare analysis;
   research and intelligence; T&E and engineering; simulation and modeling;
   digital transformation; air vehicles; propulsion and power; avionics;

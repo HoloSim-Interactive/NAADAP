@@ -54,6 +54,16 @@ FTE counts, labor hours, or labor categories in the body, it is a
 level-of-effort SOW wearing a PWS label, and it signals T&M or LH pricing.
 Treat that as a fact about the incumbent contract, not an error to fix.
 
+A second trap, confirmed against MIL-HDBK-46855A's own foreword ("This
+handbook is for guidance only. Do not cite this document as a
+requirement... the contractor does not have to comply"): a SOW/PWS
+"Applicable Documents" section that cites a DoD **-HDBK-** document (any
+of them, not just 46855A) as something the contractor "shall comply with"
+is citing it incorrectly and the clause is unenforceable as written — DoD
+handbooks are guidance, not standards. HE program requirements belong in
+the SOW tasking statement plus DI-HFAC CDRL line items; MIL-STD-1472 (a
+true standard) is the correct citation for HE design-criteria compliance.
+
 ## Fields to extract from a SOW, PWS, or SOO
 
 **Identity.** Title; document type from headings; version and date;
@@ -112,9 +122,18 @@ IPMDAR, Integrated Program Management Data and Analysis Report, not
 IPMDAR's XML/UN CEFACT schema superseded, so do not treat the two as
 interchangeable), DI-IPSC (software, e.g., 81435A SDD, 81433A SRS),
 DI-SESS (systems engineering, e.g., 81785 SEP), DI-MISC (e.g., 80508
-technical report), DI-ADMN, DI-FNCL, DI-ILSS, DI-SAFT, DI-TMSS. DIDs live
-in ASSIST (quicksearch.dla.mil). Frequency codes: MTHLY, QRTLY, ASREQ,
-ONE/R. Distribution statements A through F.
+technical report), DI-ADMN, DI-FNCL, DI-ILSS, DI-SAFT, DI-TMSS, **DI-HFAC
+(human factors/human engineering — confirmed against MIL-HDBK-46855A
+§7.3.9.2, which names seven HE DIDs: HE Simulation Concept HESC
+DI-HFAC-80742B, HE Test Plan HETP DI-HFAC-80743B, HE Test Report HETR
+DI-HFAC-80744B, HE System Analysis Report HESAR DI-HFAC-80745B, HE Design
+Approach Document-Operator HEDAD-O DI-HFAC-80746B, HE Design Approach
+Document-Maintainer HEDAD-M DI-HFAC-80747B, Critical Task Analysis Report
+CTAR DI-HFAC-81399A; no standalone "Human Engineering Program Plan"
+CDRL/DID exists — HE planning stays internal to the contractor and
+surfaces to the Government only through these seven deliverables)**.
+DIDs live in ASSIST (quicksearch.dla.mil). Frequency codes: MTHLY, QRTLY,
+ASREQ, ONE/R. Distribution statements A through F.
 
 **Worked example** (a real DI-MGMT-81861C template CDRL, `sources/IPMDAR
 CDRL Example_Incremental Dec 2021 FINAL.pdf`): header fields A-F were

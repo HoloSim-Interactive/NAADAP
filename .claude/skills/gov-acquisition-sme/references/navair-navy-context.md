@@ -28,7 +28,7 @@ anything marked *unverified* must not be stated as fact in a deliverable.
 | N00421 | NAWCAD Patuxent River (NAWCAD contracts dept; BAAs, RAPID, PSMI, SCI MACs) | 109 | 198 |
 | N61340 | NAWCTSD Orlando (training systems) | 99 | 146 |
 | N68936 | NAWCWD China Lake / Point Mugu | 43 | 48 |
-| N68520 | Fleet Readiness Centers HQ | not in 2019 report | 68 |
+| N68520 | Fleet Readiness Centers HQ — **COMFRC** (Commander, Fleet Readiness Centers), confirmed against the NAVAIR OSBP FAQ Sheet | not in 2019 report | 68 |
 
   N61339, paired with N61340 in the 2019 report, does not appear anywhere in
   the 2023 LRAE — unconfirmed whether it was retired or merged. N68520 (FRC
@@ -116,8 +116,13 @@ verified to carry the same column set as the command-level file above.
   entry: task-order solicitations are reportedly moving to PIEE (the
   Procurement Integrated Enterprise Environment) ahead of a staged
   decommissioning of the seaport.navy.mil portal, per a single dated
-  secondary source not yet primary-confirmed. The vehicle and its rules are
-  unaffected; only the posting system is.
+  secondary source not yet primary-confirmed. **Two documents the client
+  supplied as expected corroboration (a SAM.gov capture of the original
+  2018 SeaPort-NxG solicitation and a 2023 vendor marketing page) were
+  checked on 2026-09-15 and are both silent on PIEE** — neither confirms
+  nor refutes the transition; the provisional status stands unchanged. The
+  vehicle and its rules are unaffected regardless; only the posting system
+  is in question.
 - **Consolidation approvals.** NMCARS 5207.107-2 (consolidation
   determinations by DASN(P) or HCA) and 5207.107-3 (bundling, via DASN(P))
   implement FAR 7.107's $2M consolidation threshold — DFARS 207.170, which

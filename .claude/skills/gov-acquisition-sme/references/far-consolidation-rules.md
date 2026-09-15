@@ -118,10 +118,12 @@ unreasonable (CRS R41133).
   covering customer requirements, schedule, cost effectiveness including
   fees, administration and oversight, scope, and funding. A GSA vehicle is
   a legitimate recommendation for a Navy requirement but never a free one.
-- **DFARS 237**: 237.102-74 services taxonomy; 237.170-2 non-performance-
-  based services need approval (up to $100M designated official, above
-  that SPE); 237.172 QASP prepared with the SOW; PGI 237.102-77 ARRT tool
-  for PWS/QASP/PRS.
+- **DFARS 237**: 237.102-74 services taxonomy — **now primary-sourced**
+  against the 27 Aug 2012 OUSD(AT&L)/DPAP memo itself (see glossary.md):
+  9 services + 7 supplies-and-equipment portfolio groups, 70 portfolios
+  total; 237.170-2 non-performance-based services need approval (up to
+  $100M designated official, above that SPE); 237.172 QASP prepared with
+  the SOW; PGI 237.102-77 ARRT tool for PWS/QASP/PRS.
 - **DoDI 5000.74** (services at or above SAT; verified against the real
   esd.whs.mil PDF, effective 10 Jan 2020, Change 1 24 Jun 2021). S-CAT tiers
   on the IGCE, **each with its own decision authority** (an earlier version
@@ -197,12 +199,48 @@ M-19-13 was amended by **M-22-03, "Advancing Equity in Federal
 Procurement" (2 December 2021)**, which aligned category management with
 Executive Order 13985 to increase awards to socio-economic small
 businesses — the DON's own services handbook calls the combined result
-"M-19-13-1." A further memo, **M-25-31, "Category Management Policy" (18
-July 2025)**, is referenced by the DON Category Management Program Office
-as a current governing document under a "Revolutionary FAR Overhaul"
-heading — **its text was not obtained and its content is unverified; treat
-its existence as confirmed but do not cite specific rules to it** until the
-memo itself is read.
+"M-19-13-1."
+
+**OMB M-25-31, "Consolidating Federal Procurement Activities" (18 July
+2025, signed by OMB Director Vought) — now read in full, resolved.** Its
+actual title is not "Category Management Policy"; it implements
+**Executive Order 14240** ("Eliminating Waste and Saving Taxpayer Dollars
+by Consolidating Procurement," 20 Mar 2025). **It does not redefine, add,
+or amend Spend Under Management tiers** — "Tier 0/1/2/3" and "Best-in-
+Class" are not mentioned by name; the SUM tier definitions below (from
+GSA's own CM PMO playbook) remain the only primary source for those
+tiers. What M-25-31 actually directs, two GSA-centered workstreams:
+1. **Mandatory use of existing government-wide vehicles.** Within 60 days
+   of the memo, the FAR Council issues model deviation text (under the
+   "Revolutionary FAR Overhaul," OMB M-25-26) amending **FAR 8.004** so
+   that if a commercial product or service meeting the agency's need is
+   available on an existing government-wide contract, the agency **must**
+   use it instead of awarding a new contract, unless the agency head grants
+   an exception — converting FAR 8.004's current encouragement into a
+   presumptive mandate.
+2. **Centralizing procurement functions at GSA**, at the requirements
+   level (e.g., common software licenses) or organizational level (an
+   entire agency contracting function), evaluated against six factors:
+   Capacity Assessment, Cost Efficiency, Risk Management, Performance
+   Monitoring, Service Level Agreements, Budget Impacts. A "Requirements
+   Centralization Suitability Continuum" prioritizes standardized,
+   non-mission-specific, low-customization requirements for centralization
+   — the same commercial-vs-mission-specific axis this file's own "Vehicle
+   taxonomy by friction" already applies — and names **"network
+   infrastructure, construction services, or logistics support services"**
+   as example complex categories where GSA might still manage a mandatory
+   BIC while letting agency COs negotiate customized task-order terms.
+
+**M-19-13 is not superseded** — the memo states OMB "will review and
+update, as appropriate" M-19-13 later; as of 18 Jul 2025 M-19-13/M-22-03
+remains the operative CM policy text. **Nothing in M-25-31 names
+SeaPort-NxG, NAWCAD MACs, or any DoD-specific vehicle**; its
+centralization push targets government-wide common spend through GSA
+(FY2024: $78.2B GSA vehicles + $16.3B assisted acquisitions against
+$488.9B total government-wide common spend; GSA leads 7 of the 10 common
+categories). Do not infer that this memo makes SeaPort-NxG or NAWCAD MACs
+non-preferred or preferred — that remains unconfirmed, consistent with
+the existing "Navy vehicle tier not confirmed" caveat below.
 
 **Spend Under Management tiers, verbatim from GSA's own government-wide
 Category Management PMO playbook** (March 2024, corrects an earlier
