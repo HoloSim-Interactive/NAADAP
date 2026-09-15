@@ -215,21 +215,33 @@ a new subsystem (knowledge base), a new fitted model, a new build
 pipeline, and an extraction layer the codebase does not have. Being honest
 about that is the point of writing it down.
 
-A defensible split:
+**Decided by the client, 2026-09-15 — a two-version plan.**
 
-- **v1, submission:** vehicle KB hand-curated from the catalog; hard
-  constraints as deterministic rules; scope matching by TF-IDF cosine
-  between cluster task statements and vehicle scope text; office affinity
-  as a *lookup table* of P(vehicle | office) counted from FPDS rather than
-  a fitted β; the singleton fix; the evidence record. This names real
-  vehicles with citable evidence and needs no fitting code in the
-  container. It is what makes the output scoreable against PGIL's list.
-- **v2, post-submission / Demo Day / OTA:** the conditional logit fit
-  replacing the lookup table; labeling functions as features; the
-  outcome-proxy channel; MRR/Recall@5 against FPDS holdouts.
+| | Version 1 | Version 2 |
+| --- | --- | --- |
+| **Deliverable** | Phase 2 "initial technical package," due 22 Sep (worst case) | Phase 3 Demo Day materials, due 12 Nov; the follow-on OTA basis |
+| **Purpose** | Illustrates the strategy and demonstrates the technical capability | The strategy realized on the sponsor's own data |
+| **Trigger** | Phase 1 approval (GFI and portal access) | Semifinalist selection, 26 Oct |
+| **Data** | Public only: SAM.gov documents, FPDS bulk archive, hand-curated KB | GFI for the *document* side; FPDS for the *label* side |
+| **Content** | Vehicle KB hand-curated from the catalog; hard constraints as deterministic rules; scope matching by TF-IDF cosine against vehicle scope text; office affinity as a P(vehicle \| office) **lookup table** counted from FPDS; the singleton fix; the full evidence record including eliminations | Conditional logit β fitted on FPDS replacing the lookup table; labeling functions as validated features; extraction and thresholds re-tuned on GFI; the outcome-proxy "was it right" channel; MRR/Recall@5 against FPDS holdouts |
+| **What the algorithm documentation says** | Describes v2 as the roadmap — the fitted model, why it is fit offline, what GFI enables — so the strategy is visible before it is built | Describes what was measured |
 
-Whether v1 alone is achievable by the 22nd with G1, G3, G4, G5 and G6
-ahead of it is a client scheduling decision, not an engineering one.
+Two clarifications the plan depends on:
+
+- **β is fit on FPDS, not on GFI.** The label — which vehicle absorbed
+  which requirement — is public and available now. GFI tunes the
+  document side: vocabulary, section conventions, PMA and DoDAAC usage,
+  the classifier, the similarity threshold. Consequence: G1 is unblocked
+  today, and if the premise check goes well the fitted β can move into
+  v1. The lookup table is the fallback, not the plan.
+- **GFI arrives with Phase 1 approval, before Phase 2 is due** — but
+  possibly with no usable days before the deadline. v1 must score on
+  public documents. By the v2 deadline GFI will have been in hand for
+  weeks; that is where re-tuning belongs.
+
+Whether v1 as scoped lands by the 22nd with G1, G4, G5 and G6 ahead of
+it remains the open scheduling question; G3 (vetting) and G2 (outcome
+research) are v2 gates and need not block v1.
 
 ## Open questions for the client
 
@@ -245,7 +257,7 @@ ahead of it is a client scheduling decision, not an engineering one.
    negative expected value. Defensibility and score point opposite ways.
    Recommended resolution: emit sub-floor candidates in a clearly
    separated "below evidence floor" section rather than suppress them.
-3. **v1/v2 split.** Above.
+3. ~~**v1/v2 split.**~~ Decided 2026-09-15 — see Timeline.
 4. **GFI access.** As of 2026-09-03 Phase 1 pre-screening had not been
    submitted. GFI vocabulary will change the knowledge base; the plan
    should assume re-tuning the day it arrives.
