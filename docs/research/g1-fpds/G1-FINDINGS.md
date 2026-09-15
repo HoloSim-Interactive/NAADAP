@@ -26,6 +26,7 @@ vehicle-family grouping. Details and consequences below.
 | Pass 3 | Per-parent breadth: distinct offices, distinct `dod_acquisition_program_description`, services share, small-business share |
 | Pass 4 | Re-stream for `type_of_contract_pricing_code` on distinct orders by vehicle family |
 | Outputs | `navair_orders_fy2025.csv` (15,162 rows, 26 columns), `g1_pass1_summary.json`, `g1_pass2_summary.json`, `g1_pass3_breadth.json`, `g1_pass4_pricing.json` — all in this directory |
+| Script | `g1_extract.py` in this directory (standard library only; `pass1`..`pass4` or `all`). Committed 2026-09-15 after the passes were first run inline; re-run from the script against the same archive on 2026-09-15 and every output above reproduced byte-for-byte (`elapsed_s` in the pass 1 summary excepted) |
 
 Dedupe keeps the first row seen per `award_id_piid`, which may be a
 modification; `prime_award_base_transaction_description` is stable across

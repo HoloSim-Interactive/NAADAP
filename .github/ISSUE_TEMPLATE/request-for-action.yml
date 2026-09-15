@@ -1,0 +1,92 @@
+name: Request for Action (SETR RFA)
+description: Raise a request for action from a SETR event, per docs/setr/SEMP.md section 3.2.13. Categories and urgency levels follow the NAVAIR SETR Process Handbook.
+title: "RFA-<EVENT>-<n>: "
+labels: ["rfa"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        One RFA per concern. The review's summary report under
+        `docs/setr/reviews/` lists RFAs by issue number; add this issue
+        there when it is opened. Category and level are assigned by the
+        review chair, not the originator, and may be changed at triage.
+  - type: input
+    id: event
+    attributes:
+      label: SETR event
+      description: The review this RFA arises from (for example SRR-II, PDR-II, RBR 2026-10-12, SVR-1).
+    validations:
+      required: true
+  - type: input
+    id: originator
+    attributes:
+      label: Originator (role)
+      placeholder: Systems Engineer, Test Engineer, Principal, ...
+    validations:
+      required: true
+  - type: input
+    id: artifact
+    attributes:
+      label: Artifact and requirement affected
+      description: File path and commit, plus the RTVM identifier(s) if any.
+      placeholder: docs/SDD.md @ abc1234; NFR-520, TP-520
+    validations:
+      required: true
+  - type: textarea
+    id: concern
+    attributes:
+      label: Concern
+      description: What was found, with the evidence. State what is wrong, not what to do about it.
+    validations:
+      required: true
+  - type: textarea
+    id: recommendation
+    attributes:
+      label: Recommended action
+      description: The change the originator proposes. The actionee may propose an alternative on this issue.
+    validations:
+      required: true
+  - type: dropdown
+    id: category
+    attributes:
+      label: Category (assigned at triage by the chair)
+      description: "I: in scope, proceed. II: out of scope, needs the Principal's direction. III: rejected."
+      options:
+        - "I — in scope, proceed"
+        - "II — out of scope, needs Principal direction"
+        - "III — rejected"
+        - "Not yet triaged"
+      default: 3
+    validations:
+      required: true
+  - type: dropdown
+    id: level
+    attributes:
+      label: Urgency level (assigned at triage by the chair)
+      description: "The Handbook's levels are safety of flight, mission performance, and desired. This program has no flight safety; level 1 is reserved for a completeness-gate or deadline threat."
+      options:
+        - "1 — threatens the completeness gate or a deadline"
+        - "2 — affects score or a verified requirement"
+        - "3 — desired"
+        - "Not yet triaged"
+      default: 3
+    validations:
+      required: true
+  - type: input
+    id: actionee
+    attributes:
+      label: Actionee (role)
+    validations:
+      required: true
+  - type: input
+    id: due
+    attributes:
+      label: Due at (event or date)
+      placeholder: SVR-1 entry
+    validations:
+      required: true
+  - type: textarea
+    id: closure
+    attributes:
+      label: Closure
+      description: Filled at closure. The commit or record that resolves the concern, and the chair's acceptance.

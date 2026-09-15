@@ -225,6 +225,27 @@ contracts archive, streamed for gate G1; findings and derived files in
 discrepancy from the second round (no T&M on 134 NAVAIR orders) and
 corrected this skill's description of the archive's structure.
 
+## Fourth round — client-supplied from ASSIST (2026-09-15)
+
+The three revisions of the SEMP Data Item Description, downloaded by the
+client from `assist.dla.mil` (each carries ASSIST's "Downloaded:
+2026-09-15T19:47Z" footer) and renamed here by DID number:
+
+- **DI-SESS-81785B** (`DI-SESS-81785B.pdf`, approved 2025-01-08, AMSC
+  10515, project SESS-2024-043; supersedes A). Active revision.
+- **DI-SESS-81785A** (`DI-SESS-81785A.pdf`, approved 2015-09-29, AMSC 9584;
+  superseded DI-MGMT-81024 and the 2009 base). Replaces the copy this skill
+  held before, which lacked the ASSIST provenance footer.
+- **DI-SESS-81785** base (`DI-SESS-81785-2009.pdf`, approved 2009-10-14,
+  AMSC D9101; superseded DI-MGMT-81024). Historical; cites the older "SEP
+  Preparation Guide" rather than the SEP Outline.
+
+A-to-B delta, read side by side: content items 3.1 through 3.8 are
+identical. B changes only its standards citations, IEEE 15288.1 and
+15288.2 becoming IEEE 24748-7:2019 and 24748-8:2019 (the originating work
+task stays at paragraph 6.3.1.4 of the application standard). Recorded in
+`docs/setr/SEMP.md` §1.3.
+
 ## Prior art this skill draws on
 
 - 1102tools/federal-contracting-skills and acqagent/skills (MIT): boundary
