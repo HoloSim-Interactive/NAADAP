@@ -5,9 +5,9 @@
 | Field | Value |
 | --- | --- |
 | Document identifier | NAADAP-SEMP-001 |
-| Revision | Draft A |
+| Revision | Draft A.1 |
 | Date | 2026-09-15 |
-| Data Item Description | DI-SESS-81785, Systems Engineering Management Plan (SEMP). Revision A (2015) is on file in `.claude/skills/gov-acquisition-sme/sources/DI-SESS-81785A.pdf`. Revision B (08 Jan 2025, ASSIST identifier 276889) is the active revision; the A-to-B delta is not yet reconciled (see §1.3). |
+| Data Item Description | DI-SESS-81785B, Systems Engineering Management Plan (SEMP), approved 2025-01-08, AMSC 10515, project SESS-2024-043; supersedes DI-SESS-81785A. All three revisions (2009, A, B) are on file in `.claude/skills/gov-acquisition-sme/sources/`, downloaded from ASSIST 2026-09-15. The A-to-B delta is reconciled in §1.3. |
 | Topic source | OSD Systems Engineering Plan (SEP) Outline, Version 4.1, May 2023 (DOPSR 23-S-1904), applied per DI-SESS-81785 §2: "In the absence of a government SEP, the SEMP shall address the topics in the OSD SEP Outline active at the time of the RFP." |
 | Program | NAADAP prize-challenge entry (Phase 2 initial technical package; Phase 3 Demo Day) |
 | Preparing organization | HoloSim Interactive |
@@ -33,6 +33,7 @@ The SEP Outline's approval page names Government positions. This is a contractor
 | Revision | Date | Description | Author |
 | --- | --- | --- | --- |
 | Draft A | 2026-09-15 | Initial issue. Addresses SEP Outline 4.1 topics for Increments 1 and 2. | Systems Engineer |
+| Draft A.1 | 2026-09-15 | Minor update per §1.6 item 5: DI-SESS-81785B reconciled (§1.3, §4, References). Issue I-2 closed. ESS recorded as not applicable (Table 3.2-4). | Systems Engineer |
 
 ### Contents
 
@@ -76,7 +77,7 @@ DI-SESS-81785 prescribes the SEMP's minimum content (§3.1 through §3.8 of the 
 
 Two conformance limits are recorded rather than hidden.
 
-- The active DID revision is B (08 Jan 2025). The text in hand is Revision A. Revision B is to be obtained from ASSIST and the A-to-B delta reconciled at the next revision of this document (Issue tracked under §3.2.1, Issue I-2).
+- The active DID revision is B (2025-01-08), reconciled against Revision A (2015-09-29) on 2026-09-15 from the ASSIST copies of both. The content requirements 3.1 through 3.8 are word-for-word identical between the two revisions. Revision B changes only the standards it cites: the originating work task moves from IEEE 15288.1 paragraph 6.3.1.4 to IEEE 24748-7:2019 paragraph 6.3.1.4; reference (b) becomes IEEE 24748-7:2019 (application of systems engineering on defense programs) and reference (c) becomes IEEE 24748-8:2019 (technical reviews and audits on defense programs), which replace IEEE 15288.1 and 15288.2 respectively; and content item 3.5.b now names IEEE 24748-8 as the definition of formal technical reviews and audits. No section of this SEMP changes in substance; §4 and the References cite the Revision B standards.
 - The Outline is written for a Government Program Management Office. Where an Outline topic has no contractor-side content for this program (for example, the Acquisition Program Baseline, the Program Executive Officer's approval, or Milestone decisions), the section says so and gives the reason. A section marked "Not applicable" is a considered answer, not an omission.
 
 ### 1.4 Tailoring
@@ -95,7 +96,7 @@ This SEMP is updated when any of the following occurs, and at no other time:
 2. A technical baseline (§3.2.10) is established or re-established.
 3. Tech Grove answers a question in §3.2.1 that changes a date, a scoring interpretation, or a deliverable.
 4. The Principal accepts an RTVM amendment that changes a requirement's verification method or status class.
-5. DI-SESS-81785B is reconciled (Issue I-2).
+5. A new revision of DI-SESS-81785 is issued.
 
 Updates are proposed by the Systems Engineer, reviewed by the Solutions Architect and Product Manager, and approved by the Principal. A change to §3.2.13 (review criteria) or §3.2.10 (baselines) is a major update and receives a new revision letter. Any other change is a minor update and receives a numbered sub-revision (Draft A.1).
 
@@ -464,11 +465,11 @@ High: R-1, R-2, R-3, R-6, R-8. Moderate: R-4, R-5, R-7, R-11. Low: R-9, R-10.
 | ID | Issue | Resolution | Owner |
 | --- | --- | --- | --- |
 | I-1 | OUT-420 names precision@5 or F1 "against validation ground truth"; a model that learns office habit scores better on that metric while recommending worse | Amend to MRR and Recall@5, "agreement with historical practice," at SRR-II | Systems Engineer |
-| I-2 | DI-SESS-81785B not in hand; ASSIST's document link returns a script redirect | Principal to download from ASSIST; reconcile at Draft B of this SEMP | Principal |
+| I-2 | DI-SESS-81785B not in hand; ASSIST's document link returns a script redirect | Closed 2026-09-15: the Principal supplied the ASSIST copies of the 2009, A, and B revisions; reconciled at Draft A.1 (§1.3) | Principal |
 | I-3 | The SDD's SETR mapping cites 4355.19D and 14 events; the current instruction is 19E with 18 events | Superseded by §3.2.13; pointer added to the SDD | Systems Engineer |
 | I-4 | "PEDDAL" in SN-4 has no source | Closed 2026-09-15 as client-specific terminology from a prior project; not pursued | Product Manager |
 | I-5 | The build-and-test workflow is a template under `docs/ci/` and is not installed in `.github/workflows/`; no agent role can install it. Increment 1 merges were gated by local build and test results recorded on issues, not by GitHub-hosted CI | Principal copies `docs/ci/build-and-test.yml` into `.github/workflows/` before SVR-1; until then the SVR-1 entry criterion admits recorded local results | Principal |
-| I-6 | The G1 extraction scripts (passes 1–4) are not committed; only their outputs are | Commit the scripts under `docs/research/g1-fpds/` before SRR-II so the extract is reproducible | Systems Engineer |
+| I-6 | The G1 extraction scripts (passes 1–4) are not committed; only their outputs are | Closed 2026-09-15: `docs/research/g1-fpds/g1_extract.py` committed; re-run against the same archive reproduced every committed output byte-for-byte | Systems Engineer |
 
 *Opportunities.*
 
@@ -610,7 +611,7 @@ The product is entirely software. Table 3.2-10 gives the scope in the Outline's 
 
 *Software quality assurance.* Every merge requires a passing `dotnet build` and `dotnet test` (local until Issue I-5 closes; GitHub-hosted after) and a Test Engineer pass/fail verdict recorded on the issue; the Test Engineer cannot modify source (`scripts/guard-test-engineer-writes.sh`); `dotnet format` is the style check, enforced in the build-and-test template; every third-party reference carries an inline justification in the `.csproj` and a row in `docs/DEPENDENCIES.md`.
 
-*Technical debt.* Recorded as issues labeled `debt`. Open at this revision: the singleton-cohesion inversion (R-4); the OUT-420 metric (I-1); the build-and-test workflow not installed (Issue I-5); the G1 extraction scripts not committed alongside their outputs (Issue I-6).
+*Technical debt.* Recorded as issues labeled `debt`. Open at this revision: the singleton-cohesion inversion (R-4); the OUT-420 metric (I-1); the build-and-test workflow not installed (Issue I-5).
 
 *Defects.* GitHub issues labeled `bug`, with the failing TP identifier, the commit, and the fixture. A defect against a Verified requirement returns that requirement to In Test until the fix passes.
 
@@ -710,7 +711,7 @@ There is no Program Protection Plan because there is no critical program informa
 | IBR, TRA, OTRR, MRA | Not applicable | Not applicable | No EVMS, non-ACAT, no operational test, no manufacturing |
 | Engineering Site Survey (ESS), as part of a Before Action Review | Not applicable | Not applicable | Examined at the Principal's direction 2026-09-15: the program takes ownership of no physical site. Gate G1 is a feasibility analysis feeding SRR-II entry, not a site survey. |
 
-*Conduct.* Reviews are event-driven: a review is held when its entry criteria are met, not on a date. The chair is the Solutions Architect for design reviews and the Systems Engineer for requirements and verification reviews, so that no role chairs the review of its own product; the Principal attends every review and holds the decision. Each review produces a Technical Review Summary Report at `docs/setr/reviews/<event>-<date>.md` containing attendees, the artifacts reviewed at their commit, the register of risks, issues, and opportunities as of the review, requests for action, and the chair's recommendation. Requests for action are GitHub issues labeled `rfa`, categorized per the Handbook as Category I (in scope, proceed), II (out of scope, needs Principal direction), or III (rejected), at urgency Level 1, 2, or 3; the NAVAIR 4355/4 form's fields are the issue template's fields. The reviews already held (SRR-I, PDR, CDR) have their records in the closed GitHub issues; a retrospective summary report for each is produced before SVR-1 so the package is uniform.
+*Conduct.* Reviews are event-driven: a review is held when its entry criteria are met, not on a date. The chair is the Solutions Architect for design reviews and the Systems Engineer for requirements and verification reviews, so that no role chairs the review of its own product; the Principal attends every review and holds the decision. Each review produces a Technical Review Summary Report at `docs/setr/reviews/<event>-<date>.md` containing attendees, the artifacts reviewed at their commit, the register of risks, issues, and opportunities as of the review, requests for action, and the chair's recommendation. Requests for action are GitHub issues opened from `.github/ISSUE_TEMPLATE/request-for-action.yml` and labeled `rfa`, categorized per the Handbook as Category I (in scope, proceed), II (out of scope, needs Principal direction), or III (rejected), at urgency Level 1, 2, or 3, with Level 1 reserved for a completeness-gate or deadline threat since the program has no flight safety. The reviews already held (SRR-I, PDR, CDR) have retrospective summary reports under `docs/setr/reviews/`, assembled from the closed issues and the git history and marked as such; their RFAs are tracked in the records until opened as issues.
 
 *Table 3.2-11 Technical Review and Audit Details.* One block per planned review. Criteria are objective; "current" means at the commit named in the review's summary report.
 
@@ -839,7 +840,7 @@ There is no Program Protection Plan because there is no critical program informa
 
 ## 4 DID Conformance Crosswalk
 
-DI-SESS-81785 Revision A, block 10, prescribes the SEMP's minimum content. Each item and the section satisfying it:
+DI-SESS-81785B, block 10, prescribes the SEMP's minimum content (identical to Revision A; see §1.3). Each item and the section satisfying it:
 
 | DID item | Requirement (paraphrased) | Satisfied by |
 | --- | --- | --- |
@@ -848,7 +849,7 @@ DI-SESS-81785 Revision A, block 10, prescribes the SEMP's minimum content. Each 
 | 3.3 | Annotated mapping of the contractor's SE processes to the Government's, with rationale for any not mapped | Table 4-1 below |
 | 3.4 | Alignment with subcontractor SE plans | No subcontractors (§3.2.8.1). Not applicable. |
 | 3.5.a | Technical solution: architecture and interfaces | §2.2 |
-| 3.5.b | Formal reviews per ISO/IEC/IEEE 15288.2 with entry and exit criteria | §3.2.13 |
+| 3.5.b | Formal reviews as defined in IEEE 24748-8:2019, with entry and exit criteria | §3.2.13 |
 | 3.5.c | Trade studies | CORE-260 comparison (`docs/ALGORITHM_COMPARISON.md`); research verdicts in `docs/design/vehicle-recommendation-pipeline.md` "Decisions and their basis"; ML.NET evaluation (§3.2.8.2) |
 | 3.5.d | Independent verification and validation | Test Engineer role, independent of implementation and write-guarded (§3.2.8.3); ground truth derived by inspection and never read by the pipeline (`docs/VALIDATION_METHODOLOGY.md`) |
 | 3.6 | Tailored process planning, including suppliers and COTS | §1.4, §3.2.8.2 |
@@ -1049,13 +1050,13 @@ The mission scenario for evaluation is the sponsor's own: twenty documents, thir
 | xunit, coverlet | Test, coverage | Apache 2.0, MIT |
 | Docker | Packaging; constrained-tier runs | Apache 2.0 (Engine) |
 | Mermaid (GitHub rendering) | Diagrams | MIT |
-| Increment 2 build pipeline (outside the container) | Archive pull, filter, fit, freeze | Language decided at PDR-II; the G1 extraction ran as stream-filter scripts whose commit is Issue I-6 |
+| Increment 2 build pipeline (outside the container) | Archive pull, filter, fit, freeze | Language decided at PDR-II; the G1 extraction is `docs/research/g1-fpds/g1_extract.py` (Python 3, standard library) |
 
 ---
 
 ## References
 
-1. DI-SESS-81785A, *Systems Engineering Management Plan (SEMP)*, Data Item Description, 2015. On file: `.claude/skills/gov-acquisition-sme/sources/DI-SESS-81785A.pdf`. Revision B, 08 Jan 2025, ASSIST identifier 276889, active; not yet on file.
+1. DI-SESS-81785B, *Systems Engineering Management Plan (SEMP)*, Data Item Description, approved 2025-01-08, AMSC 10515. On file: `.claude/skills/gov-acquisition-sme/sources/DI-SESS-81785B.pdf`, with the superseded Revision A (2015-09-29) and base (2009-10-14) revisions alongside it.
 2. Office of the Under Secretary of Defense for Research and Engineering, *Systems Engineering Plan (SEP) Outline*, Version 4.1, May 2023, DOPSR 23-S-1904. On file: `.claude/skills/gov-acquisition-sme/sources/SEP-Outline-4.1.pdf`.
 3. Office of the Under Secretary of Defense for Research and Engineering, *Systems Engineering Guidebook*, February 2022. On file: `.claude/skills/gov-acquisition-sme/sources/SE-Guidebook-Feb2022.pdf`.
 4. Office of the Under Secretary of Defense for Research and Engineering, *Engineering of Defense Systems Guidebook*, Change 1, July 2024. On file: `.claude/skills/gov-acquisition-sme/sources/Eng-Def-Sys-Change1-July2024.pdf`.
@@ -1063,7 +1064,7 @@ The mission scenario for evaluation is the sponsor's own: twenty documents, thir
 6. DoD Instruction 5000.87, *Operation of the Software Acquisition Pathway*, 2 October 2020 (reference only; the program is not on the pathway).
 7. NAVAIR Instruction 4355.19E, *Systems Engineering Technical Review Process*, 6 February 2015. On file in `.claude/skills/gov-acquisition-sme/sources/`.
 8. NAVAIR, *SETR Process Handbook*, Version 1.0. On file in `.claude/skills/gov-acquisition-sme/sources/`.
-9. ISO/IEC/IEEE 15288:2015, *Systems and software engineering — System life cycle processes*; ISO/IEC/IEEE 15288.2, *Technical reviews and audits on defense programs*.
+9. ISO/IEC/IEEE 15288:2015, *Systems and software engineering — System life cycle processes*; IEEE 24748-7:2019, *Application of systems engineering on defense programs* (formerly IEEE 15288.1); IEEE 24748-8:2019, *Technical reviews and audits on defense programs* (formerly IEEE 15288.2).
 10. FAR 7.107, *Additional requirements for acquisitions involving consolidation, bundling, or substantial bundling*; FAR 2.101; NMCARS 5237.102.
 11. DFARS 252.227-7013, -7014, -7015, -7017; DFARS 252.211-7003.
 12. HoloSim Interactive, `docs/PROJECT_DEFINITION.md`, `docs/RTVM.md`, `docs/SDD.md`, `docs/IMPLEMENTATION_PLAN.md`, `docs/DEPENDENCIES.md`, `docs/DEPLOYMENT.md`, `docs/VALIDATION_METHODOLOGY.md`, `docs/ALGORITHM_COMPARISON.md`, `docs/MAINTAINER_GUIDE.md`, `docs/design/vehicle-recommendation-pipeline.md`, `docs/requirements-derivation/NEED-STATEMENTS.md`, `docs/requirements-derivation/DERIVED-REQUIREMENTS.md`, `docs/research/g1-fpds/G1-FINDINGS.md`, `docs/reference/Human_SE_Workflow.txt`, this repository, 2026.
