@@ -22,9 +22,11 @@ and are the client's framing of what those needs demand of the design.
    retrieval: insight connecting the need in an acquisition request to the
    best available resource on the shortest path to fulfillment.
 2. **Judgment in the grey areas.** When the probability distribution is
-   flat, the recommender must still choose deterministically, based on
-   understanding of the need and the available vehicles — and must surface
-   ambiguity rather than resolve it silently.
+   flat, the recommender must still order candidates deterministically,
+   based on understanding of the need and the available vehicles — and
+   must surface the ambiguity to the contracting officer rather than
+   resolve it silently. (Deterministic ordering is a CORE-210 obligation;
+   the ordering is evidence, not a decision.)
 3. **Distillation.** Data science, NLP, and ML must distill pedantic
    documentation down to the core need that must be filled.
 4. **Multiple separate current contracts.** Finding that pattern — FAR
