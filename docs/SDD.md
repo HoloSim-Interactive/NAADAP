@@ -293,6 +293,19 @@ alternative (a) easy to distinguish and swap in if so.
 <a id="sdd-setr-documentation-mapping"></a>
 ## SETR Documentation Mapping (DELIV-960)
 
+> **Superseded for the review sequence, 2026-09-15.** The table below was
+> built on NAVAIRINST 4355.19D (14 events) and treats PDR and CDR as
+> documents. The current instruction is 4355.19E (18 events, adding RBR and
+> FCA); PDR and CDR are events, and the SDD and Implementation Plan are the
+> artifacts those events baseline. The tailored sequence for both increments,
+> with entry and exit criteria per review, is now
+> [`docs/setr/SEMP.md` §3.2.13](setr/SEMP.md#3213-technical-reviews-and-audits).
+> "PEDDAL" was closed 2026-09-15 as client-specific terminology from a prior
+> project (see the acquisition SME skill's `navair-navy-context.md`). The
+> table is retained as the DELIV-960 record of what was verified on
+> 2026-09-03; the DELIV-960 citation change (19D to 19E) is queued for
+> SRR-II with the other RTVM amendments.
+
 Per <a href="https://github.com/HoloSim-Interactive/NAADAP/blob/main/docs/RTVM.md#rtvm-deliv-960" target="_blank">DELIV-960</a>, reconciling the verified NAVAIR Instruction 4355.19D
 review sequence (see <a href="https://github.com/HoloSim-Interactive/NAADAP/blob/main/docs/RTVM.md" target="_blank">docs/RTVM.md</a> Research notes and this role's
 memory) against this project's own pipeline artifacts. Only reviews
