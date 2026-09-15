@@ -26,7 +26,7 @@ this table matches those comments exactly — nothing is added to a
 
 | Package | Version | Project | License | Justification |
 | --- | --- | --- | --- | --- |
-| `PdfPig` | 0.1.16 | `src/Naadap.Ingestion/Naadap.Ingestion.csproj` | Apache 2.0 | Pure-managed PDF text-extraction library with no native/platform dependencies, satisfying DATA-IN-100's PDF format requirement and the single-Docker-image/no-network-at-runtime constraint (NFR-500). Ingestion-only — never referenced by `Naadap.Core` (CORE-240's zero-dependency rule). |
+| `PdfPig` | 0.1.16 | `src/Naadap.Ingestion/Naadap.Ingestion.csproj` | Apache 2.0 | Pure-managed PDF text-extraction library with no native/platform dependencies, satisfying DATA-IN-100's PDF format requirement and the single-Docker-image/no-network-at-runtime constraint (NFR-500). Ingestion-only — never referenced by `Naadap.Core`, per the SDD's zero-third-party-dependency decision for that project (which is what makes CORE-240's TP-240 inspection a manifest check; see "Projects with zero dependencies" below). |
 | `DocumentFormat.OpenXml` | 3.5.1 | `src/Naadap.Ingestion/Naadap.Ingestion.csproj` | MIT | Microsoft's official Open XML SDK; pure-managed DOCX text-extraction library satisfying DATA-IN-100's DOCX format requirement. Same ingestion-only rationale as `PdfPig` above. |
 
 ## BCL-covered needs that could have been NuGet packages, but aren't
@@ -41,9 +41,18 @@ depend on" doesn't go looking for a package that was never added:
 
 ## Projects with zero dependencies (beyond other `Naadap.*` projects)
 
-- `src/Naadap.Core` — CORE-240's zero-third-party-dependency rule for
-  the production clustering/recommendation path. Only
-  `ProjectReference`s to nothing (it is the innermost project).
+- `src/Naadap.Core` — zero third-party dependencies. **This is an
+  architectural decision recorded in `docs/SDD.md` (assembly separation
+  and project layout), not the text of CORE-240.** CORE-240 itself
+  requires only that the core clustering/recommendation path make zero
+  calls to any LLM API or LLM client library. The SDD satisfies that with
+  margin by keeping `Naadap.Core` free of *all* third-party packages, so
+  that CORE-240's inspection (TP-240) reduces to a one-command
+  dependency-manifest check instead of a code read. Adding any
+  third-party package here would therefore need both a DELIV-920
+  justification and an SDD amendment, even if the package had nothing to
+  do with LLMs. Only `ProjectReference`s to nothing (it is the innermost
+  project).
 - `src/Naadap.Cli`, `src/Naadap.Output`, `src/Naadap.Alternative` —
   `ProjectReference`s only, no `PackageReference`s.
 
