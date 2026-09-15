@@ -1,0 +1,130 @@
+# Cross-platform build and test — the ordinary CI gate.
+#
+# ---------------------------------------------------------------------------
+# DEPLOYMENT: no agent in this pipeline can push a file under
+# .github/workflows/ — the GitHub App has no `workflows` permission, and that
+# permission cannot be granted (the App does not declare it). A human copies
+# this file to .github/workflows/build-and-test.yml once, by hand.
+# ---------------------------------------------------------------------------
+#
+# NO PER-PROJECT EDITING. The `detect` job finds which toolchains are in the
+# repo and runs only the matching steps. Solutions, projects, and test targets
+# are discovered, never hardcoded. If you find yourself editing this file to
+# name a specific .sln, .csproj, or executable, stop — that's how the last two
+# copies of this workflow ended up stale in a project they didn't belong to.
+#
+# Scope: this is the plain build-and-test gate on both platforms.
+# docs/ci/windows-verification.yml is the deeper Windows-only evidence pass;
+# the two are complementary, not duplicates.
+#
+# .NET ONLY (2026-09-03). The template shipped this gate detecting both
+# CMake/CTest and .NET. NAADAP is C# on .NET 9.0 and will never contain a
+# CMakeLists.txt -- C# builds with MSBuild via the `dotnet` CLI, not CMake --
+# so those legs were dead weight that could only mislead a future agent into
+# scaffolding a second build system. Removed rather than left inert.
+#
+# The windows-latest leg is kept deliberately, even though the deliverable
+# ships as a Linux IL4 container: it is what proves the same `.sln`/`.csproj`
+# builds under Windows too, so the final Visual Studio hand-off stays a
+# packaging step rather than a port.
+
+name: build-and-test
+
+on:
+  push:
+    branches:
+      - main
+      - "issue-*"
+  pull_request:
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+# Keyed on the SHA, not the ref, and never cancelling in progress.
+# Measured on DungeonMaster 2026-08-25: agents push roughly 30 s apart
+# while a run takes 45-65 s, so a ref-scoped group with
+# cancel-in-progress cancelled 9 of 12 runs -- every commit but the last
+# in each burst went unverified, which is the opposite of what a build
+# gate is for. Note that cancel-in-progress: false ALONE is not the fix:
+# with a ref-scoped group the queued runs still collapse. The SHA key is
+# what makes every commit get its own verification.
+concurrency:
+  group: build-and-test-${{ github.sha }}
+  cancel-in-progress: false
+
+jobs:
+  detect:
+    runs-on: ubuntu-latest
+    outputs:
+      dotnet: ${{ steps.scan.outputs.dotnet }}
+      any: ${{ steps.scan.outputs.any }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: scan
+        run: |
+          CS=$(find . -name '*.csproj' -not -path './**/obj/*' -not -path './publish/*' | head -1)
+          if [[ -n "$CS" ]]; then
+            echo "dotnet=true" >> "$GITHUB_OUTPUT"
+            echo "any=true"    >> "$GITHUB_OUTPUT"
+          else
+            echo "dotnet=false" >> "$GITHUB_OUTPUT"
+            echo "any=false"    >> "$GITHUB_OUTPUT"
+          fi
+          {
+            echo "## Toolchain detected"
+            echo ""
+            echo "| Toolchain | Present |"
+            echo "| --- | --- |"
+            echo "| .NET 9.0 | $([[ -n "$CS" ]] && echo yes || echo no) |"
+            if [[ -z "$CS" ]]; then
+              echo ""
+              echo "_No .csproj found yet -- expected until the Software Engineer"
+              echo "scaffolds the solution. This gate no-ops until then._"
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  build-and-test:
+    needs: detect
+    if: needs.detect.outputs.any == 'true'
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      # ---------- .NET 9.0 ----------
+      - name: Set up .NET
+        if: needs.detect.outputs.dotnet == 'true'
+        uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: ${{ hashFiles('global.json') != '' && 'global.json' || '' }}
+          # 9.0.x, not the template's 8.0.x (2026-09-03): the client pinned
+          # .NET 9.0. A global.json in the repo still wins, so the SDK can be
+          # pinned exactly without editing this file.
+          dotnet-version: ${{ hashFiles('global.json') == '' && '9.0.x' || '' }}
+
+      - name: Build and test (.NET)
+        if: needs.detect.outputs.dotnet == 'true'
+        shell: bash
+        run: |
+          TARGET=$(find . -name '*.sln' | head -1)
+          [[ -z "$TARGET" ]] && TARGET="."
+          echo "building: $TARGET"
+          dotnet restore "$TARGET"
+          dotnet build   "$TARGET" -c Release --no-restore
+          dotnet test    "$TARGET" -c Release --no-build --logger "trx;LogFileName=tests-${{ matrix.os }}.trx" \
+            --results-directory test-results
+
+      - name: Publish test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results-${{ matrix.os }}-${{ github.sha }}
+          path: |
+            test-results/
+          retention-days: 30
+          if-no-files-found: ignore
