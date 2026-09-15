@@ -112,14 +112,23 @@ those are different checks.
 
 ## Scoring rubric (exact)
 
+**Gate before any scoring:** *"Only complete submissions that satisfy all
+submission requirements will be evaluated."* An incomplete package is not
+scored at all — every one of the twelve Phase 2 deliverables (below) must
+be present. This is not a point deduction; it is a zero.
+
 | Component | Points | Rule |
 | --- | --- | --- |
-| Runtime | 15 | Process a new document set and return candidates within 30 minutes; 0 otherwise. "A time requirement, not a validation requirement." |
-| Replicability | 10 | Solution "can be distributed across multiple containers without affecting the results. Replication must demonstrably improve performance." |
+| Runtime | 15 | "Users will be presented with a dataset of **additional** documents. The documents must be processed and candidates for recommendation must be provided in 30 minutes. This is a time requirement, not a validation requirement. **Validation will be performed live by the candidate on demo day.**" 0 if it does not run in 30 minutes. |
+| Replicability | 10 | "The solution can be distributed across multiple containers without affecting the results. **Replication must demonstrably improve performance.**" 0 "if container cannot be replicated without affecting results." See the scoring risk noted below. |
 | Compute cost | 15 / 10 / 5 / 0 | 1 core + 2 GB / 4 c + 8 GB / 8 c + 16 GB / more |
 | LLM cost | 10 / 5 / 0 | No LLM / LLM under 50k tokens per retrieval / more |
 | Initial technical evaluation | 40 | "Each data point in the dataset with a correct prediction will be granted two percentage points. Correctness is defined as a result being within a group of 20 results predetermined as correct by the **Procurement Group Innovation Lab (PGIL)** on the validation set." |
-| Live Demo Day | 10 | "Ability to identify five manually identified candidates from the validation set." |
+| Live Demo Day | 10 | "During the live demo day, the researcher will be given a **validation set similar to the test set** to test their solution against. Solutions will be evaluated... by their ability to identify five manually identified candidates from the validation set." |
+
+The validation half is split by who performs it: "Validation will be
+performed in the initial evaluation by the government technical team, and
+the remaining validation will be performed during the live demo day."
 
 Reading the validation half as an acquisition professional:
 
@@ -134,6 +143,37 @@ Reading the validation half as an acquisition professional:
 - The rubric never rewards cluster purity or a precision@k the entrant
   defined. It rewards agreement with human procurement judgment. Design
   metrics that proxy *that*.
+- **There are at least three distinct document sets, and the solution
+  never trains on the ones it is scored on.** GFI (development, after
+  Phase 1 approval); the initial-evaluation "dataset of additional
+  documents" (40 points, government team); and the Demo Day "validation
+  set similar to the test set" handed over live (10 points). "Additional"
+  and "similar to" both say the scored sets are unseen. Anything tuned to
+  the GFI corpus specifically — vocabulary, thresholds, the 0.35 cutoff —
+  has to generalize, and the validation methodology should hold out
+  documents the same way.
+- **The Demo Day run happens inside the presentation window.** The
+  robustness text says the 30-minute processing test is "performed live
+  by the candidate on demo day," and the Phase 3 text says presentation,
+  live demo, and Q&A "must be completed within 30 minutes." Read literally,
+  a pipeline that uses its full 30-minute allowance consumes the entire
+  presentation. CORE-220's 30-minute ceiling is the *scoring* bar; the
+  *practical* bar for Demo Day is a run measured in minutes, on a fresh
+  set, with the presenter narrating over it. Tech Grove question 4 asks
+  whether the timed run is separate from the presentation; design as if
+  it is not.
+- **Scoring risk on Replicability — flag for the Systems Engineer and
+  Solutions Architect.** The rubric awards the 10 points only if
+  "replication must demonstrably improve performance." NFR-520 was resolved
+  in the SDD as *independent, fully stateless full-replica runs* — N
+  containers each doing the whole job and each reproducing the same top 5.
+  That satisfies "without affecting the results." It does not on its face
+  *demonstrably improve performance*: N replicas processing one document
+  set finish no faster than one. The defensible reading is **throughput** —
+  N replicas process N document sets in the time one processes one — and
+  TP-520 should be extended to demonstrate exactly that, with a wall-clock
+  measurement, or the interpretation revisited. As written, the 10 points
+  are at risk on a literal reading.
 
 ## Critical technical criteria (verbatim, condensed)
 
@@ -164,18 +204,50 @@ directed planning against the earlier set until Tech Grove answers.
 
 Phase 1 is a Pre-Screening Questionnaire (eligibility, team, cybersecurity,
 GFI access). Only approved participants receive **Government Furnished
-Information (GFI)** and the submission portal. As of 2026-09-03 HoloSim had
-not submitted Phase 1 and had no GFI, so all development is against public
+Information (GFI)** and the submission portal. **Status 2026-09-15: the
+client is submitting Phase 1 as quickly as possible, targeting completion
+within five days.** Until approval, all development is against public
 SAM.gov documents. When GFI arrives, expect NAVAIR-internal documents whose
 vocabulary (PMA numbers, DoDAACs, NAWCAD department codes, vehicle names)
-matters for vehicle matching. Plan to re-tune against GFI immediately.
+matters for vehicle matching.
 
-Phase 2 submission package (all required): algorithm documentation,
-complete codebase, Docker container, packages and deployment instructions,
-database schema and ETL docs if applicable, method visualization, results
-visualization, performance summary metrics, validation methodology,
-external-dependency documentation. "Must not consist solely of a link to a
-website." Phase 3: PowerPoint, live demo, Q&A, all within 30 minutes.
+**GFI timing risk.** Phase 2 access is gated on Phase 1 approval, and
+approval takes an unknown time after submission. Against the 22 Sep
+worst-case deadline that leaves zero or negative days between GFI access
+and submission; against 2 Oct, perhaps a week. The earlier plan to "re-tune
+against GFI immediately" cannot be a Phase 2 dependency. The Phase 2
+package must score on public documents; GFI re-tuning is Phase 3 work. The
+challenge's own wording supports that split — Phase 2 is the "**initial**
+technical package," semifinalists advance, and Demo Day materials are due
+in November.
+
+**Phase 2 submission package — twelve items, all required** (the
+completeness gate above makes any omission a zero, not a deduction):
+1. Algorithm documentation
+2. Complete codebase
+3. Docker container
+4. Code packages and deployment instructions
+5. Database schema, if a database is used
+6. ETL process documentation, if applicable
+7. Visual representation of the analysis method
+8. Visual representation of the results
+9. Algorithm performance summary metrics
+10. Description of validation methodology
+11. Documentation of external dependencies
+12. Required technical and supporting documentation
+
+Plus three constraints on the package as a whole: code "fully
+reproducible" (runtime — CORE-210 — and, once the build-time fit exists,
+build reproducibility — need 6); "utilize Docker"; "capable of operating
+in an IL4 environment"; and "must NOT be a link to a website." Items 5
+and 6 are conditional and were withdrawn as not applicable; the vehicle
+knowledge base and its FPDS build pipeline reopen them narrowly (design
+doc, G3 amendments). A committed reference-run output bundle should
+accompany items 7–9 so an evaluator sees them without building first.
+
+Phase 3: a PowerPoint "included and available to judges," and a
+presentation "including live demo, Questions/Answers" completed within
+30 minutes. See the Demo Day timing note under the rubric.
 
 ## Questions for Tech Grove
 
@@ -203,6 +275,13 @@ depending on the answer; none should be guessed at.
    contracts suitable to be used *as* strategic vehicles" — is that the
    ordinary routing case, or a third output mode identifying existing
    contracts that could be promoted to strategic-vehicle status?
+4. **Is the 30-minute processing test separate from the 30-minute
+   presentation?** The robustness criterion says the timed run is
+   "performed live by the candidate on demo day"; the Phase 3 criterion
+   says presentation, live demo, and Q&A complete within 30 minutes. If
+   those are the same 30 minutes, the effective runtime budget is a few
+   minutes, not thirty. Also: does "replication must demonstrably improve
+   performance" mean throughput across document sets, or latency on one?
 
 ## Rules that constrain behavior
 
