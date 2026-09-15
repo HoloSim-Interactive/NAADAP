@@ -31,14 +31,21 @@ support" is not a candidate. This design closes that gap.
 ### Build (offline, outside the container, once per release)
 
 1. **Pull the historical record.** USAspending bulk archive,
-   `https://files.usaspending.gov/award_data_archive/`, monthly
-   `FY{yyyy}_All_Contracts_Full_{yyyymmdd}.zip`, ~1.2 GB per fiscal year,
-   CSV inside, no key, no rate limit. Fully offline once downloaded. Do
-   not use the FPDS ATOM feed — it retires in FY2026.
+   `https://files.usaspending.gov/award_data_archive/`, split by top-tier
+   agency: `FY{yyyy}_097_Contracts_Full_{yyyymmdd}.zip` is DoD (Navy is
+   inside it, sub-agency 1700). FY2025 is 1.04 GB compressed, ~8.6 GB
+   across five CSVs, 297 columns; locate with `?prefix=FY2025_097`
+   because the bucket listing truncates. No key, no rate limit, fully
+   offline once downloaded; stream the zip members rather than extract.
+   Do not use the FPDS ATOM feed — it retires in FY2026. (Corrected
+   2026-09-15 from a live pull; the earlier "one `_All_` file per FY"
+   description was stale.)
 2. **Filter to orders under vehicles.** Keep rows where
-   `parent_award_id_piid` is non-null (the Referenced IDV PIID — this is
-   the label) and `awarding_office_code` is in the NAVAIR set: N00019,
-   N00421, N68335, N61340, N68936, N68520. Widen to all DON offices for a
+   `awarding_sub_agency_code == 1700`, `parent_award_id_piid` is non-null
+   (the Referenced IDV PIID — this is the label), and
+   `awarding_office_code` is in the NAVAIR set: N00019, N00421, N68335,
+   N61340, N68936, N68520. Rows are transactions, so dedupe on
+   `award_id_piid` to count orders. Widen to all DON offices for a
    second, larger fit if the NAVAIR-only count is thin (see Gate 1).
 3. **Join each order to its parent vehicle.** `POST /api/v2/idvs/awards/`
    (no key) returns the IDV's own attributes: `last_date_to_order`,

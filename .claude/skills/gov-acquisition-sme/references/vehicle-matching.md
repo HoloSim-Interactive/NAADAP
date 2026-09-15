@@ -45,13 +45,29 @@ with UEIs; provenance (URL, retrieval date, hash) on every field.
 
 Where the data comes from, in offline-friendly form:
 
-- **USAspending bulk archive**: monthly zip files named
-  `FY{yyyy}_All_Contracts_Full_{yyyymmdd}.zip` with `parent_award_id_piid`,
-  `awarding_office_code` and name, `product_or_service_code`,
-  `naics_code`, `type_of_set_aside`, `idv_type`, `award_description`,
-  place of performance. The Referenced IDV PIID on every order is the
-  authoritative "which vehicle absorbed it" label, which makes historical
-  orders the natural training and validation set.
+- **USAspending bulk archive** — **structure corrected 2026-09-15 from a
+  live pull**: the archive is split by top-tier agency code, not one file
+  per fiscal year. Files are `FY{yyyy}_{agency}_Contracts_Full_{yyyymmdd}.zip`;
+  DoD is agency `097`, and Navy contracts live inside it (filter on
+  `awarding_sub_agency_code == 1700`, the Department of the Navy). The
+  FY2025 DoD file is 1.04 GB compressed, ~8.6 GB uncompressed across five
+  CSVs of ~1.9 GB each, 297 columns. The S3 bucket listing truncates at
+  1,000 keys, so locate a file with `?prefix=FY2025_097` rather than
+  scanning the root. Column names that matter: `award_id_piid`,
+  `parent_award_id_piid` (the Referenced IDV PIID), `awarding_office_code`
+  and `_name`, `product_or_service_code`, `naics_code`,
+  `type_of_set_aside_code`, `idv_type_code`, `award_type_code`,
+  `action_type_code`, `extent_competed_code`, `number_of_offers_received`,
+  `contracting_officers_determination_of_business_size_code`, and two
+  description fields — `transaction_description` (per action) and
+  `prime_award_base_transaction_description` (the base award) — **not**
+  `award_description`, which does not exist in the bulk schema. DoD-only
+  extras: `dod_acquisition_program_description`,
+  `dod_claimant_program_description`. Rows are *transactions* (actions,
+  including modifications), so dedupe on `award_id_piid` to count orders.
+  The Referenced IDV PIID on every order is the authoritative "which
+  vehicle absorbed it" label, which makes historical orders the natural
+  training and validation set. Stream the zip members; do not extract.
 - **USAspending API** `POST /api/v2/idvs/awards/` returns every child order
   of an IDV with PIID, description, dates, `last_date_to_order`,
   obligations, and offices. No key required.
