@@ -1,0 +1,1604 @@
+# E — Interpretable Rule Learning and Case-Based Reasoning
+
+Research area E for NAADAP. Every citation below was retrieved and read (full text where a PDF
+was obtainable; metadata cross-checked against Crossref). Items I could not verify are marked
+**UNVERIFIED**. Nothing here is from a newspaper or a vendor blog.
+
+**Evidence standard used.** For each paper I state author / year / exact title / venue / DOI or
+arXiv ID *as actually retrieved*. Where I quote, the quote is from the retrieved full text.
+Where I report a mechanism (bounds, objective, complexity) I read the section that defines it.
+
+---
+
+## 0. Executive orientation
+
+NAADAP's binding constraint is not accuracy. It is that a contracting officer must be able to
+sign a determination, and survive a GAO protest debrief, on the basis of the model's stated
+rationale. That is a *legal sufficiency* requirement on the rationale, not a *statistical*
+requirement on the prediction. This is precisely the distinction Rudin (2019) draws between an
+**interpretable model** (the model's computation *is* the rationale) and an **explained black
+box** (a second model guesses at the first one's rationale). Section 1 gets that argument exactly
+right, including the counterarguments, because the project's whole design rationale leans on it.
+
+Sections 2–6 give mechanism, objective, complexity, determinism and C# reimplementability for
+each candidate family. Section 7 ranks them for NAADAP.
+
+---
+
+## 1. The interpretability position (Rudin 2019)
+
+### 1.1 Verified citation
+
+- **Cynthia Rudin (2019).** "Stop explaining black box machine learning models for high stakes
+  decisions and use interpretable models instead." *Nature Machine Intelligence* **1**, 206–215.
+  DOI **10.1038/s42256-019-0048-x**. arXiv preprint **arXiv:1811.10154** (v1 26 Nov 2018,
+  v2 5 Dec 2018, v3 22 Sep 2019). Verified: Crossref record retrieved; arXiv v3 PDF (20 pp)
+  downloaded and read in full.
+  - Note: the arXiv version is *substantially longer* than the Nature MI version (it carries
+    five appendices A–E that the journal version does not). The appendices matter for us —
+    Appendix E is directly about algorithmic stability, i.e. NAADAP's determinism requirement.
+  - A closely related earlier abstract exists under the title "Please Stop Explaining Black Box
+    Models for High Stakes Decisions" (NeurIPS 2018 workshop). Treat that as the same argument
+    at an earlier stage; cite the Nature MI paper.
+
+Companion / successor, verified:
+- **Rudin, Chen, Chen, Huang, Semenova, Zhong (2022).** "Interpretable machine learning:
+  Fundamental principles and 10 grand challenges." *Statistics Surveys* **16**, 1–85.
+  DOI **10.1214/21-SS133**. arXiv:2103.11251. Its Challenge 4 is literally *"Modern case-based
+  reasoning, including neural networks and matching for causal inference"* — i.e. Rudin's own
+  group treats CBR as a first-class interpretable-model family, not a fallback. Challenges 1–3
+  are optimal sparse logical models, optimal scoring systems, and constrained GAMs. This single
+  paper maps almost exactly onto NAADAP's option space.
+
+### 1.2 Rudin's definitions (verbatim from the retrieved text)
+
+> "A black box model could be either (i) a function that is too complicated for any human to
+> comprehend, or (ii) a function that is proprietary."
+
+> "As the term is presently used in its most common form, an explanation is a separate model that
+> is supposed to replicate most of the behavior of a black box."
+
+Interpretability, by contrast, is not a property she defines universally; she is explicit that
+*"interpretability usually translates in practice to a set of application-specific constraints on
+the model."* Challenge #3 in the paper is literally "Define interpretability for specific domains
+and create methods accordingly." **This is directly load-bearing for NAADAP:** the project does
+not get to inherit a generic definition of "interpretable." It must write down the
+domain-specific constraint set — for us, roughly: *the rationale must name a finite set of
+citable conditions, each traceable to a document span or a structured field, in a form a CO can
+restate in a determination.* That constraint set is the deliverable, and the model class is
+chosen to satisfy it.
+
+### 1.3 The five arguments against post-hoc explanation — as actually written
+
+Rudin numbers them (i)–(v) under "Key Issues with Explainable ML":
+
+**(i) The accuracy–interpretability trade-off is a myth for structured data with meaningful
+features.**
+> "When considering problems that have structured data with meaningful features, there is often
+> no significant difference in performance between more complex classifiers (deep neural networks,
+> boosted decision trees, random forests) and much simpler classifiers (logistic regression,
+> decision lists) after preprocessing."
+
+She attacks the DARPA XAI BAA trade-off figure directly: *"This not a 'real' figure, in that it
+was not generated by any data. The axes have no quantification."* Her NYC power-grid case study:
+algorithms differed by **at most 1%** on a static dataset, while iterative interpretation and
+reprocessing produced large gains — *"In those cases, the accuracy/interpretability tradeoff is
+reversed – more interpretability leads to better overall accuracy, not worse."*
+
+**(ii) Explanations are not faithful — "Explanations must be wrong."** This is the core logical
+argument and it is short:
+> "Explanations must be wrong. They cannot have perfect fidelity with respect to the original
+> model. If the explanation was completely faithful to what the original model computes, the
+> explanation would equal the original model, and one would not need the original model in the
+> first place, only the explanation."
+
+And the consequence that matters for a protest:
+> "An explanation model that is correct 90% of the time is wrong 10% of the time. If a tenth of
+> the explanations are incorrect, one cannot trust the explanations, and thus one cannot trust
+> the original black box."
+
+**The COMPAS/ProPublica example is her demonstration that a high-agreement explanation can still
+be about the wrong features.** ProPublica fitted a *linear* explanation model to COMPAS that
+depended on race, then accused COMPAS of depending on race. Rudin: *"COMPAS seems to be
+nonlinear, and it is entirely possible that COMPAS does not depend on race (beyond its
+correlations with age and criminal history). ProPublica's linear model was not truly an
+'explanation' for COMPAS."* Her remedy is terminological: stop calling these explanations; call
+them *"summaries of predictions," "summary statistics," or "trends."*
+
+> **For NAADAP this is the whole ballgame.** A SHAP attribution over a vehicle-recommendation
+> model is a summary statistic about the model. A protest does not ask "what did the model
+> weight?" It asks "on what basis did the Government determine this vehicle was suitable for this
+> requirement?" Those are different questions, and only the second is answerable by a rule that
+> fired.
+
+**(iii) Explanations do not give enough detail — the saliency-map argument.**
+> "Saliency maps can be useful to determine what part of the image is being omitted by the
+> classifier, but this leaves out all information about how relevant information is being used.
+> Knowing where the network is looking within the image does not tell the user what it is doing
+> with that part of the image."
+
+Her Figure 2 shows saliency maps for "Siberian husky" and "transverse flute" on the same image
+that are *essentially identical*. She also flags a publication-practice problem: showing the
+explanation only for the correct class *"can instill a false sense of confidence in the
+explanation method and in the black box."*
+
+**(iv) Black boxes cannot be combined with off-database information.** A decision maker often has
+knowledge not in the feature vector. With a transparent model they can see what is and is not
+accounted for. Her example: COMPAS *does not consider the seriousness of the current crime*, and
+judges are told to combine it manually — *"Actually, it is possible that many judges do not know
+this fact."*
+
+> **NAADAP analogue:** a CO will always have off-model knowledge (an incumbent's performance, a
+> small-business goal, a pending vehicle recompete, an on-ramp window). If the model is
+> transparent, the CO can see the rule didn't consider it and adjust with a documented rationale.
+> If it's a score, the CO cannot calibrate and is reduced to either rubber-stamping or ignoring.
+
+**(v) Complicated pipelines invite human error.** COMPAS needs 130+ factors; *"If typographical
+errors by humans entering these data into a survey occur at a rate of 1%, then more than 1 out of
+every 2 surveys on average will have at least one typographical error."* She cites the argument
+that this is a form of **procedural unfairness** — identical individuals randomly get different
+outcomes. Also: with an explained black box, *"now we must troubleshoot two models rather than
+one."*
+
+### 1.4 The Rashomon-set argument (why accurate interpretable models should exist)
+
+Rudin explicitly declines an Occam's-razor argument and gives a function-class one:
+
+> "Consider that the data permit a large set of reasonably accurate predictive models to exist.
+> Because this set of accurate models is large, it often contains at least one model that is
+> interpretable."
+
+The Rashomon set = the set of models within some tolerance of the best achievable accuracy. If
+several very different model classes (RF, NN, SVM) perform similarly, the set is large and
+diverse, and *"it probably contains functions that can be approximated well by simpler
+functions."* Formalised in:
+- **Semenova, Rudin, Parr (2022).** "On the Existence of Simpler Machine Learning Models."
+  *2022 ACM Conference on Fairness, Accountability and Transparency (FAccT '22)*.
+  DOI **10.1145/3531146.3533232**. Verified via Crossref.
+- **Semenova, Chen, Parr, Rudin (2023).** "A Path to Simpler Models Starts With Noise."
+  *NeurIPS 36*. DOI 10.52202/075280-0149. Verified via Crossref. (Result: higher label noise →
+  larger Rashomon set → simpler models suffice. Relevant: NAADAP's weak labels from historical
+  award records are *noisy by construction*, which by this result argues **for** simple models,
+  not against.)
+
+### 1.5 Rudin's own list of counterarguments ("Key Issues with Interpretable ML")
+
+She states three, and I quote her framing rather than a paraphrase because the team will be
+asked about them:
+
+**(i) IP / business-model.** *"Companies that charge for individual predictions could find their
+profits obliterated if an interpretable model were used instead."* She notes CORELS matched
+COMPAS on Broward County data using only age, priors and optionally sex.
+> Irrelevant-to-adverse for NAADAP: the Government *wants* the model transparent. This
+> counterargument does not apply to us, which is worth saying explicitly in the design rationale.
+
+**(ii) Interpretable models cost more effort — computation and domain expertise.**
+*"Solving constrained problems is generally harder than solving unconstrained problems... for
+high-stakes decisions, analyst time and computational time are less expensive than the cost of
+having a flawed or overly complicated model."* She concedes interpretability constraints give
+optimization problems *"proven to be computationally hard in the worst case,"* while
+*"Explanation methods, on the other hand, are usually based on derivatives, which lead to easier
+gradient-based optimization."*
+> **This one does apply to NAADAP, hard.** 1 CPU core / 2 GB / 30 minutes is exactly the budget
+> where "computationally hard in the worst case" bites. Section 7's ranking is driven by which
+> methods have *anytime* behaviour (return a valid incumbent plus a bound when the clock runs
+> out) rather than all-or-nothing.
+
+**(iii) Black boxes seem to find hidden patterns.** Her reply: *"If the pattern in the data was
+important enough that a black box model could leverage it to obtain better predictions, an
+interpretable model might also locate the same pattern and use it."* Conditional on the model
+class being rich enough — which is the researcher's job.
+
+She also rebuts two adjacent pro-black-box arguments:
+- **Security through obscurity** ("don't reveal it or it'll be gamed"): *"the reason a system may
+  be gamed is because it most likely was not designed properly in the first place."* Quoting Chang
+  et al. on ratings: transparency aligns gaming with genuine improvement.
+- **Counterfactual explanations suffice** (Appendix C): the minimal-change counterfactual is not
+  unique and the *lowest-cost* one depends on the individual's private cost function, which is
+  *"generally very difficult to obtain; worse, the cost information could actually change as the
+  user attempts to follow the policy."*
+
+### 1.6 Appendix D and Appendix E — the two appendices NAADAP should actually read
+
+**Appendix D: "Interpretable Models that Provide Smaller-Than-Global Explanations."** A globally
+large DNF model can give a *tiny per-instance* rationale, because any single satisfied
+conjunction is a sufficient reason:
+> "Even if we had hundreds of conjunctions within the model, only one of these needs to be shown
+> to the client; if any conjunction is true, that conjunction is a defining reason why the client
+> would be denied a loan."
+
+> **Directly applicable.** NAADAP does not need a globally 5-rule model. It needs, per
+> recommendation, *one satisfied conjunction it can print*. That relaxes the sparsity constraint
+> enormously and makes rule sets (DNF) more attractive than a single short rule list.
+
+**Appendix E: "Algorithm Stability."** This is the appendix that cuts against NAADAP's
+determinism requirement and the team should know it:
+> "A common criticism of decision trees is that they are not stable, meaning that small changes
+> in the training data lead to completely different trees... I view the lack of algorithmic
+> stability as an advantage rather than a disadvantage. If the lack of stability is indeed caused
+> by a large Rashomon effect, it means that domain experts can add more constraints to the model
+> to customize it without losing accuracy."
+
+She notes *"Adding regularization to an algorithm increases stability, but also limits flexibility
+of the user"* and *"not all researchers working in interpretability agree with this general
+sentiment."*
+
+> **Read this carefully.** Rudin's "instability is fine" applies to *which of several equally good
+> models you ship*, decided once at design/training time by a human. NAADAP's >=95% determinism
+> requirement is about *inference-time reproducibility of the top-5 for a fixed shipped model* —
+> a different thing. The correct design consequence: **freeze the model.** Do the (possibly
+> unstable, possibly slow) learning offline, have a human review and accept the rule set, ship
+> the rules as an artifact, and make the container's runtime path pure rule evaluation + retrieval.
+> Then determinism is a property of an evaluator, not of an optimizer, and it is trivially 100%.
+> If instead the container re-learns rules at run time, determinism must be engineered into the
+> search (fixed seed, fixed tie-break, fixed iteration order over hash containers), and the
+> Rashomon effect means near-ties will be common and tie-breaking will be *load-bearing*.
+
+### 1.7 Independent counterarguments from the literature (not Rudin's own)
+
+Verified, credible, and genuinely opposed:
+
+- **Bordt, Finck, Raidl, von Luxburg (2022).** "Post-Hoc Explanations Fail to Achieve their
+  Purpose in Adversarial Contexts." *FAccT 2022*. arXiv:**2201.10295**. Verified by fetch.
+  Argument: most regulated settings are adversarial — *"the explanation provider and receiver have
+  opposing interests and incentives, so that the provider might manipulate the explanation for her
+  own ends."* Because post-hoc explanations are ambiguous, they cannot constrain manipulation, so
+  they cannot discharge a legal transparency duty. Authors recommend procedural requirements,
+  audits, or use restrictions instead. **This is not a counterargument to Rudin — it is
+  independent corroboration from a law+ML team, and it is the single most citable paper for
+  NAADAP's protest-defensibility framing, because a protest *is* the adversarial context.**
+
+- **Slack, Hilgard, Jia, Singh, Lakkaraju (2020).** "Fooling LIME and SHAP: Adversarial Attacks on
+  Post hoc Explanation Methods." *AAAI/ACM Conference on AI, Ethics, and Society (AIES '20)*.
+  arXiv:**1911.02508**. Verified by fetch. Mechanism: because LIME and Kernel SHAP probe the model
+  on *perturbed* inputs that are off the data manifold, an adversary can "scaffold" a biased
+  classifier with an out-of-distribution detector that routes perturbed points to an innocuous
+  surrogate. The deployed model stays biased on real data; the explanation is arbitrary and
+  attacker-chosen. **Implication for NAADAP: a SHAP value is not evidence about the model's
+  behaviour on real inputs; it is evidence about the model's behaviour on a synthetic perturbation
+  distribution the analyst chose. That is a fatal admission under cross-examination.**
+
+- **Krishna, Han, Gu, Wu, Jabbari, Lakkaraju (2022).** "The Disagreement Problem in Explainable
+  Machine Learning: A Practitioner's Perspective." arXiv:**2202.01602**. Verified by search
+  (arXiv listing + dblp record retrieved; I did not read the full PDF, so treat the *detailed*
+  findings as second-hand, though the existence, authorship and thesis are verified). Finding:
+  different post-hoc explainers routinely disagree on the same prediction, and practitioners
+  resolve the conflict by ad-hoc heuristics or by picking the one they like.
+  **Protest implication: opposing counsel runs a second explainer, gets a different answer, and
+  asks why the Government chose the one it did.**
+
+**Genuinely contrary positions (steel-manning the other side):**
+- *"In Defence of Post-hoc Explainability"* (arXiv:2412.17883) and *"In defence of post-hoc
+  explanations in medical AI"* (arXiv:2504.20741, with an apparent PMC version). **UNVERIFIED** —
+  I saw these only in search listings and did not retrieve either full text or confirm peer-reviewed
+  venue. Their reported argument: post-hoc explanations still improve *functional* understanding
+  and human–AI team accuracy even without fidelity, and for model classes with no
+  interpretable-by-design formulation (LLMs, foundation models) they are the only tool available.
+  If the team wants to cite a counter-position, verify these first.
+- **Challenging the Performance-Interpretability Trade-Off** — *Business & Information Systems
+  Engineering*, DOI 10.1007/s12599-024-00922-2. **UNVERIFIED** (search listing only). Reported to
+  find interpretable models competitive on tabular data, i.e. it *supports* Rudin.
+- The strongest honest counterargument to Rudin for NAADAP is her own (ii): interpretable models
+  need domain expertise and hard optimization, and NAADAP has ~tens of labels and 30 minutes on
+  one core. That is an argument about *budget*, not about *principle*, and it is answered by the
+  freeze-the-model design in §1.6.
+
+---
+
+## 2. Rule lists and rule sets
+
+### 2.1 CN2 (Clark & Niblett 1989)
+
+- **Peter Clark, Tim Niblett (1989).** "The CN2 Induction Algorithm." *Machine Learning* **3**(4),
+  261–283. DOI **10.1023/A:1022641700528** (alias 10.1007/BF00116835). Verified via Crossref.
+
+**Mechanism.** CN2 hybridises AQ's coverage loop with ID3's noise handling. Outer loop: repeatedly
+find the current "best" complex (a conjunction of attribute-value tests), remove the examples it
+covers, append the rule; stop when no acceptable complex is found. Inner search: **beam search**
+of width *k* over conjunctions, specialising the beam by adding one selector at a time. Quality of
+a complex = entropy (original) or **Laplace accuracy estimate** (the 1991 revision, Clark &
+Boswell), with a **significance test** (likelihood-ratio statistic against the expected class
+distribution) as an acceptance filter so noise-driven complexes are rejected. The original produces
+an *ordered* rule list (decision list); the 1991 revision adds an unordered variant.
+
+**Complexity.** Beam search: O(beam width × attributes × values × examples) per specialisation
+round, times the number of rounds, times the number of rules. Linear in examples per evaluation;
+no global search.
+
+**Determinism.** Deterministic *given a total order on attributes and values for tie-breaking in
+the beam.* Beam ties are common. Must fix the ordering explicitly.
+
+**C# reimplementability.** Easy — a few hundred lines. No third-party dependency. The only
+numerical subtlety is the likelihood-ratio significance statistic (needs a chi-square tail, ~30
+lines or a lookup table).
+
+**Assessment for NAADAP.** Simple, cheap, fully controllable. Its weakness is exactly Rudin's
+Challenge #1 critique of greedy rule induction: *"These heuristic methods tend to be inaccurate
+and/or uninterpretable because they do not choose a globally best choice... They might use 200
+logical conditions when the same accuracy could be obtained with 5."* With ~tens of labels, a
+greedy learner will overfit ferociously. **Useful as a baseline and as a rule *generator* whose
+output is then filtered; not as the final decision procedure.**
+
+### 2.2 RIPPER (Cohen 1995)
+
+- **William W. Cohen (1995).** "Fast Effective Rule Induction." In *Proceedings of the Twelfth
+  International Conference on Machine Learning (ICML 1995)*, Tahoe City, CA, pp. 115–123.
+  DOI **10.1016/B978-1-55860-377-6.50023-2**; ACM DL 10.5555/3091622.3091637. Verified: venue,
+  pages and DOI confirmed via multiple indexes.
+  - **Source caveat:** I could not retrieve a clean copy of Cohen's original PDF. The mechanism
+    below is reconstructed from a detailed secondary technical summary (J. M. Franczak, "Fast
+    Effective Rule Induction Overview," CS522, 2000, 16 pp, retrieved and read in full) that
+    quotes the metrics and algorithm steps directly, cross-checked against the CORELS paper's
+    characterisation of RIPPER. Every formula below appears in that summary. **Verify against the
+    original before putting a formula in a NAADAP design doc.**
+
+**Mechanism, in order.**
+
+1. **Base learner IREP\*** (Cohen's improvement on Fürnkranz & Widmer's IREP, 1994):
+   - Split the growing set / pruning set (conventionally 2:1).
+   - **GrowRule**: start from the empty rule; repeatedly add the condition (`A_n = v`,
+     `A_c <= θ`, `A_c >= θ`, θ a value occurring in the data) maximising **FOIL's information
+     gain**, until the rule covers no negatives in the growing set. Cohen also imposes IREP2's
+     stop at rule error rate > 50%.
+   - **PruneRule**: consider deleting **any final sequence** of conditions (IREP deleted only a
+     single final condition) and take the deletion maximising the **IREP\* rule-value metric**
+     `v*(Rule) = (p − n) / (p + n)` on the pruning set. Repeat until no deletion improves it.
+     (For contrast: IREP used `v = (p + (N − n)) / (P + N)`; IREP2 used `v' = p / (p + n)`.)
+   - **Stopping criterion: MDL.** After each rule is added, compute the total description length
+     of the rule set plus the exceptions. Stop when the current DL exceeds the smallest DL seen so
+     far by more than *d* bits. Cohen's experiments use **d = 64**.
+
+2. **Optimization phase.** For each rule `R_i` in learned order, build two alternatives:
+   - **Replacement** `R_i'`: grow *from the empty rule* and prune, where pruning is guided to
+     minimise the error of the *entire rule set* `R_1,...,R_i',...,R_k` on the pruning data.
+   - **Revision** `R_i''`: same, but grown by greedily adding conditions *to `R_i`* rather than
+     to the empty rule.
+   Choose among `R_i`, `R_i'`, `R_i''` by the **MDL metric**: insert each variant, delete rules
+   that increase total DL, compare total DL of examples + simplified rule set.
+
+3. **RIPPER*k***: run IREP\* → optimize → cover remaining positives with IREP\* → re-optimize;
+   repeat *k* times. RIPPER2 (k=2) is the usual default and was the best-performing setting.
+
+**Complexity.** **O(n log² n)** for IREP\* (Cohen's analysis; compare REP at O(n⁴) and C4.5rules
+at O(n³)). The optimization passes are linear in examples and rule-set size, so RIPPER*k* stays
+O(n log² n) up to constants. Cohen reports lower-or-equal error vs C4.5rules on **22 of 37**
+benchmarks with near-linear scaling.
+
+**Determinism.** Deterministic **only if** (a) the grow/prune split is deterministic (it is
+conventionally a *random* stratified split — this is the real randomness source and must be
+replaced by a fixed deterministic partition or a seeded RNG), and (b) FOIL-gain ties and pruning
+ties break by a fixed order. The MDL computation is deterministic. So: **deterministic with two
+explicit engineering interventions**, neither difficult.
+
+**C# reimplementability.** Very feasible; on the order of 1–2k lines. The delicate part is
+Cohen's exact MDL encoding for a rule set (it's the C4.5rules encoding, and getting the bit
+counts right takes care). A workable substitute for NAADAP is a plain complexity penalty
+`λ × (number of conditions)` — which is Rudin's Equation (1) anyway — at the cost of departing
+from the published algorithm.
+
+**Existing implementations.**
+- `imoscovitz/wittgenstein` — Python, **MIT**, ~115 stars, not archived, actively maintained.
+  Implements IREP and RIPPER*k*. Useful as an offline reference oracle to validate a C# port.
+- Weka's `JRip` — Java, GPL. The canonical reference implementation. Also usable offline as an
+  oracle.
+- No mature C#/.NET implementation found.
+
+**Assessment for NAADAP.** RIPPER is the best-understood, cheapest, most reimplementable rule
+*set* learner. Its structural weakness is the same as CN2's — it is greedy plus local repair, so
+with ~tens of labels the MDL stopping rule will typically cut it to a handful of rules, which may
+actually be *fine*. Note CORELS' own framing: *"The RIPPER algorithm (Cohen, 1995) is similar to
+the Bayesian tree methods in that it grows, prunes, and then locally optimizes."* It has no
+optimality certificate. For a protest you don't need an optimality certificate — you need the
+rule and the evidence — but you *do* need to be able to answer "why this rule and not a better
+one?", and "greedy heuristic" is a weaker answer than "provably optimal under this objective."
+
+### 2.3 Bayesian Rule Lists (Letham, Rudin, McCormick, Madigan 2015)
+
+- **Benjamin Letham, Cynthia Rudin, Tyler H. McCormick, David Madigan (2015).** "Interpretable
+  classifiers using rules and Bayesian analysis: Building a better stroke prediction model."
+  *The Annals of Applied Statistics* **9**(3), 1350–1371. DOI **10.1214/15-AOAS848**.
+  arXiv:**1511.01644**. Verified: Crossref record + full arXiv PDF (23 pp) read.
+
+**Mechanism.**
+1. **Pre-mine antecedents** with frequent-itemset mining (FP-Growth; Apriori/Eclat cited as
+   alternatives) to get a candidate set *A*.
+2. **Generative model.** A Bayesian decision list `d` is an ordered subset of *A*. Each rule's
+   consequent is a multinomial with a Dirichlet(α) prior; the posterior for rule *j* is
+   `θ_j | x,y ~ Dirichlet(α + N_j)` where `N_j` counts labels captured by antecedent *j* in
+   context. Default rule gets `Dirichlet(α + N_0)`.
+3. **Hierarchical prior over list structure.** List length *m* ~ **truncated Poisson(λ)** (chosen
+   because `E[m] ≈ λ`, so λ is "the prior belief of the list length"); antecedent cardinalities
+   `c_1..c_m` ~ truncated Poisson(η), so η is "the prior belief of the antecedent cardinality."
+   This is what enforces sparsity — not a regulariser, a prior.
+4. **Inference: Metropolis–Hastings MCMC.** Proposals are (1) *move* an antecedent to a different
+   position, (2) *add* an antecedent from *A*, (3) *remove* one. Which antecedent and which
+   position are *"chosen uniformly at random at each step"*; the move/add/remove choice is also
+   uniform. Proposal probabilities:
+   `Q(d*|d_t,A) = 1/(|d_t|(|d_t|−1))` (move), `1/((|A|−|d_t|)(|d_t|+1))` (add), `1/|d_t|` (remove).
+5. **Point estimate.** *"For every MCMC run, we ran 3 chains, each initialized independently from
+   a random sample from the prior. We discarded the first half of simulations as burn-in, and then
+   assessed chain convergence using the Gelman–Rubin convergence diagnostic applied to the log
+   posterior density... We considered chains to have converged when the diagnostic R̂ < 1.05."*
+   **BRL-point** = the sampled list whose length *m* and mean antecedent cardinality *c̄* match the
+   posterior means (rounded). Alternative: the MAP list.
+
+**Objective.** Maximise the posterior `p(d | x, y, A, α, λ, η)`; no closed-form optimum, no bound.
+
+**Complexity.** Cost = (itemset mining) + (chains × iterations × per-step likelihood update).
+Per-step cost is the expensive part; the whole point of SBRL is to make it cheap.
+
+**Determinism — this is disqualifying in its raw form.** Three independent chains, each
+*initialised from a random draw from the prior*, with *uniformly random* proposals, and a point
+estimate selected from the pooled post-burn-in samples. Two runs with different seeds give
+different lists, and near-ties in the posterior (the Rashomon effect again) make that likely, not
+rare. It can be made *bit-reproducible* by fixing the seed and the RNG implementation — but that
+is reproducibility-by-fiat, not stability: a one-record change to the training data reshuffles the
+chain and can change the output list entirely. **Under a protest, "we fixed the random seed to
+42" is a bad sentence to have to say.** It is also a bad sentence to have to say to a judge
+comparing two runs of the tool.
+
+**C# reimplementability.** The MCMC itself is easy (a few hundred lines). The Dirichlet–multinomial
+marginal likelihood needs log-gamma, which is ~20 lines (Lanczos) — no dependency needed. FP-Growth
+in C# is a few hundred lines. So it *is* reimplementable; the problem is not C#, it is determinism.
+
+### 2.4 Scalable Bayesian Rule Lists (Yang, Rudin, Seltzer)
+
+- **Hongyu Yang, Cynthia Rudin, Margo Seltzer (2017).** "Scalable Bayesian Rule Lists."
+  arXiv:**1602.08610** (submitted 27 Feb 2016; revised 3 Apr 2017). Also ICML 2017,
+  PMLR 70:3921–3930. Verified: full arXiv PDF (31 pp) retrieved and read; note the specific
+  version string `1602.08610v3` does **not** resolve on arXiv (I checked) — cite the bare ID.
+
+**What changed vs BRL.**
+1. **Bit-vector representation of all set operations.** Each rule's captured set is a bit vector;
+   MCMC moves become AND/OR/NOT over machine words. *"we moved the implementation from Python to
+   C, representing the bit vectors..."* — cumulative speedup **"over two orders of magnitude"**
+   over the original Python.
+2. **Theorem 1** — an upper bound on the length `m*` of *any* MAP rule list, given the
+   hyperparameters. Prunes the list-length search space a priori.
+3. **Theorem 2** — a bound on the posterior achievable by any list whose *first* rule is a given
+   rule. Implemented as: *"for each random restart, the initial rule in the list is checked against
+   the bound of Theorem 2"* and rejected if it cannot beat the incumbent `v*`.
+4. Experimental setting: **20 chains × 5,000 MCMC iterations**.
+
+**Determinism.** **Still MCMC with random restarts.** SBRL is *faster*, not *deterministic*. Same
+verdict as BRL. (Reference implementation: `Hongyuy/sbrlmod`, C — used as the SBRL baseline in the
+CORELS paper. License **UNVERIFIED**; I was unable to load the GitHub page for this repo.)
+
+### 2.5 CORELS — Certifiably Optimal Rule Lists ⭐
+
+- **Elaine Angelino, Nicholas Larus-Stone, Daniel Alabi, Margo Seltzer, Cynthia Rudin (2018).**
+  "Learning Certifiably Optimal Rule Lists for Categorical Data." *Journal of Machine Learning
+  Research* **18**(234), 1–78. arXiv:**1704.01701**. Verified: full 78-page JMLR PDF retrieved and
+  read (objective, all bounds, data structures, experiments).
+- Short conference version: **Angelino, Larus-Stone, Alabi, Seltzer, Rudin (2017).** "Learning
+  Certifiably Optimal Rule Lists." *KDD '17*, pp. 35–44. DOI **10.1145/3097983.3098047**.
+  Verified via Crossref.
+
+**Objective (§3.2, Eq. 4).** For a rule list `d = (d_p, δ_p, q_0, K)`:
+
+```
+R(d, x, y) = ℓ(d, x, y) + λK
+```
+
+`ℓ` is the misclassification *fraction*, `K` the number of rules, λ a small constant. Rudin's
+gloss: *"λ = 0.01 can be thought of as adding a penalty equivalent to misclassifying 1% of data
+when increasing a rule list's length by one association rule."* Label predictions `q_k` are set
+empirically to the majority label captured by rule *k* in context — they are not free variables.
+The method is *"technically an associative classification method since it leverages pre-mined
+rules."*
+
+**The optimality certificate.** CORELS runs branch-and-bound over prefixes until it has *"either
+examined or eliminated every rule list from consideration. Thus, CORELS terminates with the optimal
+rule list and a certificate of optimality."* The certificate is the exhaustion of the queue: every
+unexplored region was provably pruned by a bound that cannot be beaten by the incumbent `R_c`.
+**This is what you say in a debrief.** Not "the model scored it highest" — *"under the stated
+objective (error + λ × length) over the stated candidate-condition set, no shorter or more
+accurate rule list exists, and the search proved it."*
+
+**The bounds, as enumerated by the paper.**
+
+| # | Name | §/Thm | What it does |
+|---|---|---|---|
+| 1 | **Hierarchical objective lower bound** | §3.4, Thm 1 | `b(d_p,x,y) ≡ ℓ_p(d_p,δ_p,x,y) + λK ≤ R(d',x,y)` for *any* list `d'` whose prefix starts with `d_p`. Drop the default-rule error term; what remains is monotone under extension. **This is the central bound.** If `b(d_p) ≥ R_c`, prune the whole subtree. |
+| 2 | **One-step lookahead** | §3.4, Lemma 2 | Immediate corollary: if `b(d_p) + λ ≥ R_c`, no *extension* can win either. |
+| 3 | **Trivial upper bound on prefix length** | §3.5, Prop 3 | Length is bounded by the regulariser. |
+| 4 | **Upper bound on prefix length from `R_c`** | §3.5, Thm 4 | The incumbent objective caps how long any optimal prefix can be. |
+| 5 | **Prefix-specific upper bound on length** | §3.5, Thm 6 | Generalises the lookahead bound. |
+| 6 | **Bounds on remaining prefix evaluations** | §3.6, Thm 7, Props 8–9 | Uses queue state to bound remaining work — gives an *anytime progress estimate*. |
+| 7 | **Lower bound on antecedent support** | §3.7, Thm 10 | Every rule in an optimal list must capture ≥ λ of the data. **This is what licenses mining rules from frequent itemsets without losing the guarantee.** (Bound originates in Rudin & Ertekin's MIP formulation.) |
+| 8 | **Lower bound on accurate antecedent support** | §3.7, Thm 11 | Every rule must *correctly* classify above a threshold. Strictly tighter than Thm 10. |
+| 9 | **Antecedent rejection propagation** | §3.9, Thm 12, Props 13–14 | A rejected antecedent stays rejected across a whole class of related prefixes. |
+| 10 | **Equivalent support bound** | §3.10, Thm 15 + Cor 16 | If two prefixes capture the *same data*, keep only the lower-objective one. |
+| 11 | **Permutation / symmetry-aware bound** | §3.11 | Special case of Thm 15: prefixes equal up to permutation capture the same data. A set of *K* antecedents generates *K!* permutations; keep one. **The paper is emphatic: "without our use of a novel symmetry-aware map, we are unable to solve most problems of reasonable scale."** On ProPublica this cut the space from ~10¹² to ~3.9×10⁸. |
+| 12 | **Similar support bound** | §3.13, Thm 18 | Relaxation of Thm 15 for near-identical support. |
+| 13 | **Equivalent points bound** | §3.14, Prop 19, Thm 20 | If several observations have identical features but opposite labels, *every* model errs on at least the minority count. Partition data into equivalence classes and add that irreducible error into the lower bound. |
+
+**Data structures (§5).**
+- **Prefix tree (trie).** One node per rule; each root path is a prefix. Node metadata: index of
+  last antecedent `p_K`; the objective lower bound `b(d_p,x,y)`; the default-rule error lower bound
+  `b_0(d_p,x,y)` (for Thm 20); a deletion flag (garbage collection); and the set of un-pruned
+  length-(K+1) extensions. Implemented as *"a custom C++ class."*
+- **Queue.** `std::queue` → BFS; `std::priority_queue` → best-first. Orderings implemented:
+  by objective lower bound (the default and usually fastest), by prefix length (= BFS), by inverse
+  length (= DFS), and by **curiosity**. Curiosity for prefix `d_p` = *"its objective lower bound,
+  scaled by the inverse of its normalized support"* — i.e. among equal-lower-bound prefixes, prefer
+  the one that has already captured more data, since the other still has more "potential to make
+  mistakes." Curiosity *"sometimes yields a dramatic reduction in execution time"* but is not
+  uniformly better.
+- **Symmetry-aware map.** `std::unordered_map` keyed by the *sorted set* of antecedents in the
+  prefix, storing the best known ordering. This is how Thm 15/Cor 16 is realised.
+
+**Rule mining.** Antecedents are pre-mined by **enumeration** of conjunctions over binary features,
+capped by max clause count. From Table 2 of the paper: ProPublica Feature Set A = 6 categorical
+attributes → 13 binary features → **M = 122 antecedents** at max 2 clauses, no negations. NYCLU
+Set E = 5 attributes → 28 binary features → **M = 46** antecedents at 1 clause, *with* negations.
+**Note how small M is.** CORELS is designed for tens-to-low-hundreds of candidate conditions.
+
+**Reported performance.** ProPublica COMPAS: 6,907 records (from 7,214, dropping missing), 10-fold
+CV, λ=0.005, M=122 → **full CORELS runtime ≈ 21 s** to certify optimality. NYCLU stop-and-frisk:
+29,595 obs (resampled; 50,743 train per fold), λ=0.01, M=46 → **≈ 36 s**. General claim: *"CORELS
+is generally able to find an optimal rule list in a matter of seconds and certify its optimality
+within about 10 minutes."* And crucially: *"CORELS finds the optimal rule list in far less time
+than it takes to certify optimality."* Accuracy on these problems matched random forests and
+COMPAS itself.
+
+**Determinism — this is the key result for NAADAP.** Three separate facts, and the team should
+keep them apart:
+1. **The optimum is search-order-independent.** Branch-and-bound with valid bounds returns a
+   global minimiser of `R(d,x,y)` regardless of BFS / best-first / curiosity ordering. Changing the
+   queue policy changes *how long it takes*, not *what it returns*. That is a far stronger
+   determinism story than any sampler can offer.
+2. **Ties are the residual risk.** If two distinct rule lists both attain the minimum `R`, which one
+   is reported depends on traversal order and on iteration order over the `unordered_map`. The
+   Rashomon argument (§1.4) says ties and near-ties will be *common*, not rare. **Mitigation is
+   mandatory and easy: define a total order on rule lists (objective, then length, then
+   lexicographic on a canonical antecedent id sequence) and keep the incumbent only on a strict
+   improvement under that total order.** Then the output is a deterministic function of the inputs
+   — no seed, no ordering dependence, provably.
+3. **CORELS also offers a stochastic search policy** (the paper mentions "stochastic search" among
+   the strategies the trie supports). **Do not use it.** Use BFS or best-first-by-lower-bound.
+
+Anytime behaviour: CORELS maintains an incumbent `R_c` from the first complete list onward. If the
+30-minute budget expires, you have a valid rule list **plus** the queue's minimum lower bound, i.e.
+an optimality *gap*. "Optimal, or within ε of optimal, and here is ε" is still a defensible
+sentence. That is exactly the property Rudin's counterargument (ii) says you need.
+
+**C# reimplementability — concretely.** This is the most important engineering assessment in this
+document, so I'll be specific.
+- **What's needed:** bit-vector sets over N training rows; a trie; a priority queue; a hash map
+  keyed by a canonical (sorted) antecedent set; the bound evaluations (all arithmetic on counts).
+- **.NET has all of it natively.** `System.Collections.BitArray` works but is slow; better is
+  `ulong[]` with `System.Numerics.BitOperations.PopCount` (hardware POPCNT, .NET Core 3.0+) and
+  `System.Runtime.Intrinsics` for AND/OR/ANDNOT over `Vector256<ulong>`. `PriorityQueue<TElement,
+  TPriority>` is in the BCL since .NET 6. `Dictionary<K,V>` with a custom `IEqualityComparer` on a
+  sorted antecedent-id array gives the symmetry-aware map.
+- **No third-party dependency is required.** The C++ original links gmp/mpfr/libmpc for
+  high-precision arithmetic; that is for the *bounds on number of evaluations* (Thm 7 / Props 8–9,
+  which produce astronomically large counts for reporting), **not** for the optimisation itself.
+  Skip those reporting bounds and you need no bignum. If you want them, `System.Numerics.BigInteger`
+  is in the BCL.
+- **Determinism caveat specific to .NET:** `Dictionary<K,V>` enumeration order is unspecified and
+  `string.GetHashCode()` is **randomised per process** by default in .NET Core. Never iterate a
+  `Dictionary` in a way that affects the result; key the symmetry map by an integer array, use a
+  deterministic custom hash (e.g. FNV-1a over the id array), and never let hash order leak into the
+  chosen incumbent. Use the explicit tie-break total order from point (2) above.
+- **Effort estimate:** the bounds and trie are maybe 2–3k lines of careful C#. The 78-page JMLR
+  paper gives full pseudocode (Algorithms 1, 5, 6). This is a substantial but entirely tractable
+  port, and it is the single highest-value port in this document.
+- **Reference implementation for oracle testing:** `corels/corels` — C/C++, **GPL-3.0**,
+  ~178 stars, not archived. Verified by fetch. GPL-3.0 means **do not vendor or link it**; use it
+  offline as a test oracle only and reimplement clean-room from the paper. (The earlier
+  `nlarusstone/corels` repo referenced in the JMLR paper is the research fork; `corels/corels` is
+  the maintained one. There is also a web front-end at corels.eecs.harvard.edu.)
+
+**Assessment for NAADAP.** CORELS is the best fit in this entire document for the core
+recommendation logic, *provided* the candidate-condition set is kept to tens-to-low-hundreds of
+binary predicates. That constraint is natural here: the conditions are things like
+`scope_matches_PSC(R425)`, `ceiling_remaining >= est_value`, `vehicle_is_MAC`,
+`period_of_performance_within_ordering_period`, `naics_on_vehicle`, `small_business_setaside_available`
+— i.e. acquisition-meaningful binary tests, exactly the "structured data with meaningful features"
+regime where Rudin says there is no accuracy penalty.
+
+### 2.6 Falling Rule Lists
+
+- **Fulton Wang, Cynthia Rudin (2015).** "Falling Rule Lists." *Proceedings of the 18th
+  International Conference on Artificial Intelligence and Statistics (AISTATS 2015)*,
+  PMLR **38**:1013–1022. arXiv:**1411.5899**. Verified: PMLR listing + arXiv PDF (10 pp) retrieved.
+- Successor: **Chen & Rudin, "An Optimization Approach to Learning Falling Rule Lists"**
+  (AISTATS 2018). Verified by search listing only — **UNVERIFIED** for exact pages.
+
+**Mechanism.** A falling rule list is a rule list with an added **monotonicity constraint: the
+estimated probability of the positive class decreases monotonically down the list.** Inference is
+Bayesian (simulated annealing / MCMC over list structure with a prior enforcing the falling
+constraint).
+
+**Why it matters for NAADAP.** The monotone structure means the *first* rule that fires is the
+highest-risk/highest-confidence one, so per-instance rationales are short at the top and longer at
+the bottom. Rudin explicitly makes this point in Appendix D: *"falling rule lists provide shorter
+explanations for the decisions that are most important."* For a ranked top-5 output this is
+attractive — the top recommendation gets the shortest, strongest rationale.
+
+**Determinism.** The 2015 version is MCMC/simulated-annealing → same problem as BRL. The 2018
+optimization-based version is the one to use if this structure is wanted.
+
+**C# reimplementability.** Moderate. The monotonicity constraint is easy to *check*; enforcing it
+inside a search is the work. A pragmatic route: run CORELS, then post-hoc verify/enforce
+monotonicity of the empirical rule probabilities and reorder, accepting a small objective loss.
+
+### 2.7 RuleFit (Friedman & Popescu 2008)
+
+- **Jerome H. Friedman, Bogdan E. Popescu (2008).** "Predictive learning via rule ensembles."
+  *The Annals of Applied Statistics* **2**(3), 916–954. DOI **10.1214/07-AOAS148**.
+  arXiv:**0811.1679**. Verified: Crossref + full arXiv PDF (41 pp) retrieved and read.
+
+**Mechanism.**
+1. **Rule generation by tree ensemble.** Fit an ensemble via *importance-sampled learning
+   ensembles* (Friedman & Popescu's ISLE): each base learner `f_m` is fit on `S_m(η)`, *"a
+   different subsample of size η < N randomly drawn without replacement from the original training
+   data,"* with shrinkage ν controlling how much previously chosen learners influence generation.
+   Tree depth is itself randomised: *"γ is randomly drawn from an exponential distribution."*
+2. **Rule extraction.** *Every node* (interior and terminal) of every tree yields a rule = the
+   product of indicator functions along the root-to-node path. Total rules
+   `K = Σ_m 2(t_m − 1)` where `t_m` is the number of terminal nodes of tree *m*.
+3. **Linear terms.** Winsorized versions of the raw variables are added as extra basis functions
+   *"for capturing the linear component,"* because pure rules need many terms to approximate a
+   linear effect.
+4. **Fitting.** `F(x) = â_0 + Σ_k â_k r_k(x)` with coefficients from a **lasso** (L1) fit.
+   The L1 penalty is what sparsifies: *"Owing to the selective nature of the lasso penalty, many
+   of the [coefficients are zero]"* and it *"tends to give high influence to the best rules."*
+5. Variable importance and interaction statistics (the H-statistic) are derived afterwards.
+
+**Objective.** L1-penalised empirical risk over a fixed, randomly-generated rule basis.
+
+**Complexity.** Tree ensemble generation (M trees × subsample) + a lasso over K ≈ thousands of
+basis functions. Both cheap. Fits the 1-core budget easily.
+
+**Determinism.** **Two randomness sources** (subsampling `S_m(η)`; exponential tree depths γ) plus
+whatever the tree learner uses. Seedable, but the rule *basis itself* is random, so a one-row data
+change perturbs which rules exist. And the output is an additive model over ~dozens of surviving
+rules — **not a single firing rule**. For NAADAP this is the deeper problem: a RuleFit rationale is
+"here are 37 rules with these coefficients, summing to 0.81," which is a scoring system, not a
+determination. It is closer to a GAM than to a rule list in rhetorical form.
+
+**C# reimplementability.** Doable but the lasso needs a coordinate-descent implementation with a
+regularisation path (~300 lines, well-documented) plus a gradient-boosted tree learner. ML.NET has
+FastTree, and `Microsoft.ML` has L1-regularised learners, so much of it is available in-framework.
+
+**Existing implementation.** `christophM/rulefit` — Python. **License UNVERIFIED** (GitHub page
+would not load for me). Also `gbm`/`pre` in R.
+
+**Assessment.** Good rule *generator*, weak rule *presenter*. If NAADAP wants a large candidate
+condition pool discovered from the millions of weakly-labelled award records, RuleFit is a
+reasonable miner — but feed its surviving rules into CORELS as candidate antecedents rather than
+shipping the RuleFit model.
+
+---
+
+## 3. Optimal decision trees
+
+### 3.1 Greedy CART as the baseline
+
+- **Breiman, Friedman, Olshen, Stone (1984).** *Classification and Regression Trees.* Wadsworth.
+  (Textbook; not re-verified here — universally cited, including by CORELS and GOSDT.)
+
+Rudin's critique, verbatim: greedy methods *"tend to be inaccurate and/or uninterpretable because
+they do not choose a globally best choice... They might use 200 logical conditions when the same
+accuracy could be obtained with 5,"* and — the methodological point — *"it becomes difficult to
+tell whether poor performance is due to the choice of algorithm or the combination of the choice
+of model class and constraints."*
+
+**Determinism:** CART is deterministic given a fixed split-tie-break rule and fixed feature order.
+It is *unstable* (small data change → different tree), which is the classic criticism; see Rudin's
+Appendix E for her rebuttal (§1.6 above). **Available in C# today:** `Microsoft.ML` FastTree /
+`Microsoft.ML.Trainers.FastTree`; also `Accord.NET` (archived).
+
+### 3.2 Bertsimas & Dunn — Optimal Classification Trees (MIO)
+
+- **Dimitris Bertsimas, Jack Dunn (2017).** "Optimal classification trees." *Machine Learning*
+  **106**(7), 1039–1082. DOI **10.1007/s10994-017-5633-9** (received 17 Sep 2015, accepted
+  3 Mar 2017). Verified: Crossref record + full 44-page PDF retrieved and read.
+
+**Formulation.** Fix a maximum depth *D*. Build the maximal tree with `T = 2^(D+1) − 1` nodes,
+split into branch nodes `T_B` and leaf nodes `T_L`. Decision variables:
+- `a_jt ∈ {0,1}` — feature *j* is the split variable at branch node *t*, with `Σ_j a_jt = d_t`
+  (univariate splits, like CART).
+- `b_t ∈ [0, d_t]` — the split threshold (valid because features are scaled to `[0,1]^p`).
+- `d_t ∈ {0,1}` — node *t* applies a split at all. Not splitting is modelled by `a_t = 0, b_t = 0`,
+  which *"has the effect of forcing all points to follow the right split at this node, since the
+  condition for the left split is 0 < 0 which is never satisfied."* Elegant — it lets the tree stop
+  early with no extra variables.
+- Hierarchy: `d_t ≤ d_{p(t)}` — can't split if your parent didn't.
+- `z_it ∈ {0,1}` — point *i* lands in leaf *t*; `Σ_{t∈T_L} z_it = 1`.
+- `l_t ∈ {0,1}` — leaf *t* is non-empty; `z_it ≤ l_t` and `Σ_i z_it ≥ N_min · l_t` enforce a
+  minimum leaf size.
+- Routing constraints (the big-M / ε part):
+  `a_m^T x_i ≥ b_t − (1 − z_it)` for right-branch ancestors *m*, and
+  `a_m^T (x_i + ε) ≤ b_t + (1 + ε_max)(1 − z_it)` for left-branch ancestors. The ε handles the
+  strict inequality `a^T x < b`.
+
+Objective: misclassification + `α ×` complexity. Three hyperparameters: *D*, `N_min`, α.
+
+**Tractability.** *"The difficulty of the model is primarily determined by the number of binary
+variables `z_it`, which is n·2^D. Empirically we observe that we can find high-quality solutions in
+minutes for depths up to 4 for datasets with thousands of points. Beyond this depth or dataset
+size, the rate of finding solutions is slower."* Warm-starting with the CART solution is essential:
+on a *tiny* example (Wine, n=178, p=13, D=2) warm-starting gave *"a factor of 5"* reduction in
+total solve time and *"a factor of around 2.5"* in time-to-optimum. Constructing optimal binary
+decision trees is NP-hard (Hyafil & Rivest 1976), cited in the paper.
+
+**Reported gains.** *"Average absolute improvements over CART of 1–2% and 3–5% for OCT and OCT-H
+respectively, across all datasets depending on the depth of tree used"* (OCT-H = multivariate /
+hyperplane splits). Datasets *"with sizes in the 1000s."*
+
+**Determinism.** **Poor in practice.** A MIO solver's returned solution among multiple optima
+depends on presolve, cut generation, heuristics, node selection, thread count and wall-clock-based
+time limits. Gurobi is *not* deterministic across thread counts and *is* only deterministic within
+a fixed version+seed+thread configuration. **A wall-clock time limit makes it non-deterministic by
+construction** — and NAADAP has a 30-minute wall clock. If the solver times out at a different node
+on a different run, you get a different tree.
+
+**C# reimplementability.** **This is the wrong axis.** Writing the MIO *formulation* in C# is
+trivial (it's ~15 constraint families). The problem is you need an MIO *solver*. Options:
+Gurobi/CPLEX (commercial licences, a non-starter for an offline government container), or
+Google OR-Tools CP-SAT / SCIP (Apache-2.0 / ZIB academic-ish — OR-Tools ships .NET bindings via
+`Google.OrTools` NuGet, which is a large native dependency, contradicting "minimal third-party
+dependencies"), or write your own branch-and-bound (which is what CORELS/GOSDT *are*). Also note
+Rudin's jab: *"claims made by some companies about performance of their proprietary algorithms are
+not impressive (e.g., Interpretable AI, whose decision tree performance using mixed integer
+programming software in 2017 is reported to be often beaten by or comparable to... CART)."*
+Interpretable AI is Dunn's company.
+
+**Verdict: not viable for NAADAP.** Heavy solver dependency, non-deterministic under a time limit,
+and CORELS/GOSDT beat it on the same problem with no external solver.
+
+### 3.3 OSDT / GOSDT
+
+- **Xiyang Hu, Cynthia Rudin, Margo Seltzer (2019).** "Optimal Sparse Decision Trees."
+  *Advances in Neural Information Processing Systems 32 (NeurIPS 2019)*, pp. 7265–7273.
+  Verified via NeurIPS proceedings listing (papers.nips.cc). First practical optimal decision tree
+  algorithm for binary variables. Code: `xiyanghu/OSDT` (Python; license **UNVERIFIED**).
+- **Jimmy Lin, Chudi Zhong, Diane Hu, Cynthia Rudin, Margo Seltzer (2020).** "Generalized and
+  Scalable Optimal Sparse Decision Trees." *Proceedings of the 37th International Conference on
+  Machine Learning (ICML 2020)*, PMLR **119**. Verified: full PMLR PDF (11 pp) retrieved and read.
+
+**Objective (Eq. 1).** For a tree `d` with `H_d` leaves:
+```
+R(d, x, y) = ℓ(d, x, y) + λ H_d
+```
+Same shape as CORELS but penalising **leaves** instead of rules. GOSDT's generalisation: `ℓ` can be
+any of accuracy, **balanced accuracy** `1 − ½(FN/N⁺ + FP/N⁻)`, **weighted accuracy**
+`1 − (FP + ωFN)/(ωN⁺ + N⁻)`, **F-score** `1 − (FP+FN)/(2N⁺+FP−FN)`, AUC, and partial AUC under the
+convex hull. **This matters for NAADAP**: vehicle-recommendation labels will be badly imbalanced
+(most vehicles are wrong for most requirements), and the ability to *directly optimise balanced
+accuracy or F-score* rather than raw accuracy is a real advantage over CORELS.
+
+Note the split: *"For optimizing non-additive loss function, we use PyGOSDT: a variant of GOSDT
+that is closer to OSDT... For optimizing additive loss functions we use GOSDT which uses dynamic
+programming with bounds (DPB)."*
+
+**Mechanism — DPB.** Two data structures: a **priority queue** of subproblems and a **dependency
+graph** storing subproblems and `dep(p_π, p_c)` relations. Two differences from DL8.5 the paper
+calls out explicitly:
+1. *"DL8.5 uniquely identifies a problem p by the Boolean assertion that is a conjunctive clause of
+   all splitting conditions in its ancestry, while GOSDT represents a problem p by the samples that
+   satisfy the Boolean assertion."* Keying by **support-set bit vector** means two different
+   conjunctions yielding the same support set are one problem, not two. *"Keying problems in this
+   way avoids processing the same problem twice; other dynamic programming implementations, such as
+   DL8.5, will process the same problem multiple times."*
+2. *"DL8.5 uses blocking recursive invocations... while GOSDT uses a priority queue to schedule
+   problems for later,"* with eager upward propagation of improved bounds: *"by eagerly propagating
+   bounds up the dependency tree, GOSDT prunes the search space more aggressively."*
+
+Convergence is by lower/upper bound squeeze: subproblems are enqueued *"only if the interval
+between their lower and upper bounds overlaps with the interval between p's lower and upper
+bounds. This ensures that eventually the lower and upper bounds of p converge to a single value."*
+
+**Bounds (Appendix B, named in §Contributions).** Hierarchical Lower Bound (B.1); Objective Bound
+for Sub-Trees (B.2); (B.3–B.5 incl. a bound on the number of leaves); Incremental Progress Bound to
+Determine Splitting (B.6); Lower Bound on Incremental Progress (B.7); **Leaf Permutation Bound**
+(B.8); **Equivalent Points Bound** (B.9); General Similar Support Bound (B.10); plus the
+**Incremental Similar Support Bound** (Thm 4.1, in the main text). Theorem 3.1 bounds maximum
+achievable training accuracy. Also proves (Figure 1, proof by construction) that **bucketization of
+continuous variables leads to suboptimality** — i.e. naive binning loses the guarantee, which is
+why GOSDT handles thresholds properly.
+
+**Feature requirement.** *"Note that all features have been binarized prior to executing the
+algorithm."* Same as CORELS.
+
+**Determinism.** The certified optimum is again search-order-independent. **But:** the reference
+implementation uses **IntelTBB concurrent data structures** and multithreading, and subproblems are
+solved *"in parallel by delegating work to a separate thread."* With ties, which optimal tree gets
+extracted can depend on thread interleaving. **Two mitigations, both mandatory for NAADAP:**
+(a) run single-threaded — which NAADAP does anyway, since the budget is **1 CPU core**; and
+(b) impose a total order for incumbent replacement, as with CORELS. Under (a)+(b) GOSDT is
+deterministic. Final extraction is *"traversing the dependency graph by greedily choosing the split
+with the lowest objective value"* — that greedy extraction needs a deterministic tie-break too.
+
+**C# reimplementability.** Comparable to CORELS, arguably slightly harder (dependency graph with
+multiple parents per node; bound propagation to all ancestors). Same BCL primitives suffice
+(`PriorityQueue`, `Dictionary` keyed on a bit-vector support set, `BitOperations.PopCount`). No
+external solver. Removing TBB and running single-threaded actually *simplifies* the port.
+
+**Reference implementation.** `ubc-systopia/gosdt-guesses` — C++ with Python bindings,
+**BSD-3-Clause**, ~64 stars, not archived, active CI. Verified by fetch. BSD-3 is **permissive**,
+so unlike CORELS this one *could* legally be vendored or wrapped — but a native C++ dependency in
+an offline .NET container is a packaging liability, and the "guesses" variant uses a **boosted
+decision tree as a black box to "guess" information about the optimal tree**, which reintroduces a
+black box into the pipeline (it only guides the search and does not affect the certificate, but it
+is a thing you'd have to explain). Earlier canonical repo:
+`Jimmy-Lin/GeneralizedOptimalSparseDecisionTrees` (license **UNVERIFIED**).
+
+**Rule list vs tree for NAADAP.** CORELS' own framing: *"The space of trees of a given depth is
+much larger than the space of rule lists of that same depth, and the trees within the Bayesian tree
+algorithms are grown in a top-down greedy way... The space of rule lists is smaller than that of
+trees, and has simpler structure."* For a rationale you will *print in a determination*, a rule
+list reads as prose ("IF ... THEN ... ELSE IF ...") in a way a tree does not. **Prefer the rule
+list unless you need GOSDT's non-accuracy objectives.**
+
+---
+
+## 4. Generalized additive models: GA2M and EBM
+
+### 4.1 Verified citations
+
+- **Yin Lou, Rich Caruana, Johannes Gehrke, Giles Hooker (2013).** "Accurate intelligible models
+  with pairwise interactions." *Proceedings of the 19th ACM SIGKDD International Conference on
+  Knowledge Discovery and Data Mining (KDD '13)*, pp. 623–631. DOI **10.1145/2487575.2487579**.
+  Verified: Crossref + full 9-page PDF retrieved and read.
+- Predecessor (shape-function comparison): **Lou, Caruana, Gehrke (2012).** "Intelligible models
+  for classification and regression." *KDD '12*. Cited as [19] throughout the 2013 paper — this is
+  where the finding *"gradient boosting with ensembles of shallow regression trees is the most
+  accurate method among a number of alternatives"* comes from. **UNVERIFIED** for exact pages.
+- Healthcare application (the pneumonia/asthma story): **Caruana, Lou, Gehrke, Koch, Sturm, Elhadad
+  (2015).** "Intelligible Models for HealthCare: Predicting Pneumonia Risk and Hospital 30-day
+  Readmission." *KDD '15*. DOI **10.1145/2783258.2788613**. Verified via search listing (ACM DL
+  record). **This is the best single argument for GAMs in a high-stakes setting**: the GAM revealed
+  the model had learned `asthma ⇒ lower pneumonia risk` (because asthmatics were admitted straight
+  to ICU), a confound that would have been invisible in a black box and lethal if deployed.
+- Implementation paper: **Harsha Nori, Samuel Jenkins, Paul Koch, Rich Caruana (2019).**
+  "InterpretML: A Unified Framework for Machine Learning Interpretability." arXiv:**1909.09223**.
+  Verified.
+
+### 4.2 Model form and mechanism
+
+GAM: `g(E[y]) = Σ_i f_i(x_i)`. GA²M adds a small number of pairwise terms:
+`g(E[y]) = Σ_i f_i(x_i) + Σ_{(i,j)∈P} f_ij(x_i, x_j)`.
+
+The `f_i` are **shape functions** — arbitrary 1-D functions, plotted as curves. Formally the paper
+works in a Hilbert space `H = Σ_{u∈U} H_u` over one- and two-dimensional components, minimising
+`min_{F∈H} E[L(y, F(x))]` for a convex loss.
+
+**Why readable.** Because each term is a function of one feature (or two), *the entire model can be
+drawn*. A 1-D curve is directly inspectable ("risk rises sharply past a contract ceiling of $X
+then flattens"); a 2-D term is a heatmap. There is no interaction hiding anywhere else, **by
+construction** — that is the guarantee, and it's structural, not post-hoc. Note: the authors'
+word is "intelligible," and the readability is of the *shape*, not of a *rule*.
+
+**How shape functions are learned.**
+- Two classical options: **backfitting** (Hastie & Tibshirani) and **gradient boosting**. Splines
+  become inefficient for higher-order interactions since parameter count grows exponentially;
+  tree-based shape functions are preferred.
+- The paper's approach: **gradient boosting with shallow tree-like ensembles**, but *not* plain
+  regression trees for pairwise terms. Reason given: after Stage 1 converges, *"adding more cuts to
+  any one feature does not reduce the error, and equivalently, any cut on a single feature is
+  random. Therefore, when we begin to shape pairwise interactions, the root test in a regression
+  tree that is constructed greedily top-down is random."* Instead they enumerate all cuts `c_i` on
+  `x_i` and greedily find the best `c_j¹` above and `c_j²` below — a 3-cut structure.
+- **Discretisation:** continuous features are binned into **256 equi-frequency bins**. *"We find
+  such feature discretization rarely hurts the performance but substantially reduces the running
+  time and memory footprint since we can use one byte to store a feature value."* It also removes
+  the sorting requirement.
+- **Two-stage construction:** Stage 1 fit all 1-D shape functions to convergence; Stage 2 **fix
+  them** and fit pairwise terms on the residuals. This avoids refitting the whole model per added
+  pair.
+
+**FAST — the interaction ranking algorithm.** Fitting `f_ij` for all `O(n²)` pairs is prohibitive,
+so FAST scores each pair with a cheap surrogate: place **one cut on each variable**, splitting the
+`(x_i, x_j)` plane into four quadrants, fit the trivially simple 4-region predictor, and use its
+**RSS reduction** as the interaction strength. The trick is computing this without rescanning: build
+marginal **cumulative histograms** of target-sum and weight-sum, then the four quadrant statistics
+come from lookup tables in O(1) per candidate cut pair.
+
+**Complexity (§Complexity Analysis, verbatim reasoning).** Histograms + cumulative histograms need
+one data scan: **O(N)**. Lookup tables: **O(d_i d_j + N)**. So FAST costs **O(d_i d_j + N)** per
+pair, where `d_i, d_j` are the numbers of distinct values. With *b* bins (and the paper notes
+*"FAST is not sensitive to a wide range of b"*), this reduces to **O(b² + N) per pair**.
+Building predictors from the lookup tables is **O(1)**.
+
+Contrast with prior methods the paper reviews: ANOVA needs the full model (prohibitive); Friedman
+& Popescu's H-statistic `H²_ij` needs partial dependence functions at **O(m²)** on a subsample and
+*"may detect spurious interactions over low-density regions"*; GUIDE uses a χ² test on residual
+signs across median-split quadrants.
+
+**Determinism.** Gradient boosting with a fixed data order, fixed bin edges (equi-frequency bins
+are a deterministic function of the data), fixed number of iterations and fixed learning rate is
+**fully deterministic — no sampling required.** The production EBM adds **bagging** and a
+round-robin feature order; bagging introduces a seed. `ExplainableBoostingClassifier` exposes
+`random_state`, and setting it makes runs reproducible. **This is the most determinism-friendly
+learner in this whole document** because there is no combinatorial search and hence no ties to
+break.
+
+### 4.3 C# availability — and this is the notable finding
+
+**.NET already ships a GAM trainer.** `Microsoft.ML.Trainers.FastTree.GamBinaryTrainer` (and
+`GamRegressionTrainer`), accessed via `TreeExtensions.Gam`. From the Microsoft Learn API docs
+(retrieved):
+- *"For each feature, the GAM trainer learns a non-linear function, called a 'shape function', that
+  computes the response as a function of the feature's value. To score an input, the outputs of all
+  the shape functions are summed and the score is the total value."*
+- *"This GAM trainer is implemented using shallow gradient boosted trees (e.g. tree stumps) to
+  learn nonparametric shape functions, and is based on the method described in Lou, Caruana, and
+  Gehrke."* — i.e. it is an implementation of exactly the paper above.
+- *"After training, an intercept is added to represent the average prediction over the training
+  set, and the shape functions are normalized to represent the deviation from the average
+  prediction. This results in models that are easily interpreted simply by inspecting the intercept
+  and the shape functions."*
+- Input constraints: Boolean label column; features must be a known-size `Single` vector.
+
+**Caveat:** ML.NET's GAM is a **GAM, not a GA²M** — no automatic pairwise interaction detection,
+no FAST. Adding FAST on top is genuinely easy (it's histograms and lookup tables, ~400 lines of
+C#) and you can then feed explicit pair features into the same trainer.
+
+**Caveat 2:** `Microsoft.ML` is a substantial NuGet package with native binaries. Whether that
+counts as "minimal third-party dependencies" is a NAADAP call, but it is first-party Microsoft,
+it's offline-capable, and it is far lighter than pulling OR-Tools or a Python runtime.
+
+**Reference implementation.** `interpretml/interpret` — Python/R/C++, **MIT**, ~6.9k stars, not
+archived, actively maintained, ~3,970 commits; C++ core named **libebm**. Verified by fetch.
+MIT means it could be vendored, but again: native C++ in a .NET container. Use as an offline
+oracle for validating C# shape functions.
+
+### 4.4 Assessment for NAADAP
+
+A GAM's rationale is *"the score was 0.81, composed of +0.3 from ceiling headroom, +0.25 from PSC
+match, −0.1 from period-of-performance mismatch."* That is **a scoring system, not a rule**. It is
+vastly better than SHAP — the decomposition is *exact and is the model's actual computation*, not
+an approximation, so Rudin's fidelity objection does not apply. But it is still a number, and the
+project's own statement of the requirement is that *"the model scored it highest" is not an
+acceptable rationale.*
+
+**So: do not make a GAM the primary output.** Two legitimate roles:
+1. **Confidence / tie-breaking within a rule-defined feasible set.** Rules determine *eligibility*
+   (which is what must be legally defensible); the GAM orders the eligible vehicles for
+   presentation. The determination cites the rules; the ranking is explicitly labelled as advisory
+   and its shape functions are printable.
+2. **Calibration and audit.** The shape functions are a diagnostic the SME can review. The
+   pneumonia/asthma result is the template: plotting the curves finds confounds in the weakly-labelled
+   historical award data (e.g. "requirements in this PSC went to this vehicle because that office
+   always uses it," not because of scope fit) before they contaminate the rules.
+
+Also directly relevant: **Chen, Lin, Chen, Rudin, Shaposhnik, Wang, Wang (2018).** "An Interpretable
+Model with Globally Consistent Explanations for Credit Risk." arXiv:**1811.12615**. Verified by
+search (arXiv PDF + Duke-hosted copy located; I did not read it in full — **partially verified**).
+It won recognition in the FICO Explainable ML Challenge with a **two-layer additive risk model**
+decomposable into meaningful subscales, plus explanations generated by solving a **minimum set
+cover** problem to find high-support, globally-consistent explanations. **The "globally consistent
+explanation" idea is exactly right for NAADAP**: a local rationale that is guaranteed never to
+contradict the global model, which is precisely what survives cross-examination.
+
+---
+
+## 5. Case-based reasoning
+
+This is NAADAP's second evidence channel ("here are the k most similar prior task orders placed
+against this vehicle"), and the team is already doing CBR whether or not it calls it that. The
+formal literature gives vocabulary, a process model, and — importantly — a catalogue of the failure
+modes.
+
+### 5.1 The foundational paper
+
+- **Agnar Aamodt, Enric Plaza (1994).** "Case-Based Reasoning: Foundational Issues, Methodological
+  Variations, and System Approaches." *AI Communications* **7**(1), 39–59. IOS Press.
+  DOI **10.3233/AIC-1994-7104**. Verified: Crossref record + full 27-page author PDF retrieved and
+  read (iiia.csic.es/~enric/papers/AICom.pdf).
+
+**The R4 cycle, verbatim from §3:**
+> RETRIEVE the most similar case or cases
+> REUSE the information and knowledge in that case to solve the problem
+> REVISE the proposed solution
+> RETAIN the parts of this experience likely to be useful for future problem solving
+
+> "RETRIEVE a case from the collection of previous cases. The retrieved case is combined with the
+> new case - through REUSE - into a solved case... Through the REVISE process this solution is
+> tested for success... During RETAIN, useful experience is retained for future reuse, and the case
+> base is updated by a new learned case, or by modification of..."
+
+**The task–method decomposition (their Figure 3) — the subtasks under each phase:**
+
+| Phase | Subtasks | Methods listed |
+|---|---|---|
+| **RETRIEVE** | Identify Features; Initially Match; Search; Select | collect descriptors, infer descriptors, interpret problem; calculate similarity, explain similarity; follow direct indexes, search index structure, search general knowledge |
+| **REUSE** | Copy; Adapt | copy solution, copy solution method; modify solution, modify solution method |
+| **REVISE** | Evaluate; Repair Fault | evaluate in real world; (fault repair) |
+| **RETAIN** | Extract; Index; Integrate | extract relevant descriptors, extract solutions; determine indexes, adjust indexes; update general knowledge, generalize; rerun problem |
+
+**RETRIEVE in detail (§5), which is the phase NAADAP actually implements.**
+> "The Retrieve task starts with a (partial) problem description, and ends when a best matching
+> previous case has been found. Its subtasks are referred to as Identify Features, Initially Match,
+> Search, and Select, executed in that order."
+
+- *Identify Features* — not just reading inputs: *"To understand a problem involves to filter out
+  noisy problem descriptors, to infer other relevant problem features, to check whether the feature
+  values make sense within the context, to generate expectations of other features."*
+  > **NAADAP:** this is the document-parsing and normalisation stage. PSC/NAICS inference, ceiling
+  > extraction, PoP extraction, CLIN-structure inference. It is part of CBR, not a preprocessing
+  > afterthought, and its failures propagate directly into retrieval quality.
+- *Initially Match* — three retrieval mechanisms: *"by following direct index pointers from problem
+  features, by searching an index structure, or by searching in a model of general domain
+  knowledge."*
+- *Select* — *"The best matching case is usually determined by evaluating the degree of initial
+  match more closely. This is done by an attempt to generate explanations to justify non-identical
+  features, based on the knowledge in the semantic network... The cases are eventually ranked
+  according to some metric or ranking criteria. Knowledge-intensive selection methods typically
+  generate explanations that support this ranking process, and the case that has the strongest
+  explanation for being similar to the new problem is chosen."*
+  > **This is the single most important sentence in the paper for NAADAP.** The formal CBR
+  > literature *already says* that the right output of Select is not a similarity score but an
+  > **explanation of why the cases are similar, including a justification of the features that do
+  > not match**. That is exactly the debrief artifact: "this prior task order is analogous because
+  > it shares PSC R425, a comparable ceiling, and the same technical scope; it differs in period of
+  > performance, which does not bear on vehicle suitability because [reason]."
+
+**Surface vs. structural similarity — the knowledge-poor / knowledge-intensive distinction:**
+> "Syntactic similarity assessment - sometimes referred to as a 'knowledge-poor' approach - has its
+> advantage in domains where general domain knowledge is very difficult or impossible to acquire.
+> On the other hand, semantical oriented approaches - referred to as 'knowledge-intensive' - are
+> able to use the contextual meaning of a problem description in its matching, for domains where
+> general domain knowledge is available."
+
+They footnote a subtlety worth keeping: *"syntactic oriented methods may also contain a lot of
+general domain knowledge, implicit in their matching methods. The distinction between
+knowledge-poor and knowledge-intensive is therefore related to explicitly represented domain
+knowledge."*
+> **NAADAP is squarely a knowledge-intensive domain.** FAR/DFARS/NMCARS, PSC and NAICS taxonomies,
+> vehicle scope statements, ordering-period rules — this is a large, explicit, curated body of
+> general domain knowledge. A cosine similarity over TF-IDF vectors is the *knowledge-poor* choice
+> and is exactly what the CBR literature says to avoid when the knowledge is available. Weight by,
+> and explain through, the acquisition ontology.
+
+**Feature weighting.** PROTOS assigns *"a degree of importance for the solution"* to each feature in
+a stored case; CREEK stores both *"the predictive strength (discriminatory value) of a feature with
+respect to the set of cases"* and *"a feature's criticality, i.e. what influence the lack of a
+feature has on the case solution."* PATDEX uses a **relevance matrix** linking features to
+diagnoses with weights *"updated, based on feedback of success or failure, by a connectionist
+method."*
+> **Criticality vs. predictive strength is a distinction NAADAP should adopt directly.** Some
+> conditions are *disqualifying* if absent (NAICS not on the vehicle; requirement outside the
+> ordering period) — infinite criticality, and these belong in the rule layer, not the similarity
+> layer. Others merely shift the ranking (similar scope, similar dollar magnitude) — these belong
+> in the similarity weights. Collapsing both into one weighted distance is the classic mistake and
+> produces recommendations a CO can shoot down in one sentence.
+
+**REUSE (§6).** Two modes, from Carbonell's analogy distinction:
+- **Transformational reuse** — reuse the *solution*, applying operators `{T}` indexed by the
+  detected differences. *"requires a strong domain-dependent model in the form of transformational
+  operators {T} plus a control regime."*
+- **Derivational reuse** — reuse the *method that produced the solution*.
+> **NAADAP is doing transformational reuse and should say so.** "This prior requirement was placed
+> on SeaPort-NxG; this new requirement differs in X and Y; those differences do/do not require a
+> different vehicle because…" The transformational operators are the acquisition rules. This is a
+> clean way to explain the architecture: **the rule layer *is* the transformation-operator layer of
+> the CBR cycle.**
+
+**RETAIN (§8).**
+> "In CBR the case base is updated no matter how the problem was solved."
+
+*Extract*: choose what to store. Notably, *"an explanation or another form of justification of why
+a solution is a solution to the problem may also be marked for inclusion in a new case."* Also
+failure cases: *"When a failure is encountered, the system can then get a reminding to a previous
+similar failure."*
+*Index*: *"The 'indexing problem' is a central and much focused problem in case-based reasoning...
+This is actually a knowledge acquisition problem, and should be analyzed as part of the domain
+knowledge analysis and modeling step."*
+*Integrate*: *"By modifying the indexing of existing cases, CBR systems learn to become better
+similarity assessors."*
+
+> **Governance consequence for NAADAP.** If RETAIN is automated, the system's behaviour drifts
+> between runs — which breaks both determinism and the ability to reproduce a past determination
+> for a protest filed months later. **RETAIN must be a versioned, human-gated, offline operation.**
+> The case base shipped in the container is an immutable, version-stamped artifact. Every
+> recommendation record should cite the case-base version hash. When a protest arrives eight
+> months later, you re-run against that hash and get the same answer.
+
+### 5.2 Knowledge containers (Richter)
+
+- **Michael M. Richter.** "The knowledge contained in similarity measures." Invited talk,
+  **ICCBR-95**, 1995. **UNVERIFIED as a formal publication** — I confirmed the talk and the concept
+  through multiple secondary academic sources (Richter & Aamodt's "Case-based reasoning
+  foundations," *Knowledge Engineering Review*, 2005, hosted at NTNU; a Richter manuscript
+  "Knowledge Containers" on ResearchGate) but could not retrieve a canonical archival version of
+  the 1995 talk. **Cite via Richter & Aamodt (2005) instead**, or via the textbook:
+- **Michael M. Richter, Rosina O. Weber (2013).** *Case-Based Reasoning: A Textbook.* Springer.
+  Verified as existing (Google Books record). Not read.
+
+**The four knowledge containers:** the **vocabulary**, the **similarity measure**, the **case
+base**, and the **adaptation knowledge**. The key claim: *knowledge can be shifted between
+containers* — their content is not invariant. Put domain knowledge in the vocabulary (richer
+features) and the similarity measure can be simpler; put it in the similarity measure and the case
+base can be smaller; and so on.
+
+> **This is a genuinely useful design lens for NAADAP.** The team has a choice about where the
+> acquisition expertise lives: in the *vocabulary* (a rich normalised feature schema derived from
+> the PSC/NAICS/vehicle-scope ontology), in the *similarity measure* (weights and local measures
+> per attribute), in the *case base* (curated exemplar task orders), or in the *adaptation rules*
+> (the FAR/DFARS logic). **For defensibility, push knowledge toward the vocabulary and the
+> adaptation rules, and away from the similarity measure.** A weight vector is hard to defend
+> ("why is scope weighted 0.4?"); a named feature and a cited regulation are easy.
+
+Related, verified: **Osborne & Bridge (1996).** "A case base similarity framework." In *Advances in
+Case-Based Reasoning (EWCBR-96)*, LNCS, pp. 309–323. DOI **10.1007/BFb0020619**. Verified via
+Crossref. (Formalises similarity as orderings rather than numeric measures — relevant if NAADAP
+wants a defensible *ranking* without committing to a defensible *score*. Not read in full.)
+
+The **local–global principle** — global similarity is an aggregation (usually weighted sum or
+weighted max) of per-attribute *local* similarity measures — is standard in this literature
+(Bergmann; Richter & Weber). **UNVERIFIED** for a specific citable source; if NAADAP uses it in a
+design doc, cite Richter & Weber (2013) Ch. 6 after checking. The practical point stands
+regardless: **per-attribute local measures are individually explainable and individually
+challengeable; a monolithic embedding distance is neither.**
+
+### 5.3 The known failure modes
+
+#### The utility problem and the swamping problem
+
+- **Barry Smyth, Mark T. Keane (1995).** "Remembering To Forget: A Competence-Preserving Case
+  Deletion Policy for Case-Based Reasoning Systems." *Proceedings of the 14th International Joint
+  Conference on Artificial Intelligence (IJCAI-95)*, pp. 377–383. Verified: full 7-page PDF
+  retrieved from the NTNU CBR archive and read. (ACM DL 10.5555/1625855.1625905.)
+
+> "The utility problem occurs when the cost associated with searching for relevant knowledge
+> outweighs the benefit of applying this knowledge."
+
+> "In case-based reasoning systems (CBR) a special case of the utility problem arises called the
+> **swamping problem** [Francis & Ram, 1993]. The swamping problem relates to the expense of
+> searching large case-bases for appropriate cases with which to solve the current problem."
+
+Origin of the general utility problem: **Minton (1990)** and **Tambe, Newell & Rosenbloom (1990)**,
+as cited by Smyth & Keane. **UNVERIFIED** for exact citations; Francis & Ram 1993 likewise
+**UNVERIFIED** (cited only through Smyth & Keane).
+
+Smyth & Keane's crucial observation: the naive fix — delete low-utility cases — **damages
+competence**. Traditional utility-based deletion *"can delete pivotal cases."* Their framework
+separates *performance* (speed) from *competence* (range of problems solvable).
+
+**The formal definitions (verbatim):**
+> **Definition 1: Coverage.** Given a case-base `C = {c_1,...,c_n}`, For `c ∈ C`,
+> `Coverage(c) = {c' ∈ C : Adaptable(c, c')}`
+>
+> **Definition 2: Reachability.** Given a case-base `C = {c_1,...,c_n}`, For `c ∈ C`,
+> `Reachable(c) = {c' ∈ C : Adaptable(c', c)}`
+
+The tractability move: *"A more tractable solution is to assume that the case-base itself is a
+sample of the underlying distribution of target problems."* So coverage/reachability are estimated
+over the case base itself rather than over the (infinite) target space.
+
+**The four case categories:**
+> **Definition 3: Pivotal Case.** `Pivot(c) iff Reachable(c) − {c} = ∅`
+> — *"A case is a pivotal case if its deletion directly reduces the competence of a system...
+> Pivotal cases are generally outliers, being too isolated to be solved by any other case."*
+>
+> **Definition 4: Auxiliary Case.** `Auxiliary(c) iff ∃c' ∈ Reachable(c) − {c} : Coverage(c) ⊂ Coverage(c')`
+> — *"Auxiliary cases do not effect competence at all. Their deletion only reduces the efficiency
+> of the system... Auxiliary cases tend to lie within clusters of cases."*
+>
+> **Definition 5: Spanning Case.** `Spanning(c) iff ¬Pivotal(c) ∧ Coverage(c) ∩ ⋃_{c'∈Reachable(c)−{c}} Coverage(c') ≠ ∅`
+> — *"their coverage spaces link (or span) regions of the problem space that are independently
+> covered by other cases... if case 3 is deleted then the spanning case is now necessary."*
+>
+> **Support Case.** *"a special class of spanning cases... They exist in groups, each support
+> providing similar coverage as the others in a group. While the deletion of any one case (or
+> indeed any proper subset) of a support group does not reduce competence,"* deleting the whole
+> group does.
+
+**Deletion policies:** **Footprint Deletion (FD)** deletes in category order — auxiliary first,
+then support, then spanning, and pivotal last/never. **Footprint-Utility Deletion (FUD)** uses
+utility only to break ties *within* a category. Reported: competence preserved while substantially
+reducing case-base size.
+
+> **NAADAP application, concretely.** With millions of weakly-labelled historical award records,
+> you cannot and should not retrieve over all of them. Footprint deletion gives a **principled,
+> explainable, and auditable** criterion for building a compact exemplar case base:
+> - Define `Adaptable(c, c')` operationally: case *c* can serve as the precedent for requirement
+>   *c'* iff the recommended vehicle for *c* is valid for *c'* under the rule layer. That is a
+>   crisp, regulation-grounded predicate — not a distance threshold.
+> - Compute Coverage/Reachability on the labelled + weakly-labelled pool.
+> - Keep pivotal and spanning cases; prune auxiliary clusters down to representatives.
+> - **The result is a small, versioned case base that is fast (solves swamping), retains coverage
+>   (solves the competence loss), and — critically — is *justifiable*:** "we retained this
+>   precedent because it is the only precedent covering this region of the requirement space."
+>   That sentence is defensible. "We kept the 500 nearest neighbours" is not.
+> - It also directly serves the 30-minute / 2 GB budget. A footprint-reduced case base is the
+>   difference between a retrieval that fits in RAM and one that does not.
+
+#### Case-base maintenance more broadly
+
+- **David B. Leake, David C. Wilson (1998).** "Categorizing case-base maintenance: Dimensions and
+  directions." In *Advances in Case-Based Reasoning (EWCBR-98)*, LNCS 1488, pp. 196–207.
+  Springer. DOI **10.1007/BFb0056333**. Verified via Crossref. (Not read in full.)
+  Provides the taxonomy of maintenance systems along dimensions such as *what data is used*, *when
+  maintenance is triggered*, *how it is integrated*, and *what is revised*. Cite this as the
+  framing paper if NAADAP needs to document a maintenance policy for the case base — which,
+  given the versioning requirement in §5.1, it does.
+
+#### Other failure modes NAADAP should assume
+
+- **The indexing problem** (Aamodt & Plaza §8): choosing indexes is *"actually a knowledge
+  acquisition problem."* If it's done implicitly by an embedding, it is unauditable.
+- **Retrieval of a superficially similar but structurally wrong case.** This is the surface-vs-
+  structural distinction. In acquisition terms: two requirements with near-identical PWS language
+  but different NAICS, or different periods of performance relative to a vehicle's ordering period,
+  are *not* analogous precedents. A knowledge-poor measure will happily return them.
+- **Weak-label contamination.** The millions of historical award records encode *what happened*,
+  not *what was correct*. Organisational habit, incumbent capture and expiring vehicles are all in
+  there. A pure nearest-neighbour recommendation launders past practice into a recommendation —
+  precisely the "here's what we always do" reasoning a protest is designed to surface. **Rules
+  gate; precedent corroborates. Never the reverse.**
+
+### 5.4 Determinism of a CBR component
+
+k-NN retrieval is deterministic **except for ties** in the similarity score, which will be common
+with discretised/categorical acquisition features. Fix by a total order: (similarity desc,
+award date desc, contract number asc) or similar. Also beware: floating-point summation order in a
+weighted similarity is not associative; if the feature loop order is stable, so is the result, but
+parallel reduction would break it. **On one core with a fixed loop order, this is a non-issue.**
+This is the easiest determinism story of anything in this document.
+
+### 5.5 C# reimplementability
+
+Trivial. Weighted local–global similarity, a k-NN scan (or an inverted index over discrete
+attributes for the Initially-Match stage, then exact scoring on the candidate set), footprint
+computation over the case base offline. No third-party dependency. The only expensive part is
+Aamodt & Plaza's *Identify Features* stage — document parsing — which NAADAP has to build anyway.
+
+---
+
+## 6. Post-hoc explanation methods, assessed adversarially
+
+### 6.1 LIME
+
+- **Marco Tulio Ribeiro, Sameer Singh, Carlos Guestrin (2016).** '"Why Should I Trust You?":
+  Explaining the Predictions of Any Classifier.' *Proceedings of the 22nd ACM SIGKDD International
+  Conference on Knowledge Discovery and Data Mining (KDD '16)*, pp. 1135–1144.
+  DOI **10.1145/2939672.2939778**. arXiv:**1602.04938**. Verified: Crossref + arXiv abstract page.
+
+**Mechanism.** To explain prediction `f(x)`: sample perturbed instances `z'` around `x` in an
+interpretable representation; weight them by an exponential kernel `π_x(z)` on proximity to `x`;
+fit an interpretable surrogate `g ∈ G` minimising `L(f, g, π_x) + Ω(g)` — local fidelity plus
+surrogate complexity. Feature selection via **K-LASSO**. **SP-LIME** picks a non-redundant set of
+representative instances by submodular optimisation.
+
+**Determinism: no.** Perturbation sampling is random. Rerunning LIME on the same instance and the
+same model gives different coefficients. This is well known and is one of the standard practical
+complaints.
+
+### 6.2 SHAP
+
+- **Scott M. Lundberg, Su-In Lee (2017).** "A Unified Approach to Interpreting Model Predictions."
+  *Advances in Neural Information Processing Systems 30 (NIPS 2017)*. arXiv:**1705.07874**.
+  Verified: arXiv abstract page retrieved. (Full-text mechanism details below are from the
+  well-established literature rather than a full read of this PDF — **partially verified**;
+  verify the exact axiom statements before quoting them in a design doc.)
+
+**Mechanism.** Defines the class of **additive feature attribution methods**
+`g(z') = φ_0 + Σ_i φ_i z'_i` and shows a unique member satisfies three properties — **local
+accuracy**, **missingness**, **consistency** — namely the Shapley values of the conditional
+expectation game. Estimators: **KernelSHAP** (a weighted linear regression over coalitions, i.e.
+LIME with a specific kernel and loss) and **TreeSHAP** (exact polynomial-time for tree ensembles).
+
+**Determinism.** KernelSHAP samples coalitions → stochastic, with sampling variance. TreeSHAP is
+exact and deterministic *for tree models*. So the determinism answer is "depends on the estimator,"
+which is already an awkward thing to have to explain.
+
+### 6.3 Anchors
+
+- **Marco Tulio Ribeiro, Sameer Singh, Carlos Guestrin (2018).** "Anchors: High-Precision
+  Model-Agnostic Explanations." *Proceedings of the AAAI Conference on Artificial Intelligence*
+  **32**(1). DOI **10.1609/aaai.v32i1.11491**. Verified via Crossref + AAAI listing.
+
+**Mechanism.** Find a rule (an "anchor") `A` such that `A(x) = 1` and, with high probability,
+`f(z) = f(x)` for `z` drawn from a perturbation distribution conditioned on `A`. Formally: maximise
+**coverage** subject to **precision ≥ τ** with confidence `1−δ`. Solved by **beam search** over
+candidate predicates using **pure-exploration multi-armed bandits (KL-LUCB)** to decide, with
+statistical guarantees, which candidate's precision is highest without exhaustively sampling.
+
+**Assessment.** Anchors is the *closest* post-hoc method to what NAADAP needs, because its output
+is a **rule** and the rule carries a **probabilistic precision guarantee**. But:
+- The guarantee is over the **perturbation distribution**, which the analyst chose. The Slack et al.
+  attack applies in principle for the same reason it applies to LIME/SHAP.
+- It is still an explanation *of a black box*, so Rudin's fidelity argument still holds: the anchor
+  is not what the model computed, it's a region where the model happened to be stable under
+  sampling.
+- It is **stochastic** (bandit sampling), so `δ`-confidence, not certainty.
+- **And the decisive point: if you want a rule with a guarantee, learn a rule list with a
+  certificate. CORELS gives you a rule that *is* the model, with a deterministic optimality
+  certificate, instead of a rule that *approximates* a model, with a probabilistic precision bound
+  over a synthetic distribution.** Anchors is the right idea applied at the wrong layer.
+
+### 6.4 Would a SHAP value survive a contracting officer or a protest attorney?
+
+Working through it honestly, because the team will be asked.
+
+**What a CO needs to write.** A determination has to state a *reason grounded in fact and
+authority*: this vehicle's scope encompasses the requirement; the NAICS is on the vehicle; the
+ceiling accommodates the estimated value; the ordering period covers the PoP; competition among
+holders is adequate. Each is a checkable proposition.
+
+**What a SHAP value is.** A real number `φ_i` representing feature *i*'s average marginal
+contribution to the deviation of this prediction from the base rate, over orderings of the
+features, under an assumed background distribution.
+
+**Where it fails, specifically:**
+1. **It is not a reason; it is a sensitivity.** `φ_ceiling = +0.23` does not assert that the ceiling
+   is adequate. It asserts that the model's output would have been lower had the ceiling been
+   drawn from the background distribution. A CO cannot write that into a D&F.
+2. **The background distribution is an analyst choice and is discoverable.** "Which background
+   dataset did you use, and why?" has no principled answer, and the number changes with it.
+   Interventional vs. conditional SHAP give different values for correlated features — and
+   acquisition features are *heavily* correlated (PSC ↔ NAICS ↔ vehicle ↔ office).
+3. **Rudin's fidelity argument bites and it bites on the COMPAS pattern exactly.** Because PSC,
+   office, incumbent and vehicle are correlated, a SHAP attribution can assign weight to a feature
+   the model does not causally use — the ProPublica error, reproduced. Opposing counsel gets to
+   say: "your own explanation says the recommendation was driven by *the requiring office*."
+4. **Adversarial fragility (Slack et al. 2020).** SHAP's own attributions can be made arbitrary by
+   an adversary exploiting the perturbation distribution. You do not need to allege bad faith for
+   this to hurt: it establishes that the method does not *reliably* reflect model behaviour on real
+   inputs, and reliability is the whole claim.
+5. **Disagreement (Krishna et al. 2022).** A second explainer gives a different answer. "Why did
+   you choose this one?" has no answer in the record.
+6. **KernelSHAP is stochastic**, so two runs give two sets of numbers. Against a **>=95%
+   determinism** requirement this is a direct compliance failure, not just a rhetorical one.
+7. **Bordt et al. (2022) is the general result:** post-hoc explanations cannot discharge a
+   transparency duty in an adversarial context, and a protest is definitionally adversarial.
+
+**The honest concession.** SHAP has one legitimate use in NAADAP: **offline model debugging and
+SME review during development.** If a gradient-boosted model is used anywhere (e.g. as a candidate
+generator, or the GOSDT "guesses" variant), TreeSHAP is exact and deterministic for trees and is a
+perfectly good diagnostic for finding that the model has latched onto the requiring office. That is
+Caruana's asthma finding, obtained by a different route. **What it must never be is the content of
+the rationale field in the output.**
+
+**Recommendation: SHAP/LIME/Anchors are cited in NAADAP's design rationale as the rejected
+alternative, with reasons.** That section of the documentation is itself a protest-defence asset:
+it demonstrates the Government considered and rejected post-hoc explanation *on the record*,
+citing Rudin (2019), Bordt et al. (2022) and Slack et al. (2020). A tribunal reads that as
+diligence.
+
+---
+
+## 7. Synthesis and ranked recommendation
+
+### 7.1 Determinism scoreboard
+
+| Method | Deterministic out of the box? | What it takes to make it deterministic | Residual risk |
+|---|---|---|---|
+| **CORELS** | Optimum yes; *which* optimum, no | Total order for incumbent replacement; avoid stochastic policy; deterministic hashing | Ties (common — Rashomon). Fully closable. |
+| **GOSDT** | Same as CORELS | Same, **plus single-threaded** (which 1-core forces anyway) | Ties + greedy extraction tie-break |
+| **EBM / GA²M** | Effectively yes | Fix seed for bagging; fixed bin edges, iteration count, feature order | Floating-point accumulation order only |
+| **ML.NET GAM** | Yes with fixed config | Fixed seed/threads | Low |
+| **CBR / k-NN** | Yes except ties | Total order tie-break; stable loop order | Trivial |
+| **RIPPER** | No | Replace random grow/prune split with deterministic partition; fix all tie-breaks | Low once done |
+| **CN2** | No | Fix beam tie-break ordering | Low once done |
+| **RuleFit** | No | Seed subsampling + depth draws | Rule *basis* is random — unstable under data change |
+| **BRL / SBRL / FRL(2015)** | **No** | Seed-fix only — reproducible, not stable | **Disqualifying.** Chain init is random; a one-row change reshuffles everything |
+| **Bertsimas–Dunn MIO** | **No under a time limit** | Cannot be fixed without removing the time limit | **Disqualifying**, plus solver dependency |
+| **LIME / KernelSHAP / Anchors** | **No** | Seed-fix only | Disqualifying *and* not a rationale anyway |
+
+### 7.2 C# reimplementability scoreboard
+
+| Method | Verdict | Notes |
+|---|---|---|
+| **CBR (retrieve + local–global similarity + footprint maintenance)** | **Trivial** | Pure BCL. Days of work. |
+| **CN2 / RIPPER** | **Easy** | ~1–2k lines, no dependencies. RIPPER's MDL encoding is the only fiddly part; substitutable by `λ × size`. |
+| **GAM / GA²M** | **Already available** | `Microsoft.ML.Trainers.FastTree.GamBinaryTrainer` is an implementation of Lou/Caruana/Gehrke with shape functions. FAST for pairwise terms is ~400 additional lines. |
+| **CORELS** | **Feasible, high value** | ~2–3k lines. `ulong[]` bit vectors + `BitOperations.PopCount` + `Vector256<ulong>` + `PriorityQueue` + `Dictionary` with custom comparer. **No bignum needed** if you skip the evaluation-count reporting bounds. JMLR paper has full pseudocode. **GPL-3.0 reference impl → clean-room only.** |
+| **GOSDT** | **Feasible** | Comparable effort; dependency graph is the extra complexity. BSD-3 reference impl (could be vendored, but native C++ in .NET is a packaging liability). |
+| **RuleFit** | **Feasible** | Needs coordinate-descent lasso + GBT; ML.NET supplies much of it. |
+| **Bertsimas–Dunn MIO** | **Not viable** | Requires a commercial or heavyweight native MIO solver. Fails "minimal dependencies" and fails determinism. |
+
+### 7.3 Ranked recommendation
+
+**#1 — CORELS-style certifiably optimal rule lists, reimplemented in C#, as the core decision
+logic.** *(Angelino, Larus-Stone, Alabi, Seltzer & Rudin, JMLR 18(234):1–78, 2018; arXiv:1704.01701.)*
+
+This is the only method in the survey whose output is *simultaneously* (a) a rule the CO can quote
+verbatim in a determination, (b) the model's actual computation rather than an approximation of it,
+and (c) accompanied by a **certificate** — "no shorter or more accurate rule list exists under this
+objective over this candidate-condition set, and the search proved it." That sentence is a
+qualitatively better debrief answer than anything else here can produce. The objective
+`ℓ + λK` is stated in one line and is itself defensible policy ("we will trade at most 1%
+accuracy to remove a condition from the rationale"), which converts a modelling hyperparameter into
+a documented Government decision.
+
+Practical fit is good: CORELS was designed for *tens to low hundreds* of pre-mined antecedents
+(M=122 and M=46 in the published experiments) over thousands to tens of thousands of rows — which
+is exactly NAADAP's shape once acquisition features are binarised. Published runtimes of 21 s and
+36 s to *certify* optimality, against a 30-minute budget, leave enormous headroom. Branch-and-bound
+is **anytime**: at the time limit you still have a valid rule list plus an optimality gap.
+
+Required engineering: a strict total order for incumbent replacement (objective, then length, then
+canonical lexicographic antecedent sequence) to kill Rashomon ties; deterministic hashing (never
+let `Dictionary` enumeration order reach the output); BFS or best-first-by-lower-bound, never the
+stochastic policy. Clean-room from the JMLR paper — the reference implementation is GPL-3.0 and
+must not be vendored.
+
+*Combine with Rudin's Appendix D:* the shipped model does **not** need to be globally 5 rules. It
+needs to print **one satisfied conjunction** per recommendation. That relaxes sparsity a lot.
+
+**#2 — Case-based reasoning, formalised per Aamodt & Plaza, with a Smyth–Keane footprint-maintained
+case base, as the corroborating evidence channel.**
+*(Aamodt & Plaza, AI Communications 7(1):39–59, 1994, DOI 10.3233/AIC-1994-7104; Smyth & Keane,
+IJCAI-95:377–383.)*
+
+NAADAP is already doing this; the literature supplies three things it is probably missing.
+1. **Select should emit an explanation, not a score.** Aamodt & Plaza: *"the case that has the
+   strongest explanation for being similar to the new problem is chosen,"* with explanations that
+   *"justify non-identical features."* Build the retrieval to produce "analogous because X, Y;
+   differs in Z, which does not bear on vehicle suitability because…" — that is the debrief text,
+   generated for free.
+2. **Knowledge-intensive, not knowledge-poor similarity.** Acquisition has a large explicit
+   ontology. Use per-attribute local measures over normalised acquisition features, not an opaque
+   embedding distance. Separate **criticality** (disqualifying — belongs in the rule layer) from
+   **predictive strength** (ranking — belongs in the similarity weights); PROTOS/CREEK make exactly
+   this distinction.
+3. **Footprint deletion solves the swamping problem *and* is itself defensible.** Define
+   `Adaptable(c,c')` via the rule layer, compute Coverage/Reachability, retain pivotal and spanning
+   cases, prune auxiliary clusters. You get a small case base that fits in 2 GB, retrieves fast,
+   provably retains competence, and — uniquely — comes with a justification for *why each precedent
+   is in there*.
+4. **Freeze and version.** RETAIN is an offline, human-gated, version-stamped operation, never a
+   run-time side effect. Stamp every recommendation with the case-base version hash so a protest
+   filed months later reproduces exactly.
+
+The rule layer and the CBR layer are not two separate systems: in Aamodt & Plaza's terms, the
+**rules are the transformational-reuse operators.** Saying so in the design documentation makes the
+architecture coherent rather than bolted together.
+
+**#3 — GA²M / Explainable Boosting Machine as a bounded, clearly-labelled ranking and audit layer —
+never as the rationale.**
+*(Lou, Caruana, Gehrke & Hooker, KDD '13:623–631, DOI 10.1145/2487575.2487579; Caruana et al.,
+KDD '15, DOI 10.1145/2783258.2788613; Nori et al., arXiv:1909.09223.)*
+
+Two narrow jobs. **(a) Ordering within a rule-defined feasible set.** Rules decide *eligibility* —
+the legally load-bearing part. The additive model orders the eligible vehicles for presentation,
+explicitly labelled advisory, with its shape functions printable. Its decomposition is *exact and
+is the model's actual computation*, so Rudin's fidelity objection does not apply — but it is still
+a number, and NAADAP's own stated requirement rules out "scored highest" as a rationale. Keep it
+subordinate. **(b) Audit of the weak labels.** This is the higher-value use. The KDD'15
+pneumonia/asthma result is the template: plotting shape functions over the millions of historical
+award records will surface confounds (office habit, incumbent capture, expiring-vehicle effects)
+*before* they contaminate the rule layer. Determinism is the best of any learner here (no
+combinatorial search, no ties), and **.NET already ships `GamBinaryTrainer`**, an implementation of
+this very paper — only FAST pairwise detection would need adding.
+
+**Also worth building, cheaply: CN2 or RIPPER as a candidate-antecedent generator.** Not as the
+decision procedure — greedy learning on ~tens of labels will overfit and carries no certificate —
+but CORELS needs pre-mined antecedents and enumeration over all conjunctions gets large fast. A
+greedy rule learner (or RuleFit's tree-derived rule basis) over the weakly-labelled award corpus is
+a legitimate way to *propose* candidate conditions, which an SME then curates into the final
+candidate set that CORELS optimises over. **Keep the human curation step.** It is cheap, it is the
+project's main defence against weak-label contamination, and Rudin's counterargument (ii) — that
+interpretable models need domain expertise — is answered by budgeting for it rather than by
+pretending otherwise.
+
+**Rejected, with reasons for the record:** Bayesian Rule Lists / SBRL / Falling Rule Lists (2015)
+— MCMC with random chain initialisation; seed-fixing gives reproducibility, not stability, and "we
+set the seed to 42" is not a debrief answer. Bertsimas–Dunn MIO — requires a heavyweight or
+commercial solver and is non-deterministic under a wall-clock limit *by construction*. LIME /
+KernelSHAP / Anchors — stochastic, unfaithful by Rudin's argument, adversarially manipulable
+(Slack et al. 2020), mutually inconsistent (Krishna et al. 2022), and shown unable to discharge a
+legal transparency duty in adversarial settings (Bordt et al. 2022). TreeSHAP may be used **offline
+for model debugging only**, never in the rationale field.
+
+---
+
+## 8. Complete verified reference list
+
+Format: *cited as I actually retrieved it.* **[V]** = full text or authoritative record retrieved.
+**[P]** = metadata verified, full text not read. **[U]** = unverified.
+
+1. **[V]** Rudin, C. (2019). "Stop explaining black box machine learning models for high stakes
+   decisions and use interpretable models instead." *Nature Machine Intelligence* 1, 206–215.
+   DOI 10.1038/s42256-019-0048-x. arXiv:1811.10154 (v3, 20 pp, with Appendices A–E).
+2. **[P]** Rudin, C., Chen, C., Chen, Z., Huang, H., Semenova, L., Zhong, C. (2022). "Interpretable
+   machine learning: Fundamental principles and 10 grand challenges." *Statistics Surveys* 16, 1–85.
+   DOI 10.1214/21-SS133. arXiv:2103.11251.
+3. **[P]** Semenova, L., Rudin, C., Parr, R. (2022). "On the Existence of Simpler Machine Learning
+   Models." *FAccT '22*. DOI 10.1145/3531146.3533232.
+4. **[P]** Semenova, L., Chen, Y., Parr, R., Rudin, C. (2023). "A Path to Simpler Models Starts With
+   Noise." *NeurIPS 36*. DOI 10.52202/075280-0149.
+5. **[V]** Angelino, E., Larus-Stone, N., Alabi, D., Seltzer, M., Rudin, C. (2018). "Learning
+   Certifiably Optimal Rule Lists for Categorical Data." *JMLR* 18(234), 1–78. arXiv:1704.01701.
+6. **[P]** Angelino, E., Larus-Stone, N., Alabi, D., Seltzer, M., Rudin, C. (2017). "Learning
+   Certifiably Optimal Rule Lists." *KDD '17*, 35–44. DOI 10.1145/3097983.3098047.
+7. **[V]** Letham, B., Rudin, C., McCormick, T. H., Madigan, D. (2015). "Interpretable classifiers
+   using rules and Bayesian analysis: Building a better stroke prediction model." *Annals of
+   Applied Statistics* 9(3), 1350–1371. DOI 10.1214/15-AOAS848. arXiv:1511.01644.
+8. **[V]** Yang, H., Rudin, C., Seltzer, M. (2017). "Scalable Bayesian Rule Lists."
+   arXiv:1602.08610; *ICML 2017*, PMLR 70:3921–3930. (Note: `1602.08610v3` does not resolve; cite
+   the bare ID.)
+9. **[V]** Wang, F., Rudin, C. (2015). "Falling Rule Lists." *AISTATS 2015*, PMLR 38:1013–1022.
+   arXiv:1411.5899.
+10. **[U]** Chen, C., Rudin, C. (2018). "An Optimization Approach to Learning Falling Rule Lists."
+    *AISTATS 2018*. Pages unverified.
+11. **[P]** Cohen, W. W. (1995). "Fast Effective Rule Induction." *ICML 1995*, 115–123.
+    DOI 10.1016/B978-1-55860-377-6.50023-2. *Mechanism reconstructed from a secondary technical
+    summary (Franczak 2000, retrieved in full) — verify formulas against the original.*
+12. **[P]** Clark, P., Niblett, T. (1989). "The CN2 Induction Algorithm." *Machine Learning* 3(4),
+    261–283. DOI 10.1023/A:1022641700528.
+13. **[V]** Friedman, J. H., Popescu, B. E. (2008). "Predictive learning via rule ensembles."
+    *Annals of Applied Statistics* 2(3), 916–954. DOI 10.1214/07-AOAS148. arXiv:0811.1679.
+14. **[V]** Bertsimas, D., Dunn, J. (2017). "Optimal classification trees." *Machine Learning*
+    106(7), 1039–1082. DOI 10.1007/s10994-017-5633-9.
+15. **[P]** Hu, X., Rudin, C., Seltzer, M. (2019). "Optimal Sparse Decision Trees." *NeurIPS 32*,
+    7265–7273.
+16. **[V]** Lin, J., Zhong, C., Hu, D., Rudin, C., Seltzer, M. (2020). "Generalized and Scalable
+    Optimal Sparse Decision Trees." *ICML 2020*, PMLR 119.
+17. **[V]** Lou, Y., Caruana, R., Gehrke, J., Hooker, G. (2013). "Accurate intelligible models with
+    pairwise interactions." *KDD '13*, 623–631. DOI 10.1145/2487575.2487579.
+18. **[U]** Lou, Y., Caruana, R., Gehrke, J. (2012). "Intelligible models for classification and
+    regression." *KDD '12*. Pages unverified.
+19. **[P]** Caruana, R., Lou, Y., Gehrke, J., Koch, P., Sturm, M., Elhadad, N. (2015).
+    "Intelligible Models for HealthCare: Predicting Pneumonia Risk and Hospital 30-day
+    Readmission." *KDD '15*. DOI 10.1145/2783258.2788613.
+20. **[P]** Nori, H., Jenkins, S., Koch, P., Caruana, R. (2019). "InterpretML: A Unified Framework
+    for Machine Learning Interpretability." arXiv:1909.09223.
+21. **[P]** Chen, C., Lin, K., Rudin, C., Shaposhnik, Y., Wang, S., Wang, T. (2018). "An
+    Interpretable Model with Globally Consistent Explanations for Credit Risk." arXiv:1811.12615.
+22. **[V]** Aamodt, A., Plaza, E. (1994). "Case-Based Reasoning: Foundational Issues, Methodological
+    Variations, and System Approaches." *AI Communications* 7(1), 39–59. DOI 10.3233/AIC-1994-7104.
+23. **[V]** Smyth, B., Keane, M. T. (1995). "Remembering To Forget: A Competence-Preserving Case
+    Deletion Policy for Case-Based Reasoning Systems." *IJCAI-95*, 377–383.
+24. **[P]** Leake, D. B., Wilson, D. C. (1998). "Categorizing case-base maintenance: Dimensions and
+    directions." *EWCBR-98*, LNCS 1488, 196–207. DOI 10.1007/BFb0056333.
+25. **[P]** Osborne, H. R., Bridge, D. G. (1996). "A case base similarity framework." *EWCBR-96*,
+    LNCS, 309–323. DOI 10.1007/BFb0020619.
+26. **[U]** Richter, M. M. (1995). "The knowledge contained in similarity measures." Invited talk,
+    ICCBR-95. *No canonical archival version located — cite via Richter & Aamodt (2005),
+    Knowledge Engineering Review, or Richter & Weber (2013), Springer, instead.*
+27. **[P]** Ribeiro, M. T., Singh, S., Guestrin, C. (2016). '"Why Should I Trust You?": Explaining
+    the Predictions of Any Classifier.' *KDD '16*, 1135–1144. DOI 10.1145/2939672.2939778.
+    arXiv:1602.04938.
+28. **[P]** Lundberg, S. M., Lee, S.-I. (2017). "A Unified Approach to Interpreting Model
+    Predictions." *NIPS 2017*. arXiv:1705.07874.
+29. **[P]** Ribeiro, M. T., Singh, S., Guestrin, C. (2018). "Anchors: High-Precision Model-Agnostic
+    Explanations." *AAAI 2018*, 32(1). DOI 10.1609/aaai.v32i1.11491.
+30. **[V]** Slack, D., Hilgard, S., Jia, E., Singh, S., Lakkaraju, H. (2020). "Fooling LIME and
+    SHAP: Adversarial Attacks on Post hoc Explanation Methods." *AIES '20*. arXiv:1911.02508.
+31. **[P]** Krishna, S., Han, T., Gu, A., Wu, S., Jabbari, S., Lakkaraju, H. (2022). "The
+    Disagreement Problem in Explainable Machine Learning: A Practitioner's Perspective."
+    arXiv:2202.01602.
+32. **[V]** Bordt, S., Finck, M., Raidl, E., von Luxburg, U. (2022). "Post-Hoc Explanations Fail to
+    Achieve their Purpose in Adversarial Contexts." *FAccT 2022*. arXiv:2201.10295.
+33. **[U]** "In Defence of Post-hoc Explainability." arXiv:2412.17883. *Existence and thesis from
+    search listing only; venue and peer-review status unverified.*
+34. **[U]** "In defence of post-hoc explanations in medical AI." arXiv:2504.20741. *Same caveat.*
+35. **[U]** Breiman, Friedman, Olshen, Stone (1984). *Classification and Regression Trees.*
+    Wadsworth. *Textbook, not re-verified.*
+36. **[U]** Hyafil, L., Rivest, R. L. (1976). NP-hardness of optimal binary decision trees.
+    *Cited through Bertsimas & Dunn.*
+37. **[U]** Minton (1990); Tambe, Newell & Rosenbloom (1990); Francis & Ram (1993) — the utility
+    and swamping problem originals. *Cited only through Smyth & Keane (1995).*
+
+### Software, with verified provenance
+
+| Repo | Language | License | Status | Verified |
+|---|---|---|---|---|
+| `corels/corels` | C/C++ | **GPL-3.0** | ~178 ★, not archived | **Yes** (fetched) |
+| `ubc-systopia/gosdt-guesses` | C++ / Python | **BSD-3-Clause** | ~64 ★, not archived, active CI | **Yes** (fetched) |
+| `interpretml/interpret` | Python / R / C++ (`libebm`) | **MIT** | ~6.9k ★, not archived, ~3,970 commits | **Yes** (fetched) |
+| `imoscovitz/wittgenstein` | Python | **MIT** | ~115 ★, not archived. IREP + RIPPER*k* | **Yes** (fetched) |
+| `Microsoft.ML.Trainers.FastTree.GamBinaryTrainer` | **C# / .NET** | MIT (ML.NET) | First-party, shipping | **Yes** (Microsoft Learn API docs) |
+| `xiyanghu/OSDT` | Python | **UNVERIFIED** | — | No |
+| `Jimmy-Lin/GeneralizedOptimalSparseDecisionTrees` | C++ | **UNVERIFIED** | Superseded by ubc-systopia | No |
+| `Hongyuy/sbrlmod` | C | **UNVERIFIED** | SBRL reference impl per CORELS paper | No |
+| `christophM/rulefit` | Python | **UNVERIFIED** | — | No |
+| `marcotcr/lime`, `shap/shap`, `marcotcr/anchor` | Python | **UNVERIFIED** | — | No |
+
+*GitHub's REST API was not reachable from this session; verified rows were confirmed by fetching
+the rendered repository page. Unverified rows should be checked before any licensing decision.*
+
+**Licensing note for NAADAP:** `corels/corels` is **GPL-3.0**. Do not vendor, link, or derive code
+from it. Reimplement clean-room from the JMLR paper (which contains full pseudocode) and use the
+C++ binary only as an offline test oracle. `gosdt-guesses` (BSD-3) and `interpret` (MIT) are
+permissive, but both are native C++ and would be packaging liabilities inside an offline .NET
+container.

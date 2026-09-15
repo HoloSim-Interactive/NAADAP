@@ -204,8 +204,16 @@ OSBP contracting detail but landed on SAM.gov's generic hub page instead.
   grading with certainty scores for Navy acquisition-package review.
 - AIRC/IDA TR-005 (2026) and WRT-1097: multi-agent decomposition and the
   warning that generated citations cannot be trusted.
-- NPS/AFICC PSC prediction (Muir, Westermeyer, Reich, 2021): character CNN,
-  hierarchical decoding, ONNX serving.
+- NPS/AFICC PSC prediction — **citation corrected 2026-09-15**, verified via
+  Crossref: Muir, William A. (AFICC) & Reich, Daniel (NPS), "Using Machine
+  Learning to Improve Public Reporting on U.S. Government Contracts,"
+  *INFORMS Journal on Applied Analytics* 51(6):463–479, Nov 2021, DOI
+  10.1287/inte.2021.1098. **Two authors — an earlier version of this line
+  cited a third, "Westermeyer," who does not exist in this literature.**
+  Character CNN, top-down hierarchical decoding, ONNX serving; deployed at
+  fscpsc.com, code at github.com/wamuir (CC0). Trained on ~4M historical
+  records. **Reported accuracy figures were not retrieved** (INFORMS is
+  paywalled, no preprint) — do not cite a number for this work.
 - GSA Solicitation Review Tool, 18F Discovery, GSA MRAS: the only public
   federal pipelines that ingest SAM attachments or recommend vehicles.
 - GAO-14-36, GAO-21-40, GAO-25-108638; CRS R41133 and IF12374.

@@ -123,9 +123,34 @@ small transformer encoders (all-MiniLM-L6-v2 int8 ONNX at 23 MB via
 Microsoft.ML.Tokenizers BertTokenizer and Microsoft.ML.OnnxRuntime with
 one intra-op thread, sequential execution, and rounded outputs, embedding
 task-statement chunks under 256 word-pieces then pooling). The published
-evidence favors modest models: a Word2Vec plus GMM pipeline on procurement
-text beat transformer embeddings on cluster quality, and NPS/AFICC's PSC
-predictor used a character CNN served through ONNX Runtime.
+evidence favors modest models, but **the specific claim this file previously
+made here was unsourced and has been struck (2026-09-15)**: it asserted that
+"a Word2Vec plus GMM pipeline on procurement text beat transformer embeddings
+on cluster quality." A dedicated search found no such study. The nearest real
+work is a single-author preprint on *e-commerce reviews* (not procurement)
+using KMeans/DBSCAN/HDBSCAN (no GMM), whose own abstract states that no
+embedding type outperformed another, and whose Word2Vec edge is in silhouette
+score — an internal cohesion metric that does not indicate the clusters are
+more correct. Do not repeat that claim.
+
+What the evidence actually supports, on jargon-dense defense text
+specifically, is **RAND PE-A926-1** (Schirmer et al., July 2021): basic
+TF-IDF "performed as well as or better than more-complex approaches";
+stemming and stopword removal *lost* information on jargon; "word embeddings
+may disappoint" because general-corpus pretrained vectors are too generic;
+and RAND's own custom DoD-corpus embeddings vastly outperformed pretrained
+ones on analogy and word-similarity tasks yet **did not improve performance
+on the downstream text-classification task.** Treat any embedding upgrade as
+a hypothesis to ablate, not an assumed gain.
+
+A second finding argues the same way from the opposite direction. NPS/AFICC's
+PSC predictor did use a character CNN served through ONNX Runtime — but it
+trained on ~4M records, and char-CNN's own inventors (Zhang, Zhao & LeCun,
+arXiv:1509.01626) state that "n-grams TFIDF remain strong candidates for
+dataset[s] of size up to several hundreds of thousands, and only until the
+dataset goes to the scale of several millions do we observe that
+character-level ConvNets start to do better." At this project's corpus size
+the lexical core is the *accuracy*-preferred choice, not merely the cheap one.
 
 Clustering that stays deterministic: sort by document id before any
 pairwise loop; compute similarities in double precision with a fixed
