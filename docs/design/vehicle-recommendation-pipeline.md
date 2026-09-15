@@ -157,6 +157,24 @@ rules, FPDS modification/termination field semantics, GAO protest data
 structure, PALT derivation — before this channel is designed. None of the
 six passes run so far covered it.
 
+### Who this channel serves
+
+The routing recommendation serves the CO who has never handled this
+requirement — a common starting point, a short list of directions that
+passed the gates and have precedent, and the reasons the others were
+ruled out. **The outcome channel is what serves the experienced CO**, and
+that is the harder and stronger case to make. An experienced CO already
+knows where to go. What they cannot know from experience is that where
+they habitually go has, for this kind of work, produced twice the PALT
+or two terminations for default since FY22 — because no colleague will
+say so and the CO's own successes are what they remember. The outcome
+proxies say so from the record. That is the experienced CO's reason to
+use a tool that looks as if it was built for the novice, and it is why
+this channel carries the follow-on OTA narrative rather than the routing
+channel. The client's full navigation analogy, with both audiences, is
+recorded in
+<a href="../../.claude/skills/gov-acquisition-sme/references/challenge-brief.md">challenge-brief.md</a>.
+
 ## Gates before any code
 
 Ordered. Each gates the next.

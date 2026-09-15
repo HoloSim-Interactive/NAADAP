@@ -31,6 +31,55 @@ buy the same service. Today "the process relies on an individual with
 knowledge of existing systems, requirements, and contracting vehicles."
 **That individual is the persona this skill encodes.**
 
+### The navigation analogy (client's framing, 2026-09-15)
+
+The client's reading of that paragraph, agreed as the positioning
+statement for the algorithm documentation and Demo Day:
+
+> Currently, experienced COs "know where to go" for requirements they've
+> handled before, but COs confronted with requirements they have not
+> defined or fulfilled in the past must spend time figuring out a heading
+> without a clearly defined target destination. The algorithmic
+> methodology will represent a common starting point from which COs will
+> be able to select from a short list of reliable directions towards
+> fulfilment, **and the reasons the others were ruled out.**
+
+Three things the wording does deliberately. **The CO selects; the system
+does not pick** — that is the reserved-decision boundary in
+ai-boundaries.md, and it matches the sponsor's own "identify contracts
+suitable to be used." **"Reliable" is earned, not asserted**: a direction
+is reliable because it passed the hard-constraint gates (ordering period
+open past the period of performance, office eligible, contract type
+permitted, ceiling headroom) and has precedent (prior orders of this kind
+on this vehicle in FPDS). The documentation should define it that way.
+**The ruled-out directions are part of the product**: "SeaPort-NxG was
+eliminated because its ordering period closes before your period of
+performance" is the piece of tacit knowledge the novice did not have.
+The eliminations record (CORE-272 in the derived set) is not a diagnostic
+by-product; it is what makes "common starting point" a map rather than
+an arrow.
+
+**The experienced CO benefits too, and differently — document this,
+because it is the harder sell and the stronger one.** For a requirement
+they have handled before, the short list is a second opinion: confirmation
+that the habitual direction still passes the gates (the ordering period
+has not closed; the office is still eligible; nothing in the requirement
+has drifted to a contract type the vehicle forbids) and a check that no
+newer vehicle has appeared that would serve better. That alone is worth
+something — the SeaPort-NxG PIEE transition and the NAWCTSD MAC awards
+are exactly the kind of change a CO who "knows where to go" does not
+necessarily know about. But the larger benefit arrives with the outcome
+channel. FPDS records where experienced COs have gone; the outcome
+proxies (terminations for default, bridge contracts, PALT, re-compete
+migration) record where going there has underperformed. The tool can
+tell an experienced CO that their habitual direction has, for this kind
+of work, produced twice the cycle time of the alternative since FY22.
+No colleague will tell them that. The record will. That is the
+experienced CO's reason to use a tool that looks as if it was built for
+the novice — and it is the same evidence the follow-on OTA narrative
+rests on. See the "was it right" section of
+<a href="https://github.com/HoloSim-Interactive/NAADAP/blob/main/docs/design/vehicle-recommendation-pipeline.md" target="_blank">docs/design/vehicle-recommendation-pipeline.md</a>.
+
 ## Benefits (the sponsor's own words, and what they cite)
 
 > The primary benefits include increased buying power, reduction of
