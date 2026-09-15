@@ -251,11 +251,21 @@ Acronym traps: "SDD" is not confirmed as System Development and
 Demonstration in the primary sources now in hand (the string does not
 appear in either 4355.19E or the Handbook); treat that as unconfirmed, not
 retracted, and still confirm with the client which meaning is intended
-before relying on it. **"PEDDAL" is confirmed absent** from the full text
-of both 4355.19E and the SETR Process Handbook v1.0 — this was checked
-directly against the primary documents, not inferred from web search, and
-the result is the same: zero occurrences of "PEDDAL" or "PEDAL" in either
-file. Never invent an expansion; ask the client.
+before relying on it. **"PEDDAL" — closed, 2026-09-15, do not pursue further.** Confirmed absent
+from the full text of 4355.19E, the SETR Process Handbook v1.0, and every
+other primary source obtained; the client's own recollection is that it
+appeared as a deliverable on a prior NAWCTSD project, referring to
+engineering design drawings and logistics content, expansion of "P" not
+recalled, and it does not appear in any documentation the client could
+locate either. The client's working theory is that it may have been an
+informal, fleet-procedures-level companion document to the design
+drawings rather than a defined SETR artifact or acronym with a formal
+source — plausible, and not contradicted by anything found in 4355.19E or
+the Handbook, which name no companion-document convention by that name.
+Treat "PEDDAL" as client-specific institutional terminology of uncertain
+formal standing, not a general Navy or NAVAIR SETR term. If it resurfaces
+in project documentation, note it as such rather than researching it
+again from scratch.
 
 **NAVAIR's 18-event list is a Component-level superset, not a contradiction
 of DoD policy.** DoDI 5000.88 (the DoD-wide engineering instruction, not
