@@ -129,7 +129,7 @@ five-digit serial plus revision: DI-MGMT (management — **81861C is
 IPMDAR, Integrated Program Management Data and Analysis Report, not
 "IPMR"**; IPMR is a different, older, narrative-format EVM report that
 IPMDAR's XML/UN CEFACT schema superseded, so do not treat the two as
-interchangeable), DI-IPSC (software, e.g., 81435A SDD, 81433A SRS),
+interchangeable), DI-IPSC (software, e.g., 81435B SDD, 81433A SRS; every DID on file is registered with its current revision in `did-register.md`),
 DI-SESS (systems engineering, e.g., **81785B SEMP** — the contractor's Systems Engineering *Management* Plan, Rev B Jan 2025; not the Government's SEP, which is governed by the OSD SEP Outline, not a DID), DI-MISC (e.g., 80508
 technical report), DI-ADMN, DI-FNCL, DI-ILSS, DI-SAFT, DI-TMSS, **DI-HFAC
 (human factors/human engineering — confirmed against MIL-HDBK-46855A

@@ -367,7 +367,7 @@ The Increment 1 critical path is G4 → G5 → G6 → SVR-1/FCA-1 → PCA-1 → 
 | 9 | Algorithm performance summary metrics | OUT-420 output, same bundle |
 | 10 | Description of validation methodology | `docs/VALIDATION_METHODOLOGY.md` |
 | 11 | Documentation of external dependencies | `docs/DEPENDENCIES.md` |
-| 12 | Required technical and supporting documentation | `docs/RTVM.md`, `docs/SDD.md`, `docs/MAINTAINER_GUIDE.md`, this SEMP and the SETR review records under `docs/setr/` |
+| 12 | Required technical and supporting documentation | `docs/RTVM.md`, `docs/SDD.md`, `docs/MAINTAINER_GUIDE.md`, this SEMP, the SETR review records under `docs/setr/reviews/`, and the data item list `docs/setr/CDRL.md` naming the DID each artifact follows |
 
 #### 3.1.2 Technical maturity assessment
 
@@ -853,7 +853,7 @@ DI-SESS-81785B, block 10, prescribes the SEMP's minimum content (identical to Re
 | 3.5.c | Trade studies | CORE-260 comparison (`docs/ALGORITHM_COMPARISON.md`); research verdicts in `docs/design/vehicle-recommendation-pipeline.md` "Decisions and their basis"; ML.NET evaluation (§3.2.8.2) |
 | 3.5.d | Independent verification and validation | Test Engineer role, independent of implementation and write-guarded (§3.2.8.3); ground truth derived by inspection and never read by the pipeline (`docs/VALIDATION_METHODOLOGY.md`) |
 | 3.6 | Tailored process planning, including suppliers and COTS | §1.4, §3.2.8.2 |
-| 3.7 | Referenced lower-level plans: risk, requirements, data, configuration | §3.2.1; §2.1 and `docs/RTVM.md`; §3.2.11; §3.2.10. Test: RTVM Test Procedures and `docs/VALIDATION_METHODOLOGY.md`. |
+| 3.7 | Referenced lower-level plans: risk, requirements, data, configuration (see also `docs/setr/CDRL.md`, the data item list naming the DID each plan and product follows) | §3.2.1; §2.1 and `docs/RTVM.md`; §3.2.11; §3.2.10. Test: RTVM Test Procedures and `docs/VALIDATION_METHODOLOGY.md`. |
 | 3.8 | Other areas as necessary | Appendix C (metrics), Appendix E (digital engineering) |
 
 *Table 4-1 Process mapping: HoloSim SE workflow to Government processes.* The contractor's process is the ten-step workflow in `docs/reference/Human_SE_Workflow.txt`. The Government references are the ISO/IEC/IEEE 15288 technical processes named in the SE Guidebook (2022) and the NAVAIRINST 4355.19E event at which the step's product is reviewed.

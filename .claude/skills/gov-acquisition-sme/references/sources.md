@@ -246,6 +246,23 @@ identical. B changes only its standards citations, IEEE 15288.1 and
 task stays at paragraph 6.3.1.4 of the application standard). Recorded in
 `docs/setr/SEMP.md` §1.3.
 
+## Fifth round — CDRL DIDs from ASSIST, client-supplied (2026-09-16)
+
+Twenty-two DID folders under `sources/DI-*/`, every revision and validation
+notice ASSIST lists for each, downloaded 2026-09-15 by the client on the
+list this skill gave for SRR/PDR/CDR/SVR/FCA/PCA. Read on 2026-09-16 and
+registered, with titles, dates, and supersession as printed, in
+`did-register.md`. Three results of reading them:
+
+- Two numbers in the skill's list were swapped: **DI-IPSC-81432A is the
+  System/Subsystem Design Description and DI-IPSC-81434A is the Interface
+  Requirements Specification.** Corrected in the register and flagged.
+- The `DI-NDTI-80603/` folder holds two copies of DI-NDTI-80566 (Test Plan),
+  not the Test Procedure DID. 80603 is still not on file.
+- The DI-IPSC "A" revisions are served as scans; the register's entries for
+  them come from OCR of page 1 and from the cross-references the text
+  revisions print, which agree.
+
 ## Prior art this skill draws on
 
 - 1102tools/federal-contracting-skills and acqagent/skills (MIT): boundary
