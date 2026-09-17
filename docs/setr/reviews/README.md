@@ -15,7 +15,7 @@ time of the event, and each says so.
 | [`SRR-I-2026-09-03.md`](SRR-I-2026-09-03.md) | System Requirements Review I | 2026-09-03 | 1 | Retrospective |
 | [`PDR-2026-09-03.md`](PDR-2026-09-03.md) | Preliminary Design Review (ASR, SFR, SSR folded in) | 2026-09-03 | 1 | Retrospective |
 | [`CDR-2026-09-03.md`](CDR-2026-09-03.md) | Critical Design Review (IRR folded in) | 2026-09-03 | 1 | Retrospective |
-| SVR-1 / FCA-1 | System Verification Review and Functional Configuration Audit | Planned 2026-09-19 to 2026-09-21 | 1 | Not yet held |
+| [`SVR-1-FCA-1-2026-09-17.md`](SVR-1-FCA-1-2026-09-17.md) | System Verification Review and Functional Configuration Audit | Entered 2026-09-17; conditional exit | 1 | Exit pending RFA-SVR1-1, -2 |
 | PCA-1 | Physical Configuration Audit | Planned 2026-09-21 | 1 | Not yet held |
 
 Requests for action are GitHub issues opened from the

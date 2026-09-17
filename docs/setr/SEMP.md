@@ -335,7 +335,7 @@ The program has no Integrated Master Plan or Integrated Master Schedule in the D
 | Gate G4: singleton-cohesion fix | 1 | 2026-09-17 | `docs/design/vehicle-recommendation-pipeline.md` | Complete: singletons score 0.0; 80 tests pass; comparison re-run |
 | Gate G5: vehicle knowledge base, data-derived and family-grouped | 1 | 2026-09-17 | G1 design consequence 1 | Complete: 484 rows, 87.3% coverage; matcher and evidence record implemented (commit 7783c39) |
 | Gate G6: design accepted into the SDD | 1 | 2026-09-17 | Solutions Architect | Complete: SDD block diagram, data architecture, and DELIV-950 reopen recorded; core-vs-alternative choice left as-is for Increment 1 (see `docs/ALGORITHM_COMPARISON.md`) |
-| SVR-1 / FCA-1: full regression against the RTVM; TP-910 Windows check | 1 | 2026-09-19 to 2026-09-21 | §3.2.13 | Planned |
+| SVR-1 / FCA-1: full regression against the RTVM; TP-910 Windows check | 1 | Entered 2026-09-17; exit pending RFA-SVR1-1/-2 | §3.2.13; `docs/setr/reviews/SVR-1-FCA-1-2026-09-17.md` | Conditional exit recommended |
 | PCA-1: clean-clone build of the tagged package | 1 | 2026-09-21 | §3.2.13 | Planned |
 | Phase 2 submission (Increment 1 delivered) | 1 | **2026-09-22** | Challenge announcement; client direction 2026-09-17 | Planned |
 | Phase 2 revision window: Government findings, corrections, omissions executed and resubmitted | 1 | by 2026-10-02 | Client direction 2026-09-17 (the announcement's second date set is the resubmission deadline, the Navy's usual SETR practice) | Planned |
@@ -438,12 +438,12 @@ No Technology Readiness Assessment is required for a non-ACAT effort and none is
 | L \ C | 1 | 2 | 3 | 4 | 5 |
 | --- | --- | --- | --- | --- | --- |
 | 5 | | | | | |
-| 4 | | | R-5 | R-8 | R-1 |
+| 4 | | | | R-8 | R-1 |
 | 3 | | R-10 | | | R-6 |
 | 2 | R-9 | | R-11 | | |
 | 1 | | | | | |
 
-High: R-1, R-6, R-8. Moderate: R-5, R-11. Low: R-9, R-10. Closed 2026-09-17: R-2, R-7 (client direction), R-3 (G5 delivered), R-4 (fixed).
+High: R-1, R-6, R-8. Moderate: R-11. Low: R-9, R-10. Closed 2026-09-17: R-2, R-7 (client direction), R-3 (G5 delivered), R-4 (fixed), R-5 (TP-520 passed).
 
 *Table 3.2-2 Risk register*
 
@@ -453,7 +453,7 @@ High: R-1, R-6, R-8. Moderate: R-5, R-11. Low: R-9, R-10. Closed 2026-09-17: R-2
 | R-2 | If the sponsor's summary-box dates (22 Sep / 9 Nov) rather than its timeline-section dates (2 Oct / 19 Nov) govern, then ten fewer days exist for G4–G6 and SVR-1 | — | — | **Closed 2026-09-17.** Client direction: submit 22 Sep; the second date set is the deadline to execute Government-directed revisions and resubmit. Schedule in Table 3.1-1 updated. | Product Manager | §3.1.1 |
 | R-3 | If the vehicle knowledge base is built from the curated catalog alone, then two-thirds of NAVAIR's historical orders have no candidate row (G1 finding F4: 33% coverage) | — | — | **Closed 2026-09-17.** Knowledge base built from the FPDS parent-PIID list (484 rows: 11 catalog families plus every parent IDV with three or more FY2025 orders); coverage 87.3% of FY2025 NAVAIR orders under vehicles against the 80% target. Residual: FY2025 only; last-date-to-order for parent IDVs is a proxy (Increment 2). | Systems Engineer | Need 9; DELIV-950 |
 | R-4 | If singleton clusters keep a cohesion score of 1.0, then eleven of twenty reference documents are scored as perfectly cohesive and the grey-area requirements cannot be verified | — | — | **Closed 2026-09-17.** Fixed: `VehicleRecommender.SingletonScore` = 0.0; unit test pins the ordering; all 80 tests pass. Core precision@5 unchanged (0.60); the CORE-260 alternative rose from 0.40 to 0.80, recorded in `docs/ALGORITHM_COMPARISON.md` and referred to G6 as a Class I decision. | Software Engineer | CORE-200 |
-| R-5 | If the evaluator reads "replication must demonstrably improve performance" literally, then the SDD's independent-replica interpretation earns zero of ten Replicability points | 4 | 3 | Reading confirmed by client direction 2026-09-17: throughput across document sets. Amend TP-520 to measure N replicas processing N sets (RFA-PDR-2); risk retires when TP-520 passes at SVR-1 | Solutions Architect | NFR-520 |
+| R-5 | If the evaluator reads "replication must demonstrably improve performance" literally, then the SDD's independent-replica interpretation earns zero of ten Replicability points | — | — | **Closed 2026-09-17 at SVR-1.** TP-520 (b): four replicas process four sets in 7.53 s against 29.68 s sequential (3.94×) with byte-identical outputs. | Solutions Architect | NFR-520 |
 | R-6 | If the Demo Day timed run occurs inside the 30-minute presentation, then a run near the 30-minute ceiling fails the demonstration | 3 | 5 | Confirmed by client direction 2026-09-17: the run is inside the presentation. Design target of minutes (CORE-220 note); current reference-20 run completes in under one second of compute; risk retires when TP-220 is measured at 1 core / 2 GB and a Demo Day rehearsal is timed | Systems Engineer | CORE-220 |
 | R-7 | If "a correct prediction" means a document-to-vehicle pairing rather than a vehicle name, then the output shape scores differently than designed | — | — | **Closed 2026-09-17.** Client direction: points can be awarded for any of the three forms, and a "new strategic vehicle indicated" entry counts when it is the expected answer. Output keeps all three views (vehicle, document-to-vehicle, cluster-to-vehicle) and the new-vehicle mode. | Product Manager | DATA-OUT-300 |
 | R-8 | If Increment 2 (new subsystem, new fitted model, new build pipeline, new extraction layer) is attempted at full SETR rigor within the Phase 3 window with one part-time human and a capped agent allowance, then SVR-2 slips past the materials deadline | 4 | 4 | Two-increment plan; lookup-table fallback for office affinity already computable from `navair_orders_fy2025.csv`; RBR cadence exposes slip weekly. Burn-down: Figure 3.2-2. | Principal | §1.1 |
@@ -469,7 +469,7 @@ High: R-1, R-6, R-8. Moderate: R-5, R-11. Low: R-9, R-10. Closed 2026-09-17: R-2
 | I-2 | DI-SESS-81785B not in hand; ASSIST's document link returns a script redirect | Closed 2026-09-15: the Principal supplied the ASSIST copies of the 2009, A, and B revisions; reconciled at Draft A.1 (§1.3) | Principal |
 | I-3 | The SDD's SETR mapping cites 4355.19D and 14 events; the current instruction is 19E with 18 events | Superseded by §3.2.13; pointer added to the SDD | Systems Engineer |
 | I-4 | "PEDDAL" in SN-4 has no source | Closed 2026-09-15 as client-specific terminology from a prior project; not pursued | Product Manager |
-| I-5 | The build-and-test workflow is a template under `docs/ci/` and is not installed in `.github/workflows/`; no agent role can install it. Increment 1 merges were gated by local build and test results recorded on issues, not by GitHub-hosted CI | Closed 2026-09-16: the Principal installed `build-and-test.yml` in `.github/workflows/`. First hosted run to be confirmed green at SVR-1 entry. | Principal |
+| I-5 | The build-and-test workflow is a template under `docs/ci/` and is not installed in `.github/workflows/`; no agent role can install it. Increment 1 merges were gated by local build and test results recorded on issues, not by GitHub-hosted CI | Installed 2026-09-16. **Reopened 2026-09-17 at SVR-1:** the file triggers on pushes to `main` and `issue-*` and on pull requests, not on the working branch, so it has never run. RFA-SVR1-2: open a pull request for the branch, or push to a watched branch. | Principal |
 | I-6 | The G1 extraction scripts (passes 1–4) are not committed; only their outputs are | Closed 2026-09-15: `docs/research/g1-fpds/g1_extract.py` committed; re-run against the same archive reproduced every committed output byte-for-byte | Systems Engineer |
 | I-7 | The four sponsor questions in `challenge-brief.md` were open | Closed 2026-09-17 by client direction, recorded there and in R-2, R-5, R-6, R-7: (1) submit 22 Sep, revisions by 2 Oct; (2) any prediction form scores, new-vehicle entries count when expected; (3) "recommending common requirements" means recommending that a cluster be treated as common, and promoting an existing contract to strategic-vehicle status is a third output mode (need 15); (4) the timed run is inside the presentation, and replication means throughput across document sets. If Tech Grove later answers differently, the sponsor's answer governs and these rows reopen. | Product Manager |
 
@@ -503,25 +503,25 @@ Actuals for Increment 1 are recorded under TRR-1, the last feature-level TRR (20
 | TPM | Category | Responsible | Requirement trace | Rubric equivalent | Goal | Plan / Actual | SRR-I | PDR / CDR | TRR-1 | SVR-1 | SRR-II | CDR-II | SVR-2 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | Wall-clock run time, N=20, 1 core / 2 GB (minutes) | Performance | Test Engineer | CORE-220 | Runtime, 15 pts | ≤ 30 (score); ≤ 5 (design target) | Plan | — | ≤30 | ≤30 | ≤5 | ≤5 | ≤5 | ≤5 |
-| | | | | | | Actual | — | — | not run | | | | |
+| | | | | | | Actual | — | — | not run | 0.12 (7.43 s, Docker 1c/2GB) | | | |
 | Top-5 reproducibility over 20 runs (%) | Determinism | Test Engineer | CORE-210 | Replicability, 10 pts | ≥ 95 | Plan | — | 95 | 95 | 100 | 100 | 100 | 100 |
-| | | | | | | Actual | — | — | ≥95 (TP-210 pass) | | | | |
+| | | | | | | Actual | — | — | ≥95 (TP-210 pass) | 100 (20/20 byte-identical) | | | |
 | Peak resident memory, N=20 (GB) | Performance | Test Engineer | CORE-230, NFR-530 | Compute cost, 15 pts | ≤ 2 | Plan | — | ≤2 | ≤2 | ≤2 | ≤2 | ≤2 | ≤2 |
-| | | | | | | Actual | — | — | not run | | | | |
+| | | | | | | Actual | — | — | not run | ≤2 GB cap held (peak not sampled) | | | |
 | LLM tokens per run, default configuration | Cost | Test Engineer | CORE-240, CORE-250 | LLM cost, 10 pts | 0 | Plan | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| | | | | | | Actual | — | — | 0 | | | | |
+| | | | | | | Actual | — | — | 0 | 0 | | | |
 | Outbound network connections, default configuration | Security | Test Engineer | NFR-510 | IL4 criterion | 0 | Plan | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| | | | | | | Actual | — | — | 0 | | | | |
+| | | | | | | Actual | — | — | 0 | 0 (`--network none`) | | | |
 | Third-party packages referenced by the core assembly | Architecture | Software Engineer | CORE-240, DELIV-920 | LLM cost; maintainability | 0 | Plan | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| | | | | | | Actual | — | 0 | 0 | | | | |
+| | | | | | | Actual | — | 0 | 0 | 0 | | | |
 | Agreement with ground truth on reference-20 (precision@5 through SVR-1; MRR and Recall@5 thereafter) | Accuracy | Test Engineer | OUT-420 | Initial technical evaluation, 40 pts | Increment 1: ≥ 0.60; Increment 2: Recall@5 ≥ 0.80 on FPDS holdout | Plan | — | — | 0.60 | 0.60 | — | 0.80 | 0.80 |
-| | | | | | | Actual | — | — | 0.60 | | | | |
+| | | | | | | Actual | — | — | 0.60 | 0.60 | | | |
 | Knowledge-base coverage of NAVAIR FY2025 orders under vehicles (% by order count) | Data | Systems Engineer | DELIV-950 (reopened), need 9 | Initial technical evaluation | ≥ 80 | Plan | — | — | — | 80 | 80 | 90 | 90 |
-| | | | | | | Actual | — | — | 33 (G1); 87.3 (G5, 2026-09-17) | | | | |
+| | | | | | | Actual | — | — | 33 (G1); 87.3 (G5, 2026-09-17) | 87.3 | | | |
 | Throughput scaling, N replicas on N document sets | Performance | Test Engineer | NFR-520 (amended) | Replicability, 10 pts | Wall-clock for N sets ≤ 1.2 × single-set time at N=4 | Plan | — | — | — | meet | meet | meet | meet |
-| | | | | | | Actual | — | — | not run | | | | |
+| | | | | | | Actual | — | — | not run | 3.94× (4 sets: 29.68 s → 7.53 s) | | | |
 | Automated test methods / active requirements Verified | Verification | Test Engineer | All | Completeness gate | 100% of active requirements | Plan | — | — | — / 25 | 74 / 28 | | | |
-| | | | | | | Actual | — | — | 72 / 25 | | | | |
+| | | | | | | Actual | — | — | 72 / 25 | 90 / 27 (+2 In Test) | | | |
 
 "—" means the measure was not yet defined or measurable at that event. Blank cells are future events.
 
