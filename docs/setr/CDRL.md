@@ -23,7 +23,7 @@ built from the documents on file, not from memory.
 | A006 | DI-IPSC-81432A | System/Subsystem Design Description | `docs/SDD.md` Architecture (BDD, activity diagram) | PDR | Not yet checked |
 | A007 | DI-IPSC-81435B | Software Design Description | `docs/SDD.md` Coding Standards and Data Architecture; per-assembly design | CDR | Not yet checked. 81435B is a text DID (8 pages) and the most likely to require restructuring of `docs/SDD.md` |
 | A008 | DI-IPSC-81436A | Interface Design Description | `docs/SDD.md` in-memory record contracts; `manifest.json` layout | CDR | Not yet checked; may be folded into A007 as 81435B permits |
-| A009 | DI-IPSC-81437A | Database Design Description | Not applicable for Increment 1 (no database, SDD decision). Increment 2 knowledge-base schema, if the DELIV-950 reopen is accepted at SRR-II | PDR-II | Not applicable / pending |
+| A009 | DI-IPSC-81437A | Database Design Description | `docs/KB_SCHEMA.md` (no database; the knowledge base is a frozen file set with a documented schema and ETL pipeline, DELIV-950 reopened narrowly 2026-09-17) | G6, 2026-09-17 | Not yet checked against 81437A's content list; expected to satisfy the design-description and data-element sections and to state the others as not applicable |
 | A010 | DI-IPSC-81427B | Software Development Plan | SEMP §3.2.8 | SEMP Draft A.1 | Not yet checked. 81427B's Agile, cybersecurity, and safety content is to be mapped to §3.2.8 and Appendix C |
 | A011 | DI-IPSC-81438A | Software Test Plan | `docs/RTVM.md` Test Procedures preamble; `docs/VALIDATION_METHODOLOGY.md` | PDR | Not yet checked |
 | A012 | DI-IPSC-81439A | Software Test Description | `docs/RTVM.md` TP-nnn | CDR | Not yet checked |

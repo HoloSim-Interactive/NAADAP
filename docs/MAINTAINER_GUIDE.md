@@ -114,6 +114,27 @@ strategy plugs in purely via the interface, with zero changes to
 `TfIdfCosineClusteringComponent` or any other existing `Naadap.Core`
 source.
 
+## 3. Updating the vehicle knowledge base
+
+The knowledge base is not edited by hand. To change it:
+
+1. Edit `scripts/kb/catalog.json` (add or correct a family: PIID regex,
+   scope text, ordering-period end, sources) or refresh the FPDS extract
+   with `docs/research/g1-fpds/g1_extract.py` against a newer
+   USAspending archive.
+2. Bump `KB_VERSION` in `scripts/kb/build_kb.py` (format `yyyy-MM-dd.n`;
+   the date is the deterministic as-of date for ordering-period checks).
+3. Run `python3 scripts/kb/build_kb.py`. It rewrites every file under
+   `src/Naadap.Output/Resources/kb/` and `manifest.sha256`.
+4. Run `dotnet test Naadap.sln`. `VehicleKnowledgeBaseTests` re-verifies
+   every hash and every required field; `VehicleMatcherTests` checks the
+   matching rules against the new content.
+5. Commit the catalog, the script, and the rebuilt resources together.
+   A knowledge-base change is a Class I change under `docs/setr/SEMP.md`
+   §3.2.10 and needs the Principal's approval on the pull request.
+
+Schema, field sources, and the build pipeline: `docs/KB_SCHEMA.md`.
+
 ## Running the extension tests
 
 ```bash

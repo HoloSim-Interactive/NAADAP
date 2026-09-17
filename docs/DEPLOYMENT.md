@@ -135,3 +135,10 @@ Every Compose service mounts:
 See the root `README.md` for the expected contents of the input
 directory and a worked example, and `docs/RTVM.md` OUT-440 / this
 repo's `RunManifest` shape for the output bundle's contents.
+
+Exit codes: `0` on a completed run (however many files were skipped);
+`1` on a malformed command line; `2` when the embedded vehicle knowledge
+base fails its SHA-256 manifest check at load, in which case the message
+names the file and no candidate list is written (`docs/KB_SCHEMA.md`,
+"Versioning and integrity"). The knowledge base ships inside the image;
+no run-time file or network access is needed for it.

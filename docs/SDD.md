@@ -61,6 +61,10 @@ block-beta
   space
   Recommend["Recommendation / Ranking\n(DATA-OUT-300)"]
   space
+  KB[("Vehicle Knowledge Base\n(frozen, hashed, embedded)\nkb_version + manifest.sha256\ndocs/KB_SCHEMA.md")]
+  space
+  Match["Vehicle Matcher\n(hard constraints → lexical + office-affinity\nscore → tier tie-break → evidence record\nincluding eliminations)"]
+  space
   block:outputs
     Viz["Visualization Generator\n(OUT-400/410)"]
     Metric["Metric & Validation Reporter\n(OUT-420/430)"]
@@ -68,8 +72,31 @@ block-beta
   end
   Ingestion --> core
   core --> Recommend
+  core --> Match
+  KB --> Match
   Recommend --> outputs
+  Match --> outputs
 ```
+
+**Accepted at gate G6 (2026-09-17):** the vehicle-recommendation design in
+`docs/design/vehicle-recommendation-pipeline.md` enters this SDD in its
+Increment 1 form. `Match` and `KB` above are that design: the knowledge
+base is a frozen, hashed artifact built offline (`scripts/kb/build_kb.py`,
+schema in `docs/KB_SCHEMA.md`) and embedded in `Naadap.Output`; the
+matcher (`Naadap.Output.VehicleMatcher`) runs after clustering, in the
+same process, and adds per-cluster vehicle recommendations to the
+manifest without altering `Recommend`'s cluster ranking or OUT-420's
+metric. Hard constraints remove a vehicle and never lower a score; the
+composite score is a fixed weighted sum of two explainable channels;
+near-ties are broken by acquisition-path tier; candidates below the
+evidence floor and every eliminated vehicle are recorded, never
+suppressed (client direction 2026-09-17). Increment 2 replaces the
+office-affinity lookup with a coefficient vector fitted offline on FPDS
+behind the same scoring interface (SEMP §3.2.9). The formal requirement
+rows for this behavior (KB-600 to KB-630, CORE-270 to CORE-275) are
+derived and await vetting at gate G3; Increment 1 implements the
+client's decided v1 content (design doc, "Decided by the client,
+2026-09-15"), and the rows enter the RTVM at SRR-II.
 
 `Core` and `Alt` are separate .csproj projects. `Alt` may depend on an
 LLM/HTTP client library; `Core` and every project it references must
@@ -222,6 +249,15 @@ consolidation issue, not per `[RTVM-014]`-style feature.
 <a id="sdd-decision-no-database"></a>
 ### Decision: no database (resolves DATA-OUT-310 / DELIV-950)
 
+**Amended 2026-09-17 (gate G6):** still no database. The vehicle knowledge
+base introduced at gate G5 is a versioned set of text files
+(`src/Naadap.Output/Resources/kb/`) built offline by a documented
+extract-transform-load pipeline and verified by SHA-256 manifest at
+load. Because an evaluator who wrote "database schema and ETL
+documentation" into the criteria will recognize exactly that, DELIV-950
+is reopened narrowly to require the schema and ETL documentation, which
+is `docs/KB_SCHEMA.md`. DATA-OUT-310 stays Withdrawn.
+
 **No database is used anywhere in this system.** All run output is
 file-based: the OUT-440 bundle is a directory containing
 `manifest.json` (the `RunManifest` shape above), the candidate list,
@@ -247,7 +283,9 @@ stage's output the next stage's input — no shared mutable state, no
 inter-process messaging, nothing to lose ordering guarantees over:
 
 `input dir (files)` → `Ingestion (List<DocumentRecord>, in-memory)` →
-`Core (cluster assignments, in-memory)` → `Output.Recommend
+`Core (cluster assignments, in-memory)` → `Output.VehicleKnowledgeBase.Load
+(verify manifest; embedded resources, in-memory)` → `Output.VehicleMatcher.Match
+(per-cluster vehicle recommendations, in-memory)` and `Output.Recommend
 (List<CandidateVehicle>, in-memory)` → `Output.Bundler (writes
 manifest.json + artifacts to output dir, on disk, final)`.
 

@@ -120,7 +120,8 @@ the output directory:
 
 | File | Contents |
 | --- | --- |
-| `manifest.json` | The bundle's index: the ranked candidate-vehicle list, paths to both visualizations below, the summary metric, a pointer to the validation-methodology document, and the list of any skipped input files with reasons. |
+| `manifest.json` | The bundle's index: the ranked candidate list (one per cluster), paths to both visualizations below, the summary metric, a pointer to the validation-methodology document, the list of any skipped input files with reasons, and per-cluster strategic-vehicle recommendations from the shipped knowledge base (`vehicleRecommendations`: candidates with per-channel evidence, candidates below the evidence floor, every vehicle ruled out with the constraint named) together with the knowledge-base version and manifest hash the run used. |
+| `vehicle-ranking.tsv` | The complete per-cluster ranking of every knowledge-base vehicle, including those below the evidence floor and those eliminated by a hard constraint. Nothing is suppressed; the manifest carries only the top few of each. |
 | `method-visualization.md` | A visualization of the clustering method/pipeline itself — how many documents went in, how many were skipped, and the clusters formed. |
 | `result-visualization.md` | A visualization of the ranked candidate-vehicle list / cluster-to-vehicle mapping. |
 | `validation-methodology.md` | A copy of [`docs/VALIDATION_METHODOLOGY.md`] describing the test corpus, ground-truth derivation, and metric definition — included in every run's bundle so it's readable without the source repo present. |

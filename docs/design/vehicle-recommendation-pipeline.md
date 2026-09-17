@@ -192,8 +192,8 @@ Ordered. Each gates the next.
 | **G2** | Research pass 7: outcome linkage | The "was it right" channel cannot be designed without it, and it is central to positioning | one agent run |
 | **G3** | Vet the 50 derived requirements (93 verdicts outstanding) | Project rule: nothing built against unvetted items. The derivation already flagged that CORE-286 (abstention) has negative expected value under the published rubric — a client decision, not an engineering one | resume `wf_fe14ec90-697` |
 | **G4** ✅ 2026-09-17 | Fix the singleton-cohesion inversion in `VehicleRecommender.ComputeCohesion` (done: singletons score 0.0; core precision@5 unchanged at 0.60; alternative rose 0.40 → 0.80, see `docs/ALGORITHM_COMPARISON.md`) | 11 of 20 reference documents are singletons scored at 1.0; the derivation found this blocks verification of the entire grey-area block (CORE-280..289) | small, but it is a scoring-requirement change |
-| **G5** | Vehicle KB schema and initial curation | Step 3 of Run needs it; today it does not exist. Start from the ~15 NAVAIR/DON vehicles in contract-vehicles.md with provenance columns from day one | one to two days |
-| **G6** | Accept the design into the SDD | Solutions Architect owns the SDD; Systems Engineer owns the RTVM. This document is a proposal to both | review cycle |
+| **G5** ✅ 2026-09-17 | Vehicle KB schema and initial curation (done: `scripts/kb/`, `docs/KB_SCHEMA.md`, 484 rows, 87.3% coverage; matcher and evidence record in `Naadap.Output`) | Step 3 of Run needs it; today it does not exist. Start from the ~15 NAVAIR/DON vehicles in contract-vehicles.md with provenance columns from day one | one to two days |
+| **G6** ✅ 2026-09-17 | Accept the design into the SDD (done: SDD block diagram and data architecture amended; fitted β stays Increment 2, lookup table shipped in v1) | Solutions Architect owns the SDD; Systems Engineer owns the RTVM. This document is a proposal to both | review cycle |
 
 ### RTVM amendments riding with G3
 

@@ -225,7 +225,7 @@ The architecture is documented in `docs/SDD.md` (Increment 1, allocated baseline
 | Use case diagram | — | — | Not produced, by decision | One actor, one interaction; recorded in the SDD |
 | Interface Control Document | — | — | Not produced, by decision | Interfaces specified in §2.2.2 and the SDD; no second system builds against them |
 | Build/Ship/Run pipeline description | Structured prose with decision table | `docs/design/vehicle-recommendation-pipeline.md` | Proposed; enters the SDD at gate G6 | Increment 2 architecture: build-time fit, frozen artifacts, run-time evaluation |
-| Vehicle knowledge-base schema | Tabular schema with provenance columns | To be produced at gate G5 | Not started | Reopened DELIV-950; need statements 9, 11, 15 |
+| Vehicle knowledge-base schema | Tabular schema with provenance by reference | `docs/KB_SCHEMA.md`; artifact under `src/Naadap.Output/Resources/kb/` | Complete (G5, 2026-09-17); 484 rows, 87.3% FY2025 order coverage | Reopened DELIV-950; need statements 9, 11, 15 |
 
 #### 2.2.2 Interfaces and dependencies
 
@@ -333,8 +333,8 @@ The program has no Integrated Master Plan or Integrated Master Schedule in the D
 | Gate G1: FPDS premise check | 2 | 2026-09-15 | `docs/research/g1-fpds/G1-FINDINGS.md` | Complete: pass on volume, fail on catalog coverage |
 | Phase 1 questionnaire submitted | — | ≤ 2026-09-20 (target) | Principal | In preparation |
 | Gate G4: singleton-cohesion fix | 1 | 2026-09-17 | `docs/design/vehicle-recommendation-pipeline.md` | Complete: singletons score 0.0; 80 tests pass; comparison re-run |
-| Gate G5: vehicle knowledge base, data-derived and family-grouped | 1 | before SVR-1 | G1 design consequence 1 | Open |
-| Gate G6: design accepted into the SDD | 1 | before SVR-1 | Solutions Architect | Open |
+| Gate G5: vehicle knowledge base, data-derived and family-grouped | 1 | 2026-09-17 | G1 design consequence 1 | Complete: 484 rows, 87.3% coverage; matcher and evidence record implemented (commit 7783c39) |
+| Gate G6: design accepted into the SDD | 1 | 2026-09-17 | Solutions Architect | Complete: SDD block diagram, data architecture, and DELIV-950 reopen recorded; core-vs-alternative choice left as-is for Increment 1 (see `docs/ALGORITHM_COMPARISON.md`) |
 | SVR-1 / FCA-1: full regression against the RTVM; TP-910 Windows check | 1 | 2026-09-19 to 2026-09-21 | §3.2.13 | Planned |
 | PCA-1: clean-clone build of the tagged package | 1 | 2026-09-21 | §3.2.13 | Planned |
 | Phase 2 submission (Increment 1 delivered) | 1 | **2026-09-22** | Challenge announcement; client direction 2026-09-17 | Planned |
@@ -439,11 +439,11 @@ No Technology Readiness Assessment is required for a non-ACAT effort and none is
 | --- | --- | --- | --- | --- | --- |
 | 5 | | | | | |
 | 4 | | | R-5 | R-8 | R-1 |
-| 3 | | R-10 | | R-3 | R-6 |
+| 3 | | R-10 | | | R-6 |
 | 2 | R-9 | | R-11 | | |
 | 1 | | | | | |
 
-High: R-1, R-3, R-6, R-8. Moderate: R-5, R-11. Low: R-9, R-10. Closed 2026-09-17: R-2, R-7 (client direction), R-4 (fixed).
+High: R-1, R-6, R-8. Moderate: R-5, R-11. Low: R-9, R-10. Closed 2026-09-17: R-2, R-7 (client direction), R-3 (G5 delivered), R-4 (fixed).
 
 *Table 3.2-2 Risk register*
 
@@ -451,7 +451,7 @@ High: R-1, R-3, R-6, R-8. Moderate: R-5, R-11. Low: R-9, R-10. Closed 2026-09-17
 | --- | --- | --- | --- | --- | --- | --- |
 | R-1 | If Phase 1 approval arrives with no usable days before the Phase 2 deadline, then GFI cannot influence Increment 1 | 4 | 5 | Accepted by design: Increment 1 scores on public documents; GFI tuning is Increment 2 work. Residual: none for Increment 1. | Principal | DATA-IN-100 |
 | R-2 | If the sponsor's summary-box dates (22 Sep / 9 Nov) rather than its timeline-section dates (2 Oct / 19 Nov) govern, then ten fewer days exist for G4–G6 and SVR-1 | — | — | **Closed 2026-09-17.** Client direction: submit 22 Sep; the second date set is the deadline to execute Government-directed revisions and resubmit. Schedule in Table 3.1-1 updated. | Product Manager | §3.1.1 |
-| R-3 | If the vehicle knowledge base is built from the curated catalog alone, then two-thirds of NAVAIR's historical orders have no candidate row (G1 finding F4: 33% coverage) | 3 | 4 | G5 builds the KB from the FPDS parent-PIID list ranked by family volume; the catalog contributes scope text and eligibility for the families it knows. Burn-down: Figure 3.2-2. | Systems Engineer | Need 9; DELIV-950 |
+| R-3 | If the vehicle knowledge base is built from the curated catalog alone, then two-thirds of NAVAIR's historical orders have no candidate row (G1 finding F4: 33% coverage) | — | — | **Closed 2026-09-17.** Knowledge base built from the FPDS parent-PIID list (484 rows: 11 catalog families plus every parent IDV with three or more FY2025 orders); coverage 87.3% of FY2025 NAVAIR orders under vehicles against the 80% target. Residual: FY2025 only; last-date-to-order for parent IDVs is a proxy (Increment 2). | Systems Engineer | Need 9; DELIV-950 |
 | R-4 | If singleton clusters keep a cohesion score of 1.0, then eleven of twenty reference documents are scored as perfectly cohesive and the grey-area requirements cannot be verified | — | — | **Closed 2026-09-17.** Fixed: `VehicleRecommender.SingletonScore` = 0.0; unit test pins the ordering; all 80 tests pass. Core precision@5 unchanged (0.60); the CORE-260 alternative rose from 0.40 to 0.80, recorded in `docs/ALGORITHM_COMPARISON.md` and referred to G6 as a Class I decision. | Software Engineer | CORE-200 |
 | R-5 | If the evaluator reads "replication must demonstrably improve performance" literally, then the SDD's independent-replica interpretation earns zero of ten Replicability points | 4 | 3 | Reading confirmed by client direction 2026-09-17: throughput across document sets. Amend TP-520 to measure N replicas processing N sets (RFA-PDR-2); risk retires when TP-520 passes at SVR-1 | Solutions Architect | NFR-520 |
 | R-6 | If the Demo Day timed run occurs inside the 30-minute presentation, then a run near the 30-minute ceiling fails the demonstration | 3 | 5 | Confirmed by client direction 2026-09-17: the run is inside the presentation. Design target of minutes (CORE-220 note); current reference-20 run completes in under one second of compute; risk retires when TP-220 is measured at 1 core / 2 GB and a Demo Day rehearsal is timed | Systems Engineer | CORE-220 |
@@ -485,7 +485,7 @@ High: R-1, R-3, R-6, R-8. Moderate: R-5, R-11. Low: R-9, R-10. Closed 2026-09-17
 
 | Risk | Now | SVR-1 (2026-09-21) | SRR-II | PDR-II | CDR-II | SVR-2 |
 | --- | --- | --- | --- | --- | --- | --- |
-| R-3 catalog coverage | 3 | 2 (KB data-derived, ≥80% coverage of FY2025 orders) | 2 | 1 (FY2022–FY2025 pulled) | 1 | 1 |
+| R-3 catalog coverage | closed 2026-09-17 at 87.3% | — | — | — | — | — |
 | R-8 Increment 2 schedule | 4 | 4 | 3 (scope fixed at SRR-II) | 3 | 2 (fit and freeze complete) | 1 |
 | R-1 | Sponsor-dependent; retires on Phase 1 approval timing | | | | | |
 | R-6 | 3 | 2 (TP-220 measured at 1 core / 2 GB; rehearsal timed) | 2 | 2 | 1 | 1 |
@@ -517,7 +517,7 @@ Actuals for Increment 1 are recorded under TRR-1, the last feature-level TRR (20
 | Agreement with ground truth on reference-20 (precision@5 through SVR-1; MRR and Recall@5 thereafter) | Accuracy | Test Engineer | OUT-420 | Initial technical evaluation, 40 pts | Increment 1: ≥ 0.60; Increment 2: Recall@5 ≥ 0.80 on FPDS holdout | Plan | — | — | 0.60 | 0.60 | — | 0.80 | 0.80 |
 | | | | | | | Actual | — | — | 0.60 | | | | |
 | Knowledge-base coverage of NAVAIR FY2025 orders under vehicles (% by order count) | Data | Systems Engineer | DELIV-950 (reopened), need 9 | Initial technical evaluation | ≥ 80 | Plan | — | — | — | 80 | 80 | 90 | 90 |
-| | | | | | | Actual | — | — | 33 (G1, curated catalog) | | | | |
+| | | | | | | Actual | — | — | 33 (G1); 87.3 (G5, 2026-09-17) | | | | |
 | Throughput scaling, N replicas on N document sets | Performance | Test Engineer | NFR-520 (amended) | Replicability, 10 pts | Wall-clock for N sets ≤ 1.2 × single-set time at N=4 | Plan | — | — | — | meet | meet | meet | meet |
 | | | | | | | Actual | — | — | not run | | | | |
 | Automated test methods / active requirements Verified | Verification | Test Engineer | All | Completeness gate | 100% of active requirements | Plan | — | — | — / 25 | 74 / 28 | | | |
