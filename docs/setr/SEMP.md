@@ -60,7 +60,7 @@ The program has two increments, decided by the Principal on 2026-09-15.
 
 | Increment | Deliverable | Due | Data |
 | --- | --- | --- | --- |
-| Increment 1 (v1) | Phase 2 initial technical package: the twelve items listed in §3.1.1 | 2026-09-22 (worst case) or 2026-10-02 (see Risk R-2) | Public only: SAM.gov documents, the USAspending/FPDS bulk archive, a hand-curated then data-derived vehicle knowledge base |
+| Increment 1 (v1) | Phase 2 initial technical package: the twelve items listed in §3.1.1 | Submit 2026-09-22; Government-directed revisions resubmitted by 2026-10-02 (client direction 2026-09-17, Issue I-7) | Public only: SAM.gov documents, the USAspending/FPDS bulk archive, a hand-curated then data-derived vehicle knowledge base |
 | Increment 2 (v2) | Phase 3 Demo Day materials and the basis for a follow-on Other Transaction agreement | Materials 2026-11-12; Demo Day 2026-11-09 or 2026-11-19 | GFI for the document side; FPDS for the label side |
 
 Increment 1 is implemented, verified against its RTVM except as noted in §3.1.2, and tagged (`v1.0.82` at this revision). Increment 2 is designed (`docs/design/vehicle-recommendation-pipeline.md`) and gated (§3.1.1, gates G2 through G6).
@@ -337,7 +337,8 @@ The program has no Integrated Master Plan or Integrated Master Schedule in the D
 | Gate G6: design accepted into the SDD | 1 | before SVR-1 | Solutions Architect | Open |
 | SVR-1 / FCA-1: full regression against the RTVM; TP-910 Windows check | 1 | 2026-09-19 to 2026-09-21 | §3.2.13 | Planned |
 | PCA-1: clean-clone build of the tagged package | 1 | 2026-09-21 | §3.2.13 | Planned |
-| Phase 2 submission (Increment 1 delivered) | 1 | **2026-09-22** worst case; 2026-10-02 per the announcement's timeline section | Challenge announcement | Planned |
+| Phase 2 submission (Increment 1 delivered) | 1 | **2026-09-22** | Challenge announcement; client direction 2026-09-17 | Planned |
+| Phase 2 revision window: Government findings, corrections, omissions executed and resubmitted | 1 | by 2026-10-02 | Client direction 2026-09-17 (the announcement's second date set is the resubmission deadline, the Navy's usual SETR practice) | Planned |
 | Semifinalist notification | — | 2026-10-26 | Challenge announcement | Sponsor action |
 | Gate G3: vetting of the 50 derived requirements | 2 | after Phase 2 submission | Workflow `wf_fe14ec90-697`, parked | Open |
 | Gate G2: outcome-linkage research (the "was it right" channel) | 2 | after Phase 2 submission | Research pass 7 | Open |
@@ -348,9 +349,9 @@ The program has no Integrated Master Plan or Integrated Master Schedule in the D
 | TRR-II | 2 | week of 2026-10-26 | §3.2.13 | Planned |
 | SVR-2 / FCA-2 | 2 | week of 2026-11-02 | §3.2.13 | Planned |
 | PCA-2; Demo Day materials submitted | 2 | ≤ 2026-11-12 (or earlier if Demo Day is 2026-11-09) | Challenge announcement | Planned |
-| Demo Day | 2 | 2026-11-09 or 2026-11-19 | Challenge announcement | Sponsor action |
+| Demo Day | 2 | 2026-11-09; 2026-11-19 read as the revision deadline for Demo Day materials, same pattern | Challenge announcement; client direction 2026-09-17 | Sponsor action |
 
-The Increment 1 critical path is G4 → G5 → G6 → SVR-1/FCA-1 → PCA-1 → submission. The Increment 2 critical path is G3 → SRR-II → PDR-II → build pipeline → CDR-II → TRR-II → SVR-2. If the sponsor confirms the 2026-10-02 deadline, the ten days recovered go to G5 and SVR-1, not to new scope.
+The Increment 1 critical path is G4 → G5 → G6 → SVR-1/FCA-1 → PCA-1 → submission. The Increment 2 critical path is G3 → SRR-II → PDR-II → build pipeline → CDR-II → TRR-II → SVR-2. The ten days between submission and the revision deadline are for Government-directed corrections only, not for new scope.
 
 **Phase 2 package.** The twelve items the sponsor requires, and the artifact that satisfies each. Any omission fails the completeness gate and yields a score of zero.
 
@@ -436,29 +437,29 @@ No Technology Readiness Assessment is required for a non-ACAT effort and none is
 
 | L \ C | 1 | 2 | 3 | 4 | 5 |
 | --- | --- | --- | --- | --- | --- |
-| 5 | | | | R-2 | |
+| 5 | | | | | |
 | 4 | | | R-5 | R-8 | R-1 |
-| 3 | | R-10 | R-7 | R-3 | R-6 |
+| 3 | | R-10 | | R-3 | R-6 |
 | 2 | R-9 | | R-11 | R-4 | |
 | 1 | | | | | |
 
-High: R-1, R-2, R-3, R-6, R-8. Moderate: R-4, R-5, R-7, R-11. Low: R-9, R-10.
+High: R-1, R-3, R-6, R-8. Moderate: R-4, R-5, R-11. Low: R-9, R-10. Closed 2026-09-17 by client direction: R-2, R-7.
 
 *Table 3.2-2 Risk register*
 
 | ID | Risk (if–then) | L | C | Mitigation | Owner | Trace |
 | --- | --- | --- | --- | --- | --- | --- |
 | R-1 | If Phase 1 approval arrives with no usable days before the Phase 2 deadline, then GFI cannot influence Increment 1 | 4 | 5 | Accepted by design: Increment 1 scores on public documents; GFI tuning is Increment 2 work. Residual: none for Increment 1. | Principal | DATA-IN-100 |
-| R-2 | If the sponsor's summary-box dates (22 Sep / 9 Nov) rather than its timeline-section dates (2 Oct / 19 Nov) govern, then ten fewer days exist for G4–G6 and SVR-1 | 5 | 4 | Plan to the earlier dates; Tech Grove question 1 asked; recovered days go to G5 and SVR-1 | Product Manager | §3.1.1 |
+| R-2 | If the sponsor's summary-box dates (22 Sep / 9 Nov) rather than its timeline-section dates (2 Oct / 19 Nov) govern, then ten fewer days exist for G4–G6 and SVR-1 | — | — | **Closed 2026-09-17.** Client direction: submit 22 Sep; the second date set is the deadline to execute Government-directed revisions and resubmit. Schedule in Table 3.1-1 updated. | Product Manager | §3.1.1 |
 | R-3 | If the vehicle knowledge base is built from the curated catalog alone, then two-thirds of NAVAIR's historical orders have no candidate row (G1 finding F4: 33% coverage) | 3 | 4 | G5 builds the KB from the FPDS parent-PIID list ranked by family volume; the catalog contributes scope text and eligibility for the families it knows. Burn-down: Figure 3.2-2. | Systems Engineer | Need 9; DELIV-950 |
 | R-4 | If singleton clusters keep a cohesion score of 1.0, then eleven of twenty reference documents are scored as perfectly cohesive and the grey-area requirements cannot be verified | 2 | 4 | Gate G4: fix `VehicleRecommender.ComputeCohesion`; re-run TP-200 and the reference-20 metric | Software Engineer | CORE-200 |
-| R-5 | If the evaluator reads "replication must demonstrably improve performance" literally, then the SDD's independent-replica interpretation earns zero of ten Replicability points | 4 | 3 | Amend TP-520 to measure throughput across N replicas processing N sets; flagged to the Solutions Architect | Solutions Architect | NFR-520 |
-| R-6 | If the Demo Day timed run occurs inside the 30-minute presentation, then a run near the 30-minute ceiling fails the demonstration | 3 | 5 | Design target of minutes, not thirty (CORE-220 note); current reference-20 run completes in under one second of compute; Tech Grove question 4 | Systems Engineer | CORE-220 |
-| R-7 | If "a correct prediction" means a document-to-vehicle pairing rather than a vehicle name, then the output shape scores differently than designed | 3 | 3 | Tech Grove question 2; output carries both cluster-to-vehicle and document-to-vehicle views so either reading is served | Product Manager | DATA-OUT-300 |
+| R-5 | If the evaluator reads "replication must demonstrably improve performance" literally, then the SDD's independent-replica interpretation earns zero of ten Replicability points | 4 | 3 | Reading confirmed by client direction 2026-09-17: throughput across document sets. Amend TP-520 to measure N replicas processing N sets (RFA-PDR-2); risk retires when TP-520 passes at SVR-1 | Solutions Architect | NFR-520 |
+| R-6 | If the Demo Day timed run occurs inside the 30-minute presentation, then a run near the 30-minute ceiling fails the demonstration | 3 | 5 | Confirmed by client direction 2026-09-17: the run is inside the presentation. Design target of minutes (CORE-220 note); current reference-20 run completes in under one second of compute; risk retires when TP-220 is measured at 1 core / 2 GB and a Demo Day rehearsal is timed | Systems Engineer | CORE-220 |
+| R-7 | If "a correct prediction" means a document-to-vehicle pairing rather than a vehicle name, then the output shape scores differently than designed | — | — | **Closed 2026-09-17.** Client direction: points can be awarded for any of the three forms, and a "new strategic vehicle indicated" entry counts when it is the expected answer. Output keeps all three views (vehicle, document-to-vehicle, cluster-to-vehicle) and the new-vehicle mode. | Product Manager | DATA-OUT-300 |
 | R-8 | If Increment 2 (new subsystem, new fitted model, new build pipeline, new extraction layer) is attempted at full SETR rigor within the Phase 3 window with one part-time human and a capped agent allowance, then SVR-2 slips past the materials deadline | 4 | 4 | Two-increment plan; lookup-table fallback for office affinity already computable from `navair_orders_fy2025.csv`; RBR cadence exposes slip weekly. Burn-down: Figure 3.2-2. | Principal | §1.1 |
 | R-9 | If a Windows-only API entered the code base, then DELIV-910 fails at the one-time Visual Studio check | 2 | 1 | Structural: plain `net9.0` everywhere; workflow present since 2026-09-14; run at SVR-1 | CI/CD | DELIV-910 |
 | R-10 | If a dependency's license does not permit permanent Government use, then containerization does not cure it | 3 | 2 | Current packages: PdfPig (Apache 2.0), DocumentFormat.OpenXml (MIT), test packages (MIT/Apache); license column queued for DELIV-920 | Software Engineer | DELIV-920 |
-| R-11 | If the 50 derived requirements enter implementation unvetted, then the project's own rule ("nothing built against unvetted items") is broken and CORE-286 (abstention, negative expected value under the rubric) may ship | 2 | 3 | Gate G3 before SRR-II; abstention question to the Principal (recommendation: emit sub-floor candidates in a separate section, do not suppress) | Systems Engineer | G3 |
+| R-11 | If the 50 derived requirements enter implementation unvetted, then the project's own rule ("nothing built against unvetted items") is broken | 2 | 3 | Gate G3 before SRR-II. The abstention question is decided (client direction 2026-09-17): candidates below the evidence floor are recorded in a separate "below evidence floor" section, never suppressed, so the record shows they were considered. CORE-286 is re-derived on that basis at G3. | Systems Engineer | G3 |
 
 *Issues (realized).*
 
@@ -470,6 +471,7 @@ High: R-1, R-2, R-3, R-6, R-8. Moderate: R-4, R-5, R-7, R-11. Low: R-9, R-10.
 | I-4 | "PEDDAL" in SN-4 has no source | Closed 2026-09-15 as client-specific terminology from a prior project; not pursued | Product Manager |
 | I-5 | The build-and-test workflow is a template under `docs/ci/` and is not installed in `.github/workflows/`; no agent role can install it. Increment 1 merges were gated by local build and test results recorded on issues, not by GitHub-hosted CI | Closed 2026-09-16: the Principal installed `build-and-test.yml` in `.github/workflows/`. First hosted run to be confirmed green at SVR-1 entry. | Principal |
 | I-6 | The G1 extraction scripts (passes 1–4) are not committed; only their outputs are | Closed 2026-09-15: `docs/research/g1-fpds/g1_extract.py` committed; re-run against the same archive reproduced every committed output byte-for-byte | Systems Engineer |
+| I-7 | The four sponsor questions in `challenge-brief.md` were open | Closed 2026-09-17 by client direction, recorded there and in R-2, R-5, R-6, R-7: (1) submit 22 Sep, revisions by 2 Oct; (2) any prediction form scores, new-vehicle entries count when expected; (3) "recommending common requirements" means recommending that a cluster be treated as common, and promoting an existing contract to strategic-vehicle status is a third output mode (need 15); (4) the timed run is inside the presentation, and replication means throughput across document sets. If Tech Grove later answers differently, the sponsor's answer governs and these rows reopen. | Product Manager |
 
 *Opportunities.*
 
@@ -485,7 +487,8 @@ High: R-1, R-2, R-3, R-6, R-8. Moderate: R-4, R-5, R-7, R-11. Low: R-9, R-10.
 | --- | --- | --- | --- | --- | --- | --- |
 | R-3 catalog coverage | 3 | 2 (KB data-derived, ≥80% coverage of FY2025 orders) | 2 | 1 (FY2022–FY2025 pulled) | 1 | 1 |
 | R-8 Increment 2 schedule | 4 | 4 | 3 (scope fixed at SRR-II) | 3 | 2 (fit and freeze complete) | 1 |
-| R-1, R-2, R-6 | Sponsor-dependent; retire on Tech Grove's answers, not on program action | | | | | |
+| R-1 | Sponsor-dependent; retires on Phase 1 approval timing | | | | | |
+| R-6 | 3 | 2 (TP-220 measured at 1 core / 2 GB; rehearsal timed) | 2 | 2 | 1 | 1 |
 
 #### 3.2.2 Technical performance measures
 
