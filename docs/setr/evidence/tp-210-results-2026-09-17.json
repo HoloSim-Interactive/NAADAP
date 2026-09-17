@@ -1,0 +1,11 @@
+{
+  "procedure": "TP-210",
+  "date": "2026-09-17",
+  "commit": "a2885d9",
+  "runs": 20,
+  "distinct_top5_lists": 1,
+  "distinct_vehicle_candidate_lists": 1,
+  "distinct_manifest_sha256": 1,
+  "manifest_sha256": "ad3315960a32657b668d8266bbd63121c1da6f66062bfb181f6da3b0a572cc6a",
+  "host": "4 vCPU / 16 GB, Ubuntu, .NET 9 runtime, in-process (not containerized)"
+}
