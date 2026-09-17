@@ -52,7 +52,7 @@ Descriptions (DBDDs) (DI-IPSC-81437A)"; the IRS (81434A) names the SSS
 | DID | Current | Title | Approved | Validated | Supersedes | Note |
 | --- | --- | --- | --- | --- | --- | --- |
 | DI-NDTI-80566 | A | Test Plan | 2006-11-14 (AMSC 7639; OPR NS/DA02) | — | base | Text, 3 pages. Contractor format. |
-| DI-NDTI-80603 | **not on file** | Test Procedure (expected title) | — | — | — | **The folder `DI-NDTI-80603/` contains two copies of DI-NDTI-80566 (base and A), not 80603.** Re-download from ASSIST. Until then the number and title of 80603 are unverified. |
+| DI-NDTI-80603 | A | Test Procedure | 2006-11-14 (AMSC 7637; OPR NS/DA02) | — | base (*scan*) | Text, 4 pages. Re-downloaded 2026-09-17 after the first download delivered copies of 80566; verified by title and number. Content starts with a cover and title page (3.1.1). |
 | DI-NDTI-80809 | B | Test/Inspection Report | 1997-01-24 | 2019-12-11 (notice 3) | — | *scan* (poor OCR); DD Form 1664 layout |
 
 ## Systems engineering (DI-SESS)
@@ -70,4 +70,3 @@ Numbers unverified; search ASSIST by title.
 - Requirements Traceability Matrix or Verification Cross-Reference Matrix (SRR, SVR).
 - Risk Management Plan (SRR).
 - Trade Study Report (PDR).
-- Test Procedure, DI-NDTI-80603 (see above).

@@ -31,7 +31,7 @@ built from the documents on file, not from memory.
 | A014 | DI-IPSC-81441A | Software Product Specification | Submission tag; built image digest; `docs/DEPLOYMENT.md`; `docs/DEPENDENCIES.md` | PCA-1 | Not yet checked |
 | A015 | DI-IPSC-81442A | Software Version Description | `VERSION`; tag; `docs/DEPENDENCIES.md`; release notes to be written at PCA-1 | PCA-1 | Not yet produced as one document |
 | A016 | DI-NDTI-80566A | Test Plan | `docs/VALIDATION_METHODOLOGY.md` with the RTVM Test Procedures | SVR-1 | Not yet checked; overlaps A011, one document will cite both |
-| A017 | DI-NDTI-80603 | Test Procedure | `docs/RTVM.md` TP-nnn | SVR-1 | DID not on file (see register); cannot be checked |
+| A017 | DI-NDTI-80603A | Test Procedure | `docs/RTVM.md` TP-nnn | SVR-1 | Not yet checked (DID on file 2026-09-17) |
 | A018 | DI-NDTI-80809B | Test/Inspection Report | SVR-1 summary report with TP results | SVR-1 / FCA-1 | Not yet produced |
 | A019 | DI-ADMN-81249C | Meeting Agenda | Each review's agenda, in the review record | Every SETR event | Retrospective records for SRR-I, PDR, CDR carry no agenda; planned reviews will |
 | A020 | DI-ADMN-81250C | Meeting Minutes | `docs/setr/reviews/<EVENT>-<date>.md` | Every SETR event | Not yet checked against 81250C's content list |
@@ -47,4 +47,4 @@ built from the documents on file, not from memory.
 4. **A011/A012/A016 (test plan and description)** — one front-matter map in `docs/VALIDATION_METHODOLOGY.md` and the RTVM Test Procedures preamble.
 5. **A020 (minutes, 81250C)** — align the review-record template with the DID's content list before SVR-1 so the first live record conforms.
 6. **A013/A015/A018 (test report, version description, test/inspection report)** — produce at SVR-1 and PCA-1 from the DID content lists.
-7. **A017** — blocked until DI-NDTI-80603 is on file.
+7. **A017 (test procedure, 80603A)** — map TP-nnn onto the DID's content list with A012.

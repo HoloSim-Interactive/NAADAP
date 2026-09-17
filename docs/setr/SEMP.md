@@ -468,7 +468,7 @@ High: R-1, R-2, R-3, R-6, R-8. Moderate: R-4, R-5, R-7, R-11. Low: R-9, R-10.
 | I-2 | DI-SESS-81785B not in hand; ASSIST's document link returns a script redirect | Closed 2026-09-15: the Principal supplied the ASSIST copies of the 2009, A, and B revisions; reconciled at Draft A.1 (§1.3) | Principal |
 | I-3 | The SDD's SETR mapping cites 4355.19D and 14 events; the current instruction is 19E with 18 events | Superseded by §3.2.13; pointer added to the SDD | Systems Engineer |
 | I-4 | "PEDDAL" in SN-4 has no source | Closed 2026-09-15 as client-specific terminology from a prior project; not pursued | Product Manager |
-| I-5 | The build-and-test workflow is a template under `docs/ci/` and is not installed in `.github/workflows/`; no agent role can install it. Increment 1 merges were gated by local build and test results recorded on issues, not by GitHub-hosted CI | Principal copies `docs/ci/build-and-test.yml` into `.github/workflows/` before SVR-1; until then the SVR-1 entry criterion admits recorded local results | Principal |
+| I-5 | The build-and-test workflow is a template under `docs/ci/` and is not installed in `.github/workflows/`; no agent role can install it. Increment 1 merges were gated by local build and test results recorded on issues, not by GitHub-hosted CI | Closed 2026-09-16: the Principal installed `build-and-test.yml` in `.github/workflows/`. First hosted run to be confirmed green at SVR-1 entry. | Principal |
 | I-6 | The G1 extraction scripts (passes 1–4) are not committed; only their outputs are | Closed 2026-09-15: `docs/research/g1-fpds/g1_extract.py` committed; re-run against the same archive reproduced every committed output byte-for-byte | Systems Engineer |
 
 *Opportunities.*
