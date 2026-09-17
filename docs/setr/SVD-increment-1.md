@@ -3,7 +3,7 @@
 | Field | Value |
 | --- | --- |
 | Data item | Contract Data Requirements List (CDRL) <a href="https://github.com/HoloSim-Interactive/NAADAP/blob/main/docs/setr/CDRL.md#cdrl-a015" target="_blank">A015</a>, <a href="https://github.com/HoloSim-Interactive/NAADAP/tree/main/.claude/skills/gov-acquisition-sme/sources/DI-IPSC-81442/" target="_blank">DI-IPSC-81442A</a> Software Version Description |
-| Version described | Increment 1 submission candidate: <a href="https://github.com/HoloSim-Interactive/NAADAP/blob/main/VERSION" target="_blank"><code>VERSION</code></a> 1.0, last Continuous Integration / Continuous Delivery (CI/CD) tag `v1.0.82`, candidate commit recorded in <a href="#svd1-3-1" target="_blank">§3.1</a> at Physical Configuration Audit 1 (PCA-1) |
+| Version described | Increment 1 submission, tag `v1.0.156` (commit `0f5b2b3`): <a href="https://github.com/HoloSim-Interactive/NAADAP/blob/main/VERSION" target="_blank"><code>VERSION</code></a> 1.0, last Continuous Integration / Continuous Delivery (CI/CD) tag `v1.0.82`, candidate commit recorded in <a href="#svd1-3-1" target="_blank">§3.1</a> at Physical Configuration Audit 1 (PCA-1) |
 | Knowledge base | `2026-09-17.1` |
 | Prepared by | Systems Engineer, 2026-09-17; finalized at PCA-1 |
 | Classification | UNCLASSIFIED; public repository content |
@@ -18,7 +18,7 @@ prize challenge), software solution <a href="https://github.com/HoloSim-Interact
 `Naadap.LlmStep`, `Naadap.Alternative`), all version 1.0, release tag
 `v1.0.<build>` where `<build>` is the git commit count on `main` at the
 tag. The version this document describes is the Increment 1 submission
-candidate; the tag and commit are entered in <a href="#svd1-3-1" target="_blank">§3.1</a> when PCA-1 exits.
+candidate, tag `v1.0.156` at commit <a href="https://github.com/HoloSim-Interactive/NAADAP/commit/0f5b2b3" target="_blank"><code>0f5b2b3</code></a> (code identical to the commit <a href="https://github.com/HoloSim-Interactive/NAADAP/commit/261f7e3" target="_blank"><code>261f7e3</code></a> accepted at SVR-1; every later commit is documentation). BUILD 156 is the commit count of the full history on `main` at the tag, consistent with the earlier tags (`v1.0.82` at 82).
 
 ### <a id="svd1-1-2"></a>1.2 System overview
 
@@ -58,8 +58,8 @@ limitations. It contains no controlled or personal information.
 
 | Item | Identification | Notes |
 | --- | --- | --- |
-| Source repository | `https://github.com/HoloSim-Interactive/NAADAP`, branch and commit as tagged at PCA-1: tag ______ commit ______ | Massachusetts Institute of Technology (MIT) license (<a href="https://github.com/HoloSim-Interactive/NAADAP/blob/main/LICENSE" target="_blank"><code>LICENSE</code></a>); public; no duplication restriction |
-| Container image | `naadap:svr1`, built by `docker build .` at commit <a href="https://github.com/HoloSim-Interactive/NAADAP/commit/4127c5a" target="_blank"><code>4127c5a</code></a> on 2026-09-17 (Docker Desktop 29.8.0). Image manifest `sha256:58f4295851e8618ada400659ea0b2f3d8e7f5e2a2ed51360821d84fdedb49c9e`; image config `sha256:eafe57f1501d17087fe59c58d59dee372de4079b4e18176397bf88218ba3af6d`. These two are reproducible across rebuilds of the same commit; the manifest-list digest reported as the image Identifier (ID) by `docker image inspect` (`sha256:87ec5f0f…` on the second build) changes per build because BuildKit's provenance attestation is regenerated, and is not used as the identifier. Re-recorded at PCA-1 for the tagged commit. | Base images `mcr.microsoft.com/dotnet/sdk:9.0@sha256:20387c66…` (build stage) and `mcr.microsoft.com/dotnet/runtime:9.0@sha256:647b8b6d…` (runtime) |
+| Source repository | `https://github.com/HoloSim-Interactive/NAADAP`, `main`, tag `v1.0.156`, commit <a href="https://github.com/HoloSim-Interactive/NAADAP/commit/0f5b2b3" target="_blank"><code>0f5b2b3</code></a> (PCA-1, 2026-09-17) | Massachusetts Institute of Technology (MIT) license (<a href="https://github.com/HoloSim-Interactive/NAADAP/blob/main/LICENSE" target="_blank"><code>LICENSE</code></a>); public; no duplication restriction |
+| Container image | `naadap:svr1`, built by `docker build .` at commit <a href="https://github.com/HoloSim-Interactive/NAADAP/commit/4127c5a" target="_blank"><code>4127c5a</code></a> on 2026-09-17 (Docker Desktop 29.8.0). Image manifest `sha256:58f4295851e8618ada400659ea0b2f3d8e7f5e2a2ed51360821d84fdedb49c9e`; image config `sha256:eafe57f1501d17087fe59c58d59dee372de4079b4e18176397bf88218ba3af6d`. These two are reproducible across rebuilds of the same commit; the manifest-list digest reported as the image Identifier (ID) by `docker image inspect` (`sha256:87ec5f0f…` on the second build) changes per build because BuildKit's provenance attestation is regenerated, and is not used as the identifier. Re-recording against the tagged commit is RFA-PCA1-1 (Principal's build from a clean clone of `v1.0.156`); the digests of that build are entered in the PCA-1 record and here when reported. | Base images `mcr.microsoft.com/dotnet/sdk:9.0@sha256:20387c66…` (build stage) and `mcr.microsoft.com/dotnet/runtime:9.0@sha256:647b8b6d…` (runtime) |
 | Documentation set | The twelve Phase 2 package items listed in Systems Engineering Management Plan (SEMP) <a href="https://github.com/HoloSim-Interactive/NAADAP/blob/main/docs/setr/SEMP.md#semp-3-1-1" target="_blank">§3.1.1</a> | All in the repository |
 | Reference-run bundle | <a href="https://github.com/HoloSim-Interactive/NAADAP/tree/main/docs/reference-run/" target="_blank"><code>docs/reference-run/</code></a> | Output of the tagged commit on the reference set |
 
@@ -139,7 +139,7 @@ tracker.
 
 ## <a id="svd1-4"></a>4. Notes
 
-Abbreviations used in this document, each spelled out at its first use in the body (<a href="https://github.com/HoloSim-Interactive/NAADAP/blob/main/docs/setr/SEMP.md#semp-3-2-11" target="_blank">SEMP §3.2.11</a>, documentation conventions). The program's global list is <a href="https://github.com/HoloSim-Interactive/NAADAP/blob/main/docs/setr/SEMP.md#semp-appendix-a" target="_blank">SEMP Appendix A</a>. Blanks marked ______ are completed at PCA-1 when the submission tag exists.
+Abbreviations used in this document, each spelled out at its first use in the body (<a href="https://github.com/HoloSim-Interactive/NAADAP/blob/main/docs/setr/SEMP.md#semp-3-2-11" target="_blank">SEMP §3.2.11</a>, documentation conventions). The program's global list is <a href="https://github.com/HoloSim-Interactive/NAADAP/blob/main/docs/setr/SEMP.md#semp-appendix-a" target="_blank">SEMP Appendix A</a>. The image digests of the tagged build are entered on RFA-PCA1-1 closure.
 
 | Abbreviation | Expansion |
 | --- | --- |

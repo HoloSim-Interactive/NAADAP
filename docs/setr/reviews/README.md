@@ -16,7 +16,7 @@ time of the event, and each says so.
 | <a href="https://github.com/HoloSim-Interactive/NAADAP/blob/main/docs/setr/reviews/PDR-2026-09-03.md" target="_blank">`PDR-2026-09-03.md`</a> | Preliminary Design Review (Alternative Systems Review (ASR), System Functional Review (SFR), Software Specification Review (SSR) folded in) | 2026-09-03 | 1 | Retrospective |
 | <a href="https://github.com/HoloSim-Interactive/NAADAP/blob/main/docs/setr/reviews/CDR-2026-09-03.md" target="_blank">`CDR-2026-09-03.md`</a> | Critical Design Review (Integration Readiness Review (IRR) folded in) | 2026-09-03 | 1 | Retrospective |
 | <a href="https://github.com/HoloSim-Interactive/NAADAP/blob/main/docs/setr/reviews/SVR-1-FCA-1-2026-09-17.md" target="_blank">`SVR-1-FCA-1-2026-09-17.md`</a> | System Verification Review and Functional Configuration Audit | 2026-09-17 | 1 | Exited; Principal signed 2026-09-17 and accepted <a href="https://github.com/HoloSim-Interactive/NAADAP/commit/261f7e3" target="_blank"><code>261f7e3</code></a> as the product baseline |
-| Physical Configuration Audit 1 (PCA-1) | Physical Configuration Audit | Planned 2026-09-21 | 1 | Entry open (product baseline accepted); not yet held |
+| <a href="PCA-1-2026-09-17.md" target="_blank"><code>PCA-1-2026-09-17.md</code></a> | Physical Configuration Audit | Entered 2026-09-17 | 1 | In progress: clean-clone audit complete; tag push, image build, and release assigned to the Principal (RFA-PCA1-1) |
 
 ## <a id="trsr-index-where-the-review-documents-are"></a>Where the review documents are
 

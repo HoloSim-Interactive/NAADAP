@@ -30,7 +30,7 @@ NAADAP reads a directory of acquisition documents (PDF and DOCX: statements of w
 
 ## 3. Pre-flight (the morning of)
 
-1. Clone or pull the baseline: `git clone https://github.com/HoloSim-Interactive/NAADAP.git && cd NAADAP && git checkout 261f7e3` (or the submission tag once PCA-1 applies it).
+1. Clone or pull the baseline: `git clone https://github.com/HoloSim-Interactive/NAADAP.git && cd NAADAP && git checkout v1.0.156` (commit `0f5b2b3`; until the tag is pushed, `git checkout 0f5b2b3`).
 2. Build the image: `docker build -t naadap:demo .` (about two minutes on the Principal's host). Confirm `docker image inspect naadap:demo --format '{{.RootFS.Layers}}'` prints layers; the reproducible manifest digest is recorded in <a href="https://github.com/HoloSim-Interactive/NAADAP/blob/main/docs/setr/SVD-increment-1.md#svd1-3-1" target="_blank">SVD §3.1</a>.
 3. Stage inputs: copy `tests/fixtures/reference-20/` to a directory you can point at (say `C:\demo\in`), and create an empty `C:\demo\out`.
 4. Dry run once, exactly as in §4 step 2, and diff `manifest.json` against `docs/reference-run/manifest.json`. They must be identical. If they are not, stop and use the committed bundle (§6).

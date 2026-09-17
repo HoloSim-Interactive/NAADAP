@@ -29,6 +29,21 @@ this table matches those comments exactly — nothing is added to a
 | `PdfPig` | 0.1.16 | `src/Naadap.Ingestion/Naadap.Ingestion.csproj` | Apache 2.0 | Pure-managed PDF text-extraction library with no native/platform dependencies, satisfying DATA-IN-100's PDF format requirement and the single-Docker-image/no-network-at-runtime constraint (NFR-500). Ingestion-only — never referenced by `Naadap.Core`, per the SDD's zero-third-party-dependency decision for that project (which is what makes CORE-240's TP-240 inspection a manifest check; see "Projects with zero dependencies" below). |
 | `DocumentFormat.OpenXml` | 3.5.1 | `src/Naadap.Ingestion/Naadap.Ingestion.csproj` | MIT | Microsoft's official Open XML SDK; pure-managed DOCX text-extraction library satisfying DATA-IN-100's DOCX format requirement. Same ingestion-only rationale as `PdfPig` above. |
 
+## Transitive packages (recorded at PCA-1, 2026-09-17)
+
+`dotnet list src/Naadap.Cli/Naadap.Cli.csproj package --include-transitive`
+on the tagged commit resolves the two direct references above to the
+following closure. These are pulled in by the direct references, are not
+referenced by any `.csproj`, and are listed so the image's dependency
+inventory can be checked against this document in full.
+
+| Package | Version | Pulled in by | License |
+| --- | --- | --- | --- |
+| `DocumentFormat.OpenXml.Framework` | 3.5.1 | `DocumentFormat.OpenXml` | MIT |
+| `System.IO.Packaging` | 8.0.1 | `DocumentFormat.OpenXml` | MIT |
+
+`Naadap.Core` resolves to zero packages, direct or transitive.
+
 ## BCL-covered needs that could have been NuGet packages, but aren't
 
 Called out explicitly so a reviewer diffing "what does this pipeline
