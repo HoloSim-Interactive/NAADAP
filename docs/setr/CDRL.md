@@ -1,48 +1,79 @@
-# SETR package data item list (contractor CDRL equivalent)
+# <a id="cdrl-title"></a>SETR package data item list (contractor CDRL equivalent)
 
 There is no contract and therefore no DD Form 1423. This list is the
 program's own statement of which Data Item Description governs each artifact
-in the SETR package, so that a Government reader can check an artifact
-against the DID it claims. It is maintained by the Systems Engineer under
-`docs/setr/SEMP.md` §3.2.13 and §4, and it is the input to the conformance
+in the Systems Engineering Technical Review (SETR) package, so that a Government reader can check an artifact
+against the Data Item Description (DID) it claims. It is maintained by the Systems Engineer under
+<a href="https://github.com/HoloSim-Interactive/NAADAP/blob/main/docs/setr/SEMP.md#semp-3-2-13" target="_blank"><code>docs/setr/SEMP.md</code> §3.2.13</a> and §4, and it is the input to the conformance
 work listed at the end.
 
 DID numbers, titles, and revisions are taken from
-`.claude/skills/gov-acquisition-sme/references/did-register.md`, which was
+<a href="https://github.com/HoloSim-Interactive/NAADAP/blob/main/.claude/skills/gov-acquisition-sme/references/did-register.md" target="_blank"><code>.claude/skills/gov-acquisition-sme/references/did-register.md</code></a>, which was
 built from the documents on file, not from memory.
 
-## Data items
+## <a id="cdrl-data-items"></a>Data items
 
 | Item | DID (current revision) | Title | NAADAP artifact | First delivered at | Conformance to the DID |
 | --- | --- | --- | --- | --- | --- |
-| A001 | DI-SESS-81785B | Systems Engineering Management Plan | `docs/setr/SEMP.md` | SEMP Draft A.1, 2026-09-15 | Checked: §4 crosswalk against DID 3.1–3.8 |
-| A002 | DI-IPSC-81430A | Operational Concept Description | SEMP Appendix D; `docs/PROJECT_DEFINITION.md` Mission Statement | SRR-I | Not yet checked |
-| A003 | DI-IPSC-81431A | System/Subsystem Specification | `docs/RTVM.md` Requirements table | SRR-I | Checked 2026-09-17: conformance map in `docs/RTVM.md` §DI-IPSC-81431A / 81433A conformance; six paragraphs tailored out with reasons |
-| A004 | DI-IPSC-81433A | Software Requirements Specification | `docs/RTVM.md` (the system is one CSCI set; SSS and SRS coincide) | SRR-I | Checked 2026-09-17 with A003; coincidence stated in the same map |
-| A005 | DI-IPSC-81434A | Interface Requirements Specification | SEMP Table 2.2-2; `docs/SDD.md` Build & Toolchain Conventions and Data Architecture | PDR | Not yet checked |
-| A006 | DI-IPSC-81432A | System/Subsystem Design Description | `docs/SDD.md` Architecture (BDD, activity diagram) | PDR | Not yet checked |
-| A007 | DI-IPSC-81435B | Software Design Description | `docs/SDD.md` | CDR | Checked 2026-09-17: `docs/SDD.md` §DI-IPSC-81435B conformance adds identification, overview, referenced documents, CSCI-wide decisions, software-unit table with identifiers SU-01 to SU-13, interfaces IF-1 to IF-7, traceability, and notes; three items tailored out with reasons |
-| A008 | DI-IPSC-81436A | Interface Design Description | `docs/SDD.md` §Interfaces (IF-1 to IF-7) | CDR | Folded into A007 as 81435B §2.2 permits; checked 2026-09-17 |
-| A009 | DI-IPSC-81437A | Database Design Description | `docs/KB_SCHEMA.md` (no database; the knowledge base is a frozen file set with a documented schema and ETL pipeline, DELIV-950 reopened narrowly 2026-09-17) | G6, 2026-09-17 | Not yet checked against 81437A's content list; expected to satisfy the design-description and data-element sections and to state the others as not applicable |
-| A010 | DI-IPSC-81427B | Software Development Plan | SEMP §3.2.8 | SEMP Draft A.1 | Checked 2026-09-17: map at the end of SEMP §3.2.8.3; subcontractor, associate-developer, and hardware-integration items tailored out |
-| A011 | DI-IPSC-81438A | Software Test Plan | `docs/VALIDATION_METHODOLOGY.md` with the RTVM Test Procedures | PDR | Checked 2026-09-17: map in `docs/VALIDATION_METHODOLOGY.md` §DID conformance |
-| A012 | DI-IPSC-81439A | Software Test Description | `docs/RTVM.md` TP-nnn | CDR | Checked 2026-09-17: same map |
-| A013 | DI-IPSC-81440A | Software Test Report | `docs/setr/STR-increment-1.md` | SVR-1 / FCA-1 | Produced 2026-09-17 to the DID's section structure (scope, referenced documents, overview, detailed results with deviations, test log, notes) |
-| A014 | DI-IPSC-81441A | Software Product Specification | Submission tag; built image digest; `docs/DEPLOYMENT.md`; `docs/DEPENDENCIES.md` | PCA-1 | Not yet checked |
-| A015 | DI-IPSC-81442A | Software Version Description | `docs/setr/SVD-increment-1.md` | PCA-1 | Produced 2026-09-17 to the DID's section structure; tag and image digest blanks filled at PCA-1 |
-| A016 | DI-NDTI-80566A | Test Plan | `docs/VALIDATION_METHODOLOGY.md` with the RTVM Test Procedures | SVR-1 | Checked 2026-09-17: same map |
-| A017 | DI-NDTI-80603A | Test Procedure | `docs/RTVM.md` TP-nnn | SVR-1 | Checked 2026-09-17: same map |
-| A018 | DI-NDTI-80809B | Test/Inspection Report | `docs/setr/STR-increment-1.md` (one report serves both DIDs) | SVR-1 / FCA-1 | Produced 2026-09-17 |
-| A019 | DI-ADMN-81249C | Meeting Agenda | Each review's agenda, in the review record | Every SETR event | Retrospective records for SRR-I, PDR, CDR carry no agenda; planned reviews will |
-| A020 | DI-ADMN-81250C | Meeting Minutes | `docs/setr/reviews/<EVENT>-<date>.md` from `docs/setr/reviews/TEMPLATE.md` | Every SETR event | Template aligned to 81250C items a–h and 3.1–3.2 on 2026-09-17; the three retrospective records predate it and are not restructured |
-| A021 | DI-ADMN-81373 | Presentation Material | Review briefing; Demo Day deck (Phase 3) | Each review; Demo Day | Not yet produced |
-| A022 | DI-MGMT-81650 | Integrated Master Schedule | SEMP Table 3.1-1; GitHub issues | SEMP | Not applicable in full: no EVM. The event schedule serves; noted in SEMP §3.1.1 |
-| A023 | DI-SESS-81000F | Product Engineering Design Data and Associated Lists | Not applicable: no hardware. The product baseline is A014 and A015 | — | Not applicable |
+| <a id="cdrl-a001"></a>A001 | <a href="https://github.com/HoloSim-Interactive/NAADAP/tree/main/.claude/skills/gov-acquisition-sme/sources/DI-SESS-81785/" target="_blank">DI-SESS-81785B</a> | Systems Engineering Management Plan | <a href="https://github.com/HoloSim-Interactive/NAADAP/blob/main/docs/setr/SEMP.md" target="_blank"><code>docs/setr/SEMP.md</code></a> | Systems Engineering Management Plan (SEMP) Draft A.1, 2026-09-15 | Checked: <a href="https://github.com/HoloSim-Interactive/NAADAP/blob/main/docs/setr/SEMP.md#semp-4" target="_blank">§4</a> crosswalk against DID 3.1–3.8 |
+| <a id="cdrl-a002"></a>A002 | <a href="https://github.com/HoloSim-Interactive/NAADAP/tree/main/.claude/skills/gov-acquisition-sme/sources/DI-IPSC-81430/" target="_blank">DI-IPSC-81430A</a> | Operational Concept Description | SEMP <a href="https://github.com/HoloSim-Interactive/NAADAP/blob/main/docs/setr/SEMP.md#semp-appendix-d" target="_blank">Appendix D</a>; <a href="https://github.com/HoloSim-Interactive/NAADAP/blob/main/docs/PROJECT_DEFINITION.md" target="_blank"><code>docs/PROJECT_DEFINITION.md</code></a> Mission Statement | System Requirements Review I (SRR-I) | Not yet checked |
+| <a id="cdrl-a003"></a>A003 | <a href="https://github.com/HoloSim-Interactive/NAADAP/tree/main/.claude/skills/gov-acquisition-sme/sources/DI-IPSC-81431/" target="_blank">DI-IPSC-81431A</a> | System/Subsystem Specification | <a href="https://github.com/HoloSim-Interactive/NAADAP/blob/main/docs/RTVM.md" target="_blank"><code>docs/RTVM.md</code></a> Requirements table | SRR-I | Checked 2026-09-17: conformance map in <a href="https://github.com/HoloSim-Interactive/NAADAP/blob/main/docs/RTVM.md" target="_blank"><code>docs/RTVM.md</code></a> §<a href="https://github.com/HoloSim-Interactive/NAADAP/tree/main/.claude/skills/gov-acquisition-sme/sources/DI-IPSC-81431/" target="_blank">DI-IPSC-81431A</a> / 81433A conformance; six paragraphs tailored out with reasons |
+| <a id="cdrl-a004"></a>A004 | <a href="https://github.com/HoloSim-Interactive/NAADAP/tree/main/.claude/skills/gov-acquisition-sme/sources/DI-IPSC-81433/" target="_blank">DI-IPSC-81433A</a> | Software Requirements Specification | <a href="https://github.com/HoloSim-Interactive/NAADAP/blob/main/docs/RTVM.md" target="_blank"><code>docs/RTVM.md</code></a> (the system is one Computer Software Configuration Item (CSCI) set; System/Subsystem Specification (SSS) and Software Requirements Specification (SRS) coincide) | SRR-I | Checked 2026-09-17 with <a href="#cdrl-a003" target="_blank">A003</a>; coincidence stated in the same map |
+| <a id="cdrl-a005"></a>A005 | <a href="https://github.com/HoloSim-Interactive/NAADAP/tree/main/.claude/skills/gov-acquisition-sme/sources/DI-IPSC-81434/" target="_blank">DI-IPSC-81434A</a> | Interface Requirements Specification | SEMP <a href="https://github.com/HoloSim-Interactive/NAADAP/blob/main/docs/setr/SEMP.md#semp-table-2-2-2" target="_blank">Table 2.2-2</a>; <a href="https://github.com/HoloSim-Interactive/NAADAP/blob/main/docs/SDD.md" target="_blank"><code>docs/SDD.md</code></a> Build & Toolchain Conventions and Data Architecture | Preliminary Design Review (PDR) | Not yet checked |
+| <a id="cdrl-a006"></a>A006 | <a href="https://github.com/HoloSim-Interactive/NAADAP/tree/main/.claude/skills/gov-acquisition-sme/sources/DI-IPSC-81432/" target="_blank">DI-IPSC-81432A</a> | System/Subsystem Design Description | <a href="https://github.com/HoloSim-Interactive/NAADAP/blob/main/docs/SDD.md" target="_blank"><code>docs/SDD.md</code></a> Architecture (Block Definition Diagram (BDD), activity diagram) | PDR | Not yet checked |
+| <a id="cdrl-a007"></a>A007 | <a href="https://github.com/HoloSim-Interactive/NAADAP/tree/main/.claude/skills/gov-acquisition-sme/sources/DI-IPSC-81435/" target="_blank">DI-IPSC-81435B</a> | Software Design Description | <a href="https://github.com/HoloSim-Interactive/NAADAP/blob/main/docs/SDD.md" target="_blank"><code>docs/SDD.md</code></a> | Critical Design Review (CDR) | Checked 2026-09-17: <a href="https://github.com/HoloSim-Interactive/NAADAP/blob/main/docs/SDD.md" target="_blank"><code>docs/SDD.md</code></a> §<a href="https://github.com/HoloSim-Interactive/NAADAP/tree/main/.claude/skills/gov-acquisition-sme/sources/DI-IPSC-81435/" target="_blank">DI-IPSC-81435B</a> conformance adds identification, overview, referenced documents, CSCI-wide decisions, software-unit table with identifiers SU-01 to SU-13, interfaces IF-1 to IF-7, traceability, and notes; three items tailored out with reasons |
+| <a id="cdrl-a008"></a>A008 | <a href="https://github.com/HoloSim-Interactive/NAADAP/tree/main/.claude/skills/gov-acquisition-sme/sources/DI-IPSC-81436/" target="_blank">DI-IPSC-81436A</a> | Interface Design Description | <a href="https://github.com/HoloSim-Interactive/NAADAP/blob/main/docs/SDD.md" target="_blank"><code>docs/SDD.md</code></a> §Interfaces (IF-1 to IF-7) | CDR | Folded into <a href="#cdrl-a007" target="_blank">A007</a> as 81435B §2.2 permits; checked 2026-09-17 |
+| <a id="cdrl-a009"></a>A009 | <a href="https://github.com/HoloSim-Interactive/NAADAP/tree/main/.claude/skills/gov-acquisition-sme/sources/DI-IPSC-81437/" target="_blank">DI-IPSC-81437A</a> | Database Design Description | <a href="https://github.com/HoloSim-Interactive/NAADAP/blob/main/docs/KB_SCHEMA.md" target="_blank"><code>docs/KB_SCHEMA.md</code></a> (no database; the knowledge base is a frozen file set with a documented schema and Extract, Transform, Load (ETL) pipeline, <a href="https://github.com/HoloSim-Interactive/NAADAP/blob/main/docs/RTVM.md#rtvm-deliv-950" target="_blank">DELIV-950</a> reopened narrowly 2026-09-17) | <a href="https://github.com/HoloSim-Interactive/NAADAP/blob/main/docs/design/vehicle-recommendation-pipeline.md#vrp-g6" target="_blank">G6</a>, 2026-09-17 | Not yet checked against 81437A's content list; expected to satisfy the design-description and data-element sections and to state the others as not applicable |
+| <a id="cdrl-a010"></a>A010 | <a href="https://github.com/HoloSim-Interactive/NAADAP/tree/main/.claude/skills/gov-acquisition-sme/sources/DI-IPSC-81427/" target="_blank">DI-IPSC-81427B</a> | Software Development Plan | SEMP <a href="https://github.com/HoloSim-Interactive/NAADAP/blob/main/docs/setr/SEMP.md#semp-3-2-8" target="_blank">§3.2.8</a> | SEMP Draft A.1 | Checked 2026-09-17: map at the end of SEMP <a href="https://github.com/HoloSim-Interactive/NAADAP/blob/main/docs/setr/SEMP.md#semp-3-2-8-3" target="_blank">§3.2.8.3</a>; subcontractor, associate-developer, and hardware-integration items tailored out |
+| <a id="cdrl-a011"></a>A011 | <a href="https://github.com/HoloSim-Interactive/NAADAP/tree/main/.claude/skills/gov-acquisition-sme/sources/DI-IPSC-81438/" target="_blank">DI-IPSC-81438A</a> | Software Test Plan | <a href="https://github.com/HoloSim-Interactive/NAADAP/blob/main/docs/VALIDATION_METHODOLOGY.md" target="_blank"><code>docs/VALIDATION_METHODOLOGY.md</code></a> with the Requirements Traceability and Verification Matrix (RTVM) Test Procedures | PDR | Checked 2026-09-17: map in <a href="https://github.com/HoloSim-Interactive/NAADAP/blob/main/docs/VALIDATION_METHODOLOGY.md" target="_blank"><code>docs/VALIDATION_METHODOLOGY.md</code></a> §DID conformance |
+| <a id="cdrl-a012"></a>A012 | <a href="https://github.com/HoloSim-Interactive/NAADAP/tree/main/.claude/skills/gov-acquisition-sme/sources/DI-IPSC-81439/" target="_blank">DI-IPSC-81439A</a> | Software Test Description | <a href="https://github.com/HoloSim-Interactive/NAADAP/blob/main/docs/RTVM.md" target="_blank"><code>docs/RTVM.md</code></a> Test Procedure (TP) TP-nnn | CDR | Checked 2026-09-17: same map |
+| <a id="cdrl-a013"></a>A013 | <a href="https://github.com/HoloSim-Interactive/NAADAP/tree/main/.claude/skills/gov-acquisition-sme/sources/DI-IPSC-81440/" target="_blank">DI-IPSC-81440A</a> | Software Test Report | <a href="https://github.com/HoloSim-Interactive/NAADAP/blob/main/docs/setr/STR-increment-1.md" target="_blank"><code>docs/setr/STR-increment-1.md</code></a> | System Verification Review 1 (SVR-1) / Functional Configuration Audit 1 (FCA-1) | Produced 2026-09-17 to the DID's section structure (scope, referenced documents, overview, detailed results with deviations, test log, notes) |
+| <a id="cdrl-a014"></a>A014 | <a href="https://github.com/HoloSim-Interactive/NAADAP/tree/main/.claude/skills/gov-acquisition-sme/sources/DI-IPSC-81441/" target="_blank">DI-IPSC-81441A</a> | Software Product Specification | Submission tag; built image digest; <a href="https://github.com/HoloSim-Interactive/NAADAP/blob/main/docs/DEPLOYMENT.md" target="_blank"><code>docs/DEPLOYMENT.md</code></a>; <a href="https://github.com/HoloSim-Interactive/NAADAP/blob/main/docs/DEPENDENCIES.md" target="_blank"><code>docs/DEPENDENCIES.md</code></a> | Physical Configuration Audit 1 (PCA-1) | Not yet checked |
+| <a id="cdrl-a015"></a>A015 | <a href="https://github.com/HoloSim-Interactive/NAADAP/tree/main/.claude/skills/gov-acquisition-sme/sources/DI-IPSC-81442/" target="_blank">DI-IPSC-81442A</a> | Software Version Description | <a href="https://github.com/HoloSim-Interactive/NAADAP/blob/main/docs/setr/SVD-increment-1.md" target="_blank"><code>docs/setr/SVD-increment-1.md</code></a> | PCA-1 | Produced 2026-09-17 to the DID's section structure; tag and image digest blanks filled at PCA-1 |
+| <a id="cdrl-a016"></a>A016 | <a href="https://github.com/HoloSim-Interactive/NAADAP/tree/main/.claude/skills/gov-acquisition-sme/sources/DI-NDTI-80566/" target="_blank">DI-NDTI-80566A</a> | Test Plan | <a href="https://github.com/HoloSim-Interactive/NAADAP/blob/main/docs/VALIDATION_METHODOLOGY.md" target="_blank"><code>docs/VALIDATION_METHODOLOGY.md</code></a> with the RTVM Test Procedures | SVR-1 | Checked 2026-09-17: same map |
+| <a id="cdrl-a017"></a>A017 | <a href="https://github.com/HoloSim-Interactive/NAADAP/tree/main/.claude/skills/gov-acquisition-sme/sources/DI-NDTI-80603/" target="_blank">DI-NDTI-80603A</a> | Test Procedure | <a href="https://github.com/HoloSim-Interactive/NAADAP/blob/main/docs/RTVM.md" target="_blank"><code>docs/RTVM.md</code></a> TP-nnn | SVR-1 | Checked 2026-09-17: same map |
+| <a id="cdrl-a018"></a>A018 | <a href="https://github.com/HoloSim-Interactive/NAADAP/tree/main/.claude/skills/gov-acquisition-sme/sources/DI-NDTI-80809/" target="_blank">DI-NDTI-80809B</a> | Test/Inspection Report | <a href="https://github.com/HoloSim-Interactive/NAADAP/blob/main/docs/setr/STR-increment-1.md" target="_blank"><code>docs/setr/STR-increment-1.md</code></a> (one report serves both DIDs) | SVR-1 / FCA-1 | Produced 2026-09-17 |
+| <a id="cdrl-a019"></a>A019 | <a href="https://github.com/HoloSim-Interactive/NAADAP/tree/main/.claude/skills/gov-acquisition-sme/sources/DI-ADMN-81249/" target="_blank">DI-ADMN-81249C</a> | Meeting Agenda | Each review's agenda, in the review record | Every SETR event | Retrospective records for SRR-I, PDR, CDR carry no agenda; planned reviews will |
+| <a id="cdrl-a020"></a>A020 | <a href="https://github.com/HoloSim-Interactive/NAADAP/tree/main/.claude/skills/gov-acquisition-sme/sources/DI-ADMN-81250/" target="_blank">DI-ADMN-81250C</a> | Meeting Minutes | `docs/setr/reviews/<EVENT>-<date>.md` from <a href="https://github.com/HoloSim-Interactive/NAADAP/blob/main/docs/setr/reviews/TEMPLATE.md" target="_blank"><code>docs/setr/reviews/TEMPLATE.md</code></a> | Every SETR event | Template aligned to 81250C items a–h and 3.1–3.2 on 2026-09-17; the three retrospective records predate it and are not restructured |
+| <a id="cdrl-a021"></a>A021 | <a href="https://github.com/HoloSim-Interactive/NAADAP/tree/main/.claude/skills/gov-acquisition-sme/sources/DI-ADMN-81373/" target="_blank">DI-ADMN-81373</a> | Presentation Material | Review briefing; Demo Day deck (Phase 3) | Each review; Demo Day | Not yet produced |
+| <a id="cdrl-a022"></a>A022 | <a href="https://github.com/HoloSim-Interactive/NAADAP/tree/main/.claude/skills/gov-acquisition-sme/sources/DI-MGMT-81650/" target="_blank">DI-MGMT-81650</a> | Integrated Master Schedule | SEMP <a href="https://github.com/HoloSim-Interactive/NAADAP/blob/main/docs/setr/SEMP.md#semp-table-3-1-1" target="_blank">Table 3.1-1</a>; GitHub issues | SEMP | Not applicable in full: no Earned Value Management (EVM). The event schedule serves; noted in SEMP <a href="https://github.com/HoloSim-Interactive/NAADAP/blob/main/docs/setr/SEMP.md#semp-3-1-1" target="_blank">§3.1.1</a> |
+| <a id="cdrl-a023"></a>A023 | <a href="https://github.com/HoloSim-Interactive/NAADAP/tree/main/.claude/skills/gov-acquisition-sme/sources/DI-SESS-81000/" target="_blank">DI-SESS-81000F</a> | Product Engineering Design Data and Associated Lists | Not applicable: no hardware. The product baseline is <a href="#cdrl-a014" target="_blank">A014</a> and <a href="#cdrl-a015" target="_blank">A015</a> | — | Not applicable |
 
-## Conformance work
+## <a id="cdrl-conformance-work"></a>Conformance work
 
 Items 1 through 5 and 7 of the original order were completed on
 2026-09-17 (maps recorded in the artifacts named above). Remaining:
 
-1. **A013/A015/A018** — produced 2026-09-17; SVD blanks filled at PCA-1.
-2. **A002 (OCD, 81430A)**, **A005 (IRS, 81434A)**, **A006 (SSDD, 81432A)**, **A009 (DBDD, 81437A)**, **A014 (SPS, 81441A)** — maps not yet written; A005/A006 are expected to fold into A007 as the DIDs permit, A009 into `docs/KB_SCHEMA.md`.
+1. **<a href="#cdrl-a013" target="_blank">A013</a>/<a href="#cdrl-a015" target="_blank">A015</a>/<a href="#cdrl-a018" target="_blank">A018</a>** — produced 2026-09-17; Software Version Description (SVD) blanks filled at PCA-1.
+2. **<a href="#cdrl-a002" target="_blank">A002</a> (Operational Concept Description (OCD), 81430A)**, **<a href="#cdrl-a005" target="_blank">A005</a> (Interface Requirements Specification (IRS), 81434A)**, **<a href="#cdrl-a006" target="_blank">A006</a> (System/Subsystem Design Description (SSDD), 81432A)**, **<a href="#cdrl-a009" target="_blank">A009</a> (Database Design Description (DBDD), 81437A)**, **<a href="#cdrl-a014" target="_blank">A014</a> (Software Product Specification (SPS), 81441A)** — maps not yet written; <a href="#cdrl-a005" target="_blank">A005</a>/<a href="#cdrl-a006" target="_blank">A006</a> are expected to fold into <a href="#cdrl-a007" target="_blank">A007</a> as the DIDs permit, <a href="#cdrl-a009" target="_blank">A009</a> into <a href="https://github.com/HoloSim-Interactive/NAADAP/blob/main/docs/KB_SCHEMA.md" target="_blank"><code>docs/KB_SCHEMA.md</code></a>.
+
+## <a id="cdrl-abbreviations"></a>Abbreviations
+
+Abbreviations used in this document, each spelled out at its first use in the body (<a href="https://github.com/HoloSim-Interactive/NAADAP/blob/main/docs/setr/SEMP.md#semp-3-2-11" target="_blank">SEMP §3.2.11</a>, documentation conventions). The program's global list is <a href="https://github.com/HoloSim-Interactive/NAADAP/blob/main/docs/setr/SEMP.md#semp-appendix-a" target="_blank">SEMP Appendix A</a>.
+
+| Abbreviation | Expansion |
+| --- | --- |
+| BDD | Block Definition Diagram |
+| CDR | Critical Design Review |
+| CDRL | Contract Data Requirements List |
+| CSCI | Computer Software Configuration Item |
+| DBDD | Database Design Description |
+| DID | Data Item Description |
+| ETL | Extract, Transform, Load |
+| EVM | Earned Value Management |
+| FCA | Functional Configuration Audit |
+| IRS | Interface Requirements Specification |
+| OCD | Operational Concept Description |
+| PCA | Physical Configuration Audit |
+| PDR | Preliminary Design Review |
+| RTVM | Requirements Traceability and Verification Matrix |
+| SEMP | Systems Engineering Management Plan |
+| SETR | Systems Engineering Technical Review |
+| SPS | Software Product Specification |
+| SRR | System Requirements Review |
+| SRS | Software Requirements Specification |
+| SSDD | System/Subsystem Design Description |
+| SSS | System/Subsystem Specification |
+| SVD | Software Version Description |
+| SVR | System Verification Review |
+| TP | Test Procedure |

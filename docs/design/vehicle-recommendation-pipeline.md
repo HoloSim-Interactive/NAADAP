@@ -1,4 +1,4 @@
-# Vehicle recommendation: build-time fit, ship-frozen pipeline
+# <a id="vrp-title"></a>Vehicle recommendation: build-time fit, ship-frozen pipeline
 
 **Status: PROPOSED.** Not yet in <a href="https://github.com/HoloSim-Interactive/NAADAP/blob/main/docs/SDD.md" target="_blank">docs/SDD.md</a>
 and not yet backed by approved RTVM items. The requirements this design
@@ -16,7 +16,7 @@ This document exists so the pipeline stops living in conversation. It
 records what was decided, why, with the research each decision rests on,
 and what has to happen before anyone writes code.
 
-## What this replaces
+## <a id="vrp-what-this-replaces"></a>What this replaces
 
 Today `Naadap.Output/VehicleRecommender.cs` ranks clusters by an internal
 cohesion score and labels them with top TF-IDF terms. There is no vehicle
@@ -26,9 +26,9 @@ principled way to identify. The judges score membership in PGIL's list of
 20 correct vehicle candidates. A cluster labeled "aircraft, maintenance,
 support" is not a candidate. This design closes that gap.
 
-## The pipeline
+## <a id="vrp-the-pipeline"></a>The pipeline
 
-### Build (offline, outside the container, once per release)
+### <a id="vrp-build-offline-outside-the-container-once-per-release"></a>Build (offline, outside the container, once per release)
 
 1. **Pull the historical record.** USAspending bulk archive,
    `https://files.usaspending.gov/award_data_archive/`, split by top-tier
@@ -70,13 +70,13 @@ support" is not a candidate. This design closes that gap.
    function registry, and a `context.jsonld`. Canonicalize (frozen column
    order, sorted rows), SHA-256 each file, record hashes in a manifest.
 
-### Ship
+### <a id="vrp-ship"></a>Ship
 
 The container carries only frozen artifacts: `β`, vocabulary, knowledge
 base, LF registry, manifest. No optimizer, no fitting code, no network
 client. Every file's hash is recorded and checked at startup.
 
-### Run (inside the container, per document set)
+### <a id="vrp-run-inside-the-container-per-document-set"></a>Run (inside the container, per document set)
 
 1. **Extract** the same features from each SOW/PWS/sources-sought that the
    build extracted from FPDS: PSC and NAICS (present or predicted), office
@@ -104,7 +104,7 @@ client. Every file's hash is recorded and checked at startup.
 Runtime is pure arithmetic and retrieval. Determinism is a property of an
 evaluator, not an optimizer.
 
-## Decisions and their basis
+## <a id="vrp-decisions-and-their-basis"></a>Decisions and their basis
 
 | Decision | Basis |
 | --- | --- |
@@ -118,7 +118,7 @@ evaluator, not an optimizer.
 | Metrics: MRR and Recall@5; label them "agreement with historical practice" | Research C: one positive per query, no graded relevance, so NDCG's machinery is inert. A confounded model gets *better* held-out accuracy by learning the confound, so held-out accuracy is not evidence of good recommendation. <a href="https://github.com/HoloSim-Interactive/NAADAP/blob/main/docs/RTVM.md#rtvm-out-420" target="_blank">OUT-420</a> currently says "precision@5 or F1 against validation ground truth" and needs amending. |
 | ML.NET FastTree as benchmark only; never ML.NET LightGBM | Research C read the source: FastTree is real LambdaMART with no default stochasticity, pure managed, MIT. LightGBM's ML.NET options surface lacks the `Deterministic` field LightGBM's own docs require. ML.NET does not ship conditional logit; `LbfgsMaximumEntropy` is a different model. |
 
-## The "was it right" channel
+## <a id="vrp-the-was-it-right-channel"></a>The "was it right" channel
 
 **This is positioning-critical and it is a research gap.** FPDS records
 what was chosen. It has no field for whether the choice was correct. A
@@ -164,7 +164,7 @@ rules, FPDS modification/termination field semantics, GAO protest data
 structure, PALT derivation — before this channel is designed. None of the
 six passes run so far covered it.
 
-### Who this channel serves
+### <a id="vrp-who-this-channel-serves"></a>Who this channel serves
 
 The routing recommendation serves the CO who has never handled this
 requirement — a common starting point, a short list of directions that
@@ -182,20 +182,20 @@ channel. The client's full navigation analogy, with both audiences, is
 recorded in
 <a href="../../.claude/skills/gov-acquisition-sme/references/challenge-brief.md">challenge-brief.md</a>.
 
-## Gates before any code
+## <a id="vrp-gates-before-any-code"></a>Gates before any code
 
 Ordered. Each gates the next.
 
 | Gate | What | Why it gates | Effort |
 | --- | --- | --- | --- |
-| **G1** | Premise check: pull one fiscal year of the bulk archive, count NAVAIR-office rows with non-null `parent_award_id_piid`, confirm the catalog's vehicles appear as parent PIIDs, sample the descriptions | Nobody has pulled a row. If NAVAIR-only counts are thin, or the vehicles do not appear, or descriptions are unusable, the whole design changes. Research B: "do it before building anything." | half a day |
-| **G2** | Research pass 7: outcome linkage | The "was it right" channel cannot be designed without it, and it is central to positioning | one agent run |
-| **G3** | Vet the 50 derived requirements (93 verdicts outstanding) | Project rule: nothing built against unvetted items. The derivation already flagged that CORE-286 (abstention) has negative expected value under the published rubric — a client decision, not an engineering one | resume `wf_fe14ec90-697` |
-| **G4** ✅ 2026-09-17 | Fix the singleton-cohesion inversion in `VehicleRecommender.ComputeCohesion` (done: singletons score 0.0; core precision@5 unchanged at 0.60; alternative rose 0.40 → 0.80, see `docs/ALGORITHM_COMPARISON.md`) | 11 of 20 reference documents are singletons scored at 1.0; the derivation found this blocks verification of the entire grey-area block (CORE-280..289) | small, but it is a scoring-requirement change |
-| **G5** ✅ 2026-09-17 | Vehicle KB schema and initial curation (done: `scripts/kb/`, `docs/KB_SCHEMA.md`, 484 rows, 87.3% coverage; matcher and evidence record in `Naadap.Output`) | Step 3 of Run needs it; today it does not exist. Start from the ~15 NAVAIR/DON vehicles in contract-vehicles.md with provenance columns from day one | one to two days |
-| **G6** ✅ 2026-09-17 | Accept the design into the SDD (done: SDD block diagram and data architecture amended; fitted β stays Increment 2, lookup table shipped in v1) | Solutions Architect owns the SDD; Systems Engineer owns the RTVM. This document is a proposal to both | review cycle |
+| <a id="vrp-g1"></a>**G1** | Premise check: pull one fiscal year of the bulk archive, count NAVAIR-office rows with non-null `parent_award_id_piid`, confirm the catalog's vehicles appear as parent PIIDs, sample the descriptions | Nobody has pulled a row. If NAVAIR-only counts are thin, or the vehicles do not appear, or descriptions are unusable, the whole design changes. Research B: "do it before building anything." | half a day |
+| <a id="vrp-g2"></a>**G2** | Research pass 7: outcome linkage | The "was it right" channel cannot be designed without it, and it is central to positioning | one agent run |
+| <a id="vrp-g3"></a>**G3** | Vet the 50 derived requirements (93 verdicts outstanding) | Project rule: nothing built against unvetted items. The derivation already flagged that CORE-286 (abstention) has negative expected value under the published rubric — a client decision, not an engineering one | resume `wf_fe14ec90-697` |
+| <a id="vrp-g4"></a>**G4** ✅ 2026-09-17 | Fix the singleton-cohesion inversion in `VehicleRecommender.ComputeCohesion` (done: singletons score 0.0; core precision@5 unchanged at 0.60; alternative rose 0.40 → 0.80, see `docs/ALGORITHM_COMPARISON.md`) | 11 of 20 reference documents are singletons scored at 1.0; the derivation found this blocks verification of the entire grey-area block (CORE-280..289) | small, but it is a scoring-requirement change |
+| <a id="vrp-g5"></a>**G5** ✅ 2026-09-17 | Vehicle KB schema and initial curation (done: `scripts/kb/`, `docs/KB_SCHEMA.md`, 484 rows, 87.3% coverage; matcher and evidence record in `Naadap.Output`) | Step 3 of Run needs it; today it does not exist. Start from the ~15 NAVAIR/DON vehicles in contract-vehicles.md with provenance columns from day one | one to two days |
+| <a id="vrp-g6"></a>**G6** ✅ 2026-09-17 | Accept the design into the SDD (done: SDD block diagram and data architecture amended; fitted β stays Increment 2, lookup table shipped in v1) | Solutions Architect owns the SDD; Systems Engineer owns the RTVM. This document is a proposal to both | review cycle |
 
-### RTVM amendments riding with G3
+### <a id="vrp-rtvm-amendments-riding-with-g3"></a>RTVM amendments riding with G3
 
 Agreed with the client on 2026-09-15 from the Critical Technical Criteria
 and Benefits review; deliberately **not** hand-edited into Verified rows
@@ -212,7 +212,7 @@ requirements.
 | <a href="https://github.com/HoloSim-Interactive/NAADAP/blob/main/docs/RTVM.md#rtvm-core-220" target="_blank">CORE-220</a> (Approved) | No text change; add a **design target** note that the practical Demo Day budget is minutes, not thirty, because the timed run may occur inside the 30-minute presentation | The rubric's 30-minute ceiling is the scoring bar. The Phase 3 text puts the live run inside a 30-minute presentation with Q&A. Tech Grove question 4 asks; design as if the answer is "same window." |
 | <a href="https://github.com/HoloSim-Interactive/NAADAP/blob/main/docs/RTVM.md#rtvm-deliv-960" target="_blank">DELIV-960</a> (Verified) | Replace the NAVAIRINST 4355.19D citation with 4355.19E and point the requirement at the SEMP's tailored review sequence (`docs/setr/SEMP.md` §3.2.13) | 19D was superseded by 19E in 2015; the E revision adds RBR and FCA and the Handbook's §6.4 tailoring the program follows. The SDD's mapping table carries a superseding note; the requirement text should say what the program actually reconciles against. |
 
-## Timeline
+## <a id="vrp-timeline"></a>Timeline
 
 Today is 2026-09-15. Submission deadline is **2026-09-22** on the
 client-directed worst-case plan, 2026-10-02 on the listing's TIMELINE
@@ -251,7 +251,7 @@ Whether v1 as scoped lands by the 22nd with G1, G4, G5 and G6 ahead of
 it remains the open scheduling question; G3 (vetting) and G2 (outcome
 research) are v2 gates and need not block v1.
 
-## Open questions for the client
+## <a id="vrp-open-questions-for-the-client"></a>Open questions for the client
 
 1. ~~**Prediction granularity.**~~ Decided 2026-09-17 (client): any of the three forms scores; new-vehicle entries count when expected. Keep all views. Original text: The rubric scores "each data point with a
    correct prediction" against a group of 20 but never defines whether a

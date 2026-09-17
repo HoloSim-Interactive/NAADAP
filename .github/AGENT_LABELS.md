@@ -526,6 +526,12 @@ documents both have an item shaped like `CORE-200`:
 | `docs/RTVM.md` | `rtvm` | `rtvm-core-200` (requirement CORE-200) |
 | `docs/SDD.md` | `sdd` | `sdd-icd-actor-position` |
 | `docs/IMPLEMENTATION_PLAN.md` | `plan` | `plan-phase-2` |
+| `docs/setr/SEMP.md` | `semp` | `semp-3-2-13` (§3.2.13), `semp-table-3-2-11`, `semp-r-5` (risk R-5), `semp-appendix-a` |
+| `docs/setr/STR-increment-1.md` | `str1` | `str1-4-2` (§4.2) |
+| `docs/setr/SVD-increment-1.md` | `svd1` | `svd1-3-1` (§3.1) |
+| `docs/setr/CDRL.md` | `cdrl` | `cdrl-a013` (data item A013) |
+| `docs/setr/reviews/<EVENT>-<date>.md` | `trsr-<event>` | `trsr-svr1-rfa-svr1-2` (RFA-SVR1-2 in the SVR-1 record); `trsr-srr1`, `trsr-pdr`, `trsr-cdr`, `trsr-svr1` |
+| `docs/design/vehicle-recommendation-pipeline.md` | `vrp` | `vrp-g4` (gate G4) |
 
 Lowercase the whole anchor ID; the source item's own casing
 (`CORE-200`, `SN-3`) stays as-is in the visible link *text* — only the
