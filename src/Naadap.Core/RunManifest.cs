@@ -32,4 +32,8 @@ public sealed record RunManifest(
     string ResultVisualizationPath,
     Metric SummaryMetric,
     string ValidationMethodologyPath,
-    IReadOnlyList<SkippedFile> SkippedFiles);
+    IReadOnlyList<SkippedFile> SkippedFiles,
+    IReadOnlyList<VehicleRecommendation> VehicleRecommendations,
+    string VehicleRankingPath,
+    string KnowledgeBaseVersion,
+    string KnowledgeBaseManifestSha256);

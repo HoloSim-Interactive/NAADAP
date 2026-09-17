@@ -39,9 +39,18 @@ public static class OutputBundler
     {
         var candidates = VehicleRecommender.Recommend(documents, clusters);
 
+        // Vehicle matching against the shipped knowledge base (gates G5/G6).
+        // Load() verifies every knowledge-base file against its manifest
+        // first (KB-630) and throws KnowledgeBaseIntegrityException, which
+        // the CLI turns into a non-zero exit before any candidate list is
+        // written.
+        var knowledgeBase = VehicleKnowledgeBase.Load();
+        var (vehicleRecommendations, fullRanking) = VehicleMatcher.Match(documents, clusters, knowledgeBase);
+        var vehicleRankingPath = VehicleRankingWriter.Write(outputDirectory, fullRanking);
+
         var methodVisualizationPath = MethodVisualizationWriter.Write(
             outputDirectory, documents.Count, skippedFiles.Count, clusters);
-        var resultVisualizationPath = ResultVisualizationWriter.Write(outputDirectory, candidates);
+        var resultVisualizationPath = ResultVisualizationWriter.Write(outputDirectory, candidates, vehicleRecommendations);
         var validationMethodologyPath = ValidationMethodologyWriter.Write(outputDirectory);
 
         var groundTruth = GroundTruth.TryLoad(inputDirectory);
@@ -53,7 +62,11 @@ public static class OutputBundler
             resultVisualizationPath,
             summaryMetric,
             validationMethodologyPath,
-            skippedFiles);
+            skippedFiles,
+            vehicleRecommendations,
+            vehicleRankingPath,
+            knowledgeBase.Version,
+            knowledgeBase.ManifestSha256);
 
         File.WriteAllText(
             Path.Combine(outputDirectory, ManifestFileName),

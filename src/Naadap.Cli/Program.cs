@@ -40,12 +40,22 @@ public static class Program
 
         RunOptionalLlmStep(arguments, ingestionResult.Records, clusters);
 
-        OutputBundler.Bundle(
-            arguments.InputDirectory,
-            arguments.OutputDirectory,
-            ingestionResult.Records,
-            clusters,
-            ingestionResult.SkippedFiles);
+        try
+        {
+            OutputBundler.Bundle(
+                arguments.InputDirectory,
+                arguments.OutputDirectory,
+                ingestionResult.Records,
+                clusters,
+                ingestionResult.SkippedFiles);
+        }
+        catch (KnowledgeBaseIntegrityException ex)
+        {
+            // KB-630: a knowledge base that fails its manifest check yields
+            // no candidate list and a non-zero exit naming the file.
+            Console.Error.WriteLine(ex.Message);
+            return 2;
+        }
 
         return 0;
     }

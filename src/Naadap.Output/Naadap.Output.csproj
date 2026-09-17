@@ -22,4 +22,15 @@
     <EmbeddedResource Include="..\..\docs\VALIDATION_METHODOLOGY.md" LogicalName="Naadap.Output.ValidationMethodology.md" />
   </ItemGroup>
 
+  <!-- The vehicle knowledge base (gate G5; derived requirements KB-600 to
+       KB-630; reopened DELIV-950). Built offline by scripts/kb/build_kb.py
+       from scripts/kb/catalog.json and the FY2025 FPDS extract, committed
+       under Resources/kb/, and embedded here so it ships inside the image
+       with no run-time file or network dependency (NFR-500). Logical names
+       are Naadap.Output.kb.<filename>; VehicleKnowledgeBase verifies every
+       file against manifest.sha256 before use (KB-630). -->
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\kb\*" LogicalName="Naadap.Output.kb.%(Filename)%(Extension)" />
+  </ItemGroup>
+
 </Project>

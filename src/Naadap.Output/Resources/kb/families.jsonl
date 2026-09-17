@@ -1,0 +1,11 @@
+{"family_id": "SEAPORT-NXG", "member_piids_fy2025": 80, "name": "SeaPort-NxG", "orders_fy2025": 134, "piid_regex": "^N00178\\d{2}D\\d{4}$", "source_ids": ["S-CATALOG", "S-SEAPORT-PORTAL"]}
+{"family_id": "NAWCAD-SCI-MAC", "member_piids_fy2025": 59, "name": "NAWCAD SCI / Platform and Program Life-Cycle Support MAC (2025)", "orders_fy2025": 140, "piid_regex": "^N0042125D00\\d{2}$", "source_ids": ["S-CATALOG"]}
+{"family_id": "NAWCTSD-TSC-IV", "member_piids_fy2025": 9, "name": "NAWCTSD Training Systems Contract IV (TSC IV)", "orders_fy2025": 20, "piid_regex": "^N6134018D50\\d{2}$", "source_ids": ["S-CATALOG", "S-NAWCTSD-MAC-LIST", "S-TSC-IV-AWARDEES"]}
+{"family_id": "NAWCTSD-FTSS-V", "member_piids_fy2025": 7, "name": "NAWCTSD Fielded Training Systems Support V (FTSS V)", "orders_fy2025": 20, "piid_regex": "^N6134022D[12]\\d{3}$", "source_ids": ["S-CATALOG", "S-NAWCTSD-MAC-LIST"]}
+{"family_id": "NAWCTSD-PACRM", "member_piids_fy2025": 4, "name": "NAWCTSD Pilot and Aircrew Curriculum Revision and Maintenance (PACRM)", "orders_fy2025": 7, "piid_regex": "^N6134021D000\\d$", "source_ids": ["S-CATALOG", "S-NAWCTSD-MAC-LIST"]}
+{"family_id": "NAWCAD-CYBER-IDIQ", "member_piids_fy2025": 1, "name": "NAWCAD Cyber Warfare IDIQ", "orders_fy2025": 4, "piid_regex": "^N0042123D0021$", "source_ids": ["S-CATALOG"]}
+{"family_id": "GSA-MAS", "member_piids_fy2025": 119, "name": "GSA Multiple Award Schedule (Federal Supply Schedule)", "orders_fy2025": 188, "piid_regex": "^(GS\\d{2}F|47Q[A-Z]{3})", "source_ids": ["S-CATALOG"]}
+{"family_id": "GSA-OASIS-PLUS", "member_piids_fy2025": 0, "name": "GSA OASIS+", "orders_fy2025": 0, "piid_regex": "^47QRC", "source_ids": ["S-CATALOG"]}
+{"family_id": "NASA-SEWP", "member_piids_fy2025": 79, "name": "NASA SEWP V (Solutions for Enterprise-Wide Procurement)", "orders_fy2025": 328, "piid_regex": "^NNG15S", "source_ids": ["S-CATALOG"]}
+{"family_id": "NAVAIR-HQ-BOA", "member_piids_fy2025": 84, "name": "NAVAIR headquarters Basic Ordering Agreements (per vendor)", "orders_fy2025": 762, "piid_regex": "^N00019\\d{2}G\\d{4}$", "source_ids": ["S-CATALOG", "S-G1-EXTRACT"]}
+{"family_id": "DON-ESL-BPA", "member_piids_fy2025": 19, "name": "DON Enterprise Software License BPAs (NIWC Pacific)", "orders_fy2025": 154, "piid_regex": "^N66001\\d{2}A\\d{4}$", "source_ids": ["S-CATALOG", "S-G1-EXTRACT"]}
