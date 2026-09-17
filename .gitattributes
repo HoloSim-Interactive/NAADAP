@@ -1,2 +1,12 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+
+# The embedded knowledge base is hashed byte-for-byte (manifest.sha256,
+# verified at load, KB-630). It must never be line-ending-normalized on
+# checkout, or a Windows clone with core.autocrlf=true fails the integrity
+# check (exit 2) and the knowledge-base tests. Same for the fixtures the
+# reproducibility procedures hash, and the embedded methodology copy.
+src/Naadap.Output/Resources/kb/** -text
+tests/fixtures/** -text
+docs/VALIDATION_METHODOLOGY.md text eol=lf
+docs/reference-run/** -text
