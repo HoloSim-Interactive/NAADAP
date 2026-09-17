@@ -251,6 +251,39 @@ Whether v1 as scoped lands by the 22nd with G1, G4, G5 and G6 ahead of
 it remains the open scheduling question; G3 (vetting) and G2 (outcome
 research) are v2 gates and need not block v1.
 
+## <a id="vrp-operator-interface"></a>Operator interface (decided 2026-09-17)
+
+The client chose option 1 of the three interface options put to them on
+2026-09-17: a manager application that wraps the container and renders
+the output bundle, with modularity as the governing constraint so the
+core can be re-hosted as a service (option 2) in a later phase without
+rework. Design rules that follow from that choice:
+
+1. The application is a separate configuration item (its own assembly or
+   repository) and is not part of the scored deliverable's product
+   baseline. Nothing in `Naadap.Core`, `Naadap.Output`, or the CLI
+   changes for it.
+2. It consumes the output bundle read-only: `manifest.json`,
+   `result-visualization.md`, `method-visualization.md`,
+   `vehicle-ranking.tsv`. It never recomputes a score, a cluster, or a
+   ranking (queued requirement UI-010). If a view needs data the bundle
+   lacks, the bundle's schema is extended through the normal Class I
+   process and the CLI emits it; the application does not derive it.
+3. Running the tool is done through the same container invocation the
+   evaluators use (`docker run … --input … --output …`), with the
+   resource tier and the input and output directories as the only
+   operator choices. No configuration file is written by hand.
+4. Re-hosting path: the four library assemblies already expose the
+   pipeline as `IngestionRunner` → `TfIdfCosineClusteringComponent` →
+   `OutputBundler.Bundle`, with no console dependency. A service host
+   (option 2) would call the same three entry points behind an HTTP
+   endpoint inside the enclave and write the same bundle; the manager
+   application would then read bundles from that service instead of a
+   local directory. Keeping rule 2 is what makes that swap a host change
+   rather than a rewrite.
+5. Schedule: after SRR-II, never before the Phase 2 submission; it is a
+   Demo Day aid ("the operator's view"), not a Phase 2 item.
+
 ## <a id="vrp-open-questions-for-the-client"></a>Open questions for the client
 
 1. ~~**Prediction granularity.**~~ Decided 2026-09-17 (client): any of the three forms scores; new-vehicle entries count when expected. Keep all views. Original text: The rubric scores "each data point with a
