@@ -335,7 +335,7 @@ The program has no Integrated Master Plan or Integrated Master Schedule in the D
 | Gate G4: singleton-cohesion fix | 1 | 2026-09-17 | `docs/design/vehicle-recommendation-pipeline.md` | Complete: singletons score 0.0; 80 tests pass; comparison re-run |
 | Gate G5: vehicle knowledge base, data-derived and family-grouped | 1 | 2026-09-17 | G1 design consequence 1 | Complete: 484 rows, 87.3% coverage; matcher and evidence record implemented (commit 7783c39) |
 | Gate G6: design accepted into the SDD | 1 | 2026-09-17 | Solutions Architect | Complete: SDD block diagram, data architecture, and DELIV-950 reopen recorded; core-vs-alternative choice left as-is for Increment 1 (see `docs/ALGORITHM_COMPARISON.md`) |
-| SVR-1 / FCA-1: full regression against the RTVM; TP-910 Windows check | 1 | Entered 2026-09-17; exit pending RFA-SVR1-1/-2 | §3.2.13; `docs/setr/reviews/SVR-1-FCA-1-2026-09-17.md` | Conditional exit recommended |
+| SVR-1 / FCA-1: full regression against the RTVM; TP-910 Windows check | 1 | Entered 2026-09-17; exit pending RFA-SVR1-2 | §3.2.13; `docs/setr/reviews/SVR-1-FCA-1-2026-09-17.md` | Conditional exit recommended |
 | PCA-1: clean-clone build of the tagged package | 1 | 2026-09-21 | §3.2.13 | Planned |
 | Phase 2 submission (Increment 1 delivered) | 1 | **2026-09-22** | Challenge announcement; client direction 2026-09-17 | Planned |
 | Phase 2 revision window: Government findings, corrections, omissions executed and resubmitted | 1 | by 2026-10-02 | Client direction 2026-09-17 (the announcement's second date set is the resubmission deadline, the Navy's usual SETR practice) | Planned |
@@ -503,7 +503,7 @@ Actuals for Increment 1 are recorded under TRR-1, the last feature-level TRR (20
 | TPM | Category | Responsible | Requirement trace | Rubric equivalent | Goal | Plan / Actual | SRR-I | PDR / CDR | TRR-1 | SVR-1 | SRR-II | CDR-II | SVR-2 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | Wall-clock run time, N=20, 1 core / 2 GB (minutes) | Performance | Test Engineer | CORE-220 | Runtime, 15 pts | ≤ 30 (score); ≤ 5 (design target) | Plan | — | ≤30 | ≤30 | ≤5 | ≤5 | ≤5 | ≤5 |
-| | | | | | | Actual | — | — | not run | 0.12 (7.43 s, Docker 1c/2GB) | | | |
+| | | | | | | Actual | — | — | not run | 0.12 (7.43 s sandbox); 0.07 (4.38 s Principal's host) | | | |
 | Top-5 reproducibility over 20 runs (%) | Determinism | Test Engineer | CORE-210 | Replicability, 10 pts | ≥ 95 | Plan | — | 95 | 95 | 100 | 100 | 100 | 100 |
 | | | | | | | Actual | — | — | ≥95 (TP-210 pass) | 100 (20/20 byte-identical) | | | |
 | Peak resident memory, N=20 (GB) | Performance | Test Engineer | CORE-230, NFR-530 | Compute cost, 15 pts | ≤ 2 | Plan | — | ≤2 | ≤2 | ≤2 | ≤2 | ≤2 | ≤2 |

@@ -52,9 +52,9 @@ b. Remaining limitations detected by testing:
 
 | Item | Impact | Design impact | Recommended approach |
 | --- | --- | --- | --- |
-| TP-230's 8-core / 16 GB tier could not be executed: the verification host has 4 CPUs and Docker refuses a higher `--cpus` limit | CORE-230 stays In Test for the third tier only; the 1c/2GB and 4c/8GB tiers passed with byte-identical output and the software allocates no per-core resources, so no failure mechanism is expected | None | Execute the third tier on the Principal's machine or a hosted runner with 8 CPUs before PCA-1; record in this report |
+| ~~TP-230's 8-core / 16 GB tier could not be executed on the 4-CPU verification host~~ **Resolved 2026-09-17 (RFA-SVR1-1):** all three tiers executed by the Principal on a 32-CPU / 63 GiB Docker Desktop host against the official image; exit 0 and manifest SHA-256 `ad331596…` at every tier (§4.4) | None remaining; CORE-230 Verified | None | Closed |
 | Peak memory was not sampled inside the containers | The 2 GB cap was enforced by the kernel and no run was killed, which is the requirement; the numeric peak is not recorded | None | Add `docker stats` sampling to `scripts/tp/run_resource_tests.py` |
-| The container image under test was built from a local `dotnet publish` onto the official runtime base, not by the repository's multi-stage `Dockerfile`, because the SDK stage cannot restore packages through the verification environment's egress proxy | The runtime bits and base image are identical to the official build; the build stage itself is unverified here | None | `docker build .` from the clean clone is a PCA-1 entry criterion executed by the Principal or the hosted workflow |
+| ~~The container image under test was built from a local `dotnet publish` onto the official runtime base~~ **Resolved 2026-09-17 (RFA-SVR1-3):** the Principal built the official multi-stage image with `docker build -t naadap:svr1 .` at commit `4127c5a` (restore and publish stages completed; image manifest `sha256:58f42958…`, config `sha256:eafe57f1…`) and every §4.3–4.5 result below was reproduced on it | None remaining | None | Closed |
 | DELIV-910 (Visual Studio / Windows) | The hosted `windows-verification` workflow ran once, on `main` at `62d9b91` (2026-09-14), and succeeded; it has not run on this branch's head, which adds two assemblies' worth of code | None expected: every project targets plain `net9.0` | Merge or push to trigger the workflow on the candidate commit before PCA-1 |
 
 ### 3.2 Impact of test environment
@@ -115,18 +115,19 @@ to exit. Limit 1,800 s; design target 300 s. Evidence:
 
 ### 4.4 TP-230 Resource tiers
 
-| Tier | Exit | Wall-clock | Manifest SHA-256 | Status |
-| --- | --- | --- | --- | --- |
-| 1 core / 2 GB | 0 | 7.43 s | `ad331596…` | as expected |
-| 4 cores / 8 GB | 0 | 5.82 s | `ad331596…` | as expected |
-| 8 cores / 16 GB | not run | — | — | deviation, see 4.4.1 |
+Two executions. First, the sandbox host (4 vCPU / 16 GB, image built from local publish); second, the Principal's host (32 CPU / 63 GiB Docker Desktop, official `docker build`). Evidence: `evidence/tp-220-230-520-results-2026-09-17.json` and `evidence/tp-220-230-520-results-2026-09-18-principal.json`.
 
-4.4.1 Deviation, tier 8c/16GB: the host has 4 CPUs and Docker rejects
-`--cpus=8` ("range of CPUs is from 0.01 to 4.00"). Rationale: environment
-limitation, not a software condition. Validity: the two executed tiers
-produced byte-identical output and the software has no per-core resource
-allocation; the third tier is expected to pass and must be executed on an
-8-CPU host before PCA-1. CORE-230 remains In Test.
+| Tier | Sandbox: exit, wall-clock | Principal: exit, wall-clock | Manifest SHA-256 (both) | Status |
+| --- | --- | --- | --- | --- |
+| 1 core / 2 GB | 0, 7.43 s | 0, 4.38 s | `ad331596…` | as expected |
+| 4 cores / 8 GB | 0, 5.82 s | 0, 3.94 s | `ad331596…` | as expected |
+| 8 cores / 16 GB | not run (4-CPU host) | 0, 3.95 s | `ad331596…` | as expected on the Principal's host; see 4.4.1 |
+
+4.4.1 Deviation, sandbox execution of tier 8c/16GB: the sandbox host has
+4 CPUs and Docker rejects `--cpus=8`. Rationale: environment limitation.
+Resolution: the tier was executed on the Principal's 32-CPU host on
+2026-09-17 (RFA-SVR1-1) with exit 0 and the same manifest hash as every
+other run. CORE-230 Verified.
 
 ### 4.5 TP-520 Replicability (amended 2026-09-17)
 
@@ -134,11 +135,14 @@ allocation; the third tier is expected to pass and must be executed on an
 input; all exit 0; all four manifests equal the baseline SHA-256. As
 expected.
 
-(b) Throughput: 4 document sets (copies of the reference set). One
-container processing them in sequence: 29.68 s. Four containers, one set
-each, concurrently: 7.53 s. Speedup 3.94 on a 4-CPU host. Every concurrent
-output equals its sequential counterpart. As expected: replication
-improves throughput without affecting results.
+(b) Throughput: 4 document sets (copies of the reference set). Sandbox
+host: 29.68 s sequential, 7.53 s concurrent, speedup 3.94. Principal's
+host: 18.93 s sequential, 4.74 s concurrent, speedup 3.99. Every concurrent
+output equals its sequential counterpart on both hosts. As expected:
+replication improves throughput without affecting results. (A first pass
+on the Principal's host immediately after the image build showed 1.61×
+under Docker Desktop's post-build housekeeping; the committed evidence is
+the second pass.)
 
 ### 4.6 Inspections
 
@@ -170,6 +174,7 @@ watches. To be executed before PCA-1.
 | 2026-09-17 01:24–01:26 | TP-220, TP-230 (two tiers), TP-520 (a) and (b) | `scripts/tp/run_resource_tests.py`, docker mode, `--network none` | Test Engineer role |
 | 2026-09-17 01:27 | Inspections TP-240, TP-500, TP-510, TP-530, TP-920, TP-950 | as above | Systems Engineer role |
 | 2026-09-17 01:30 | Clean-clone build, test, and smoke run (PCA-1 rehearsal) | `git clone` of the branch head into an empty directory; `dotnet build`, `dotnet test`, `dotnet run` | CI/CD role |
+| 2026-09-17 (Principal's local time; evidence timestamp 03:29 UTC 2026-09-17) | Official `docker build` at `4127c5a`; smoke run exit 0; TP-220, TP-230 all three tiers, TP-520 (a) and (b) | Windows 11 Pro, 32 logical processors, 128 GB; Docker Desktop 29.8.0, WSL 2 (32 CPUs, 62.79 GiB); image manifest `sha256:58f42958…` | Principal |
 
 Witnesses: none; every activity is reproducible from the repository and
 the evidence files.

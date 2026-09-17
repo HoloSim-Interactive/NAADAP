@@ -59,7 +59,7 @@ limitations. It contains no controlled or personal information.
 | Item | Identification | Notes |
 | --- | --- | --- |
 | Source repository | `https://github.com/HoloSim-Interactive/NAADAP`, branch and commit as tagged at PCA-1: tag ______ commit ______ | MIT license (`LICENSE`); public; no duplication restriction |
-| Container image | `naadap:<tag>`, built by `docker build .` from the tagged commit; image digest recorded at PCA-1: ______ | Base images `mcr.microsoft.com/dotnet/sdk:9.0` (build stage) and `mcr.microsoft.com/dotnet/runtime:9.0` (runtime) |
+| Container image | `naadap:svr1`, built by `docker build .` at commit `4127c5a` on 2026-09-17 (Docker Desktop 29.8.0). Image manifest `sha256:58f4295851e8618ada400659ea0b2f3d8e7f5e2a2ed51360821d84fdedb49c9e`; image config `sha256:eafe57f1501d17087fe59c58d59dee372de4079b4e18176397bf88218ba3af6d`. These two are reproducible across rebuilds of the same commit; the manifest-list digest reported as the image ID by `docker image inspect` (`sha256:87ec5f0f…` on the second build) changes per build because BuildKit's provenance attestation is regenerated, and is not used as the identifier. Re-recorded at PCA-1 for the tagged commit. | Base images `mcr.microsoft.com/dotnet/sdk:9.0@sha256:20387c66…` (build stage) and `mcr.microsoft.com/dotnet/runtime:9.0@sha256:647b8b6d…` (runtime) |
 | Documentation set | The twelve Phase 2 package items, `docs/setr/SEMP.md` Table under §3.1.1 | All in the repository |
 | Reference-run bundle | `docs/reference-run/` | Output of the tagged commit on the reference set |
 
