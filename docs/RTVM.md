@@ -242,15 +242,23 @@ smaller set for a narrower check (e.g. a 5–6 document smoke test).
   allowlist-only egress rule: run completes; log shows connections
   only to the allowlisted endpoint(s).
 
-- <a id="rtvm-tp-520"></a>**TP-520** (NFR-520): Input: the N=20 reference set. Launch 5
+- <a id="rtvm-tp-520"></a>**TP-520** (NFR-520) — amended 2026-09-17 (Principal-agreed
+  amendment of 2026-09-15; client direction 2026-09-17 that "replication
+  must demonstrably improve performance" means throughput across document
+  sets). Two parts, both required.
+  **(a) Result invariance.** Input: the N=20 reference set. Launch 4
   independent, isolated instances of the built container concurrently,
-  each pointed at the same input directory and its own output
-  directory (no shared volume, no coordination between instances).
-  Expected: each of the 5 instances independently produces a top-5
-  candidate list matching the single-instance-run baseline (from
-  TP-210) in ≥95% of a repeated-run sample per instance — i.e. no
-  instance's result diverges from the others due to concurrent
-  execution.
+  each capped at 1 core / 2 GB, each pointed at the same input directory
+  and its own output directory (no shared volume, no coordination).
+  Expected: every instance's top-5 candidate list and per-cluster vehicle
+  candidate lists equal the single-instance baseline from TP-210.
+  **(b) Throughput.** Input: 4 copies of the reference set as 4 separate
+  document sets. Measure wall-clock for one instance (1 core / 2 GB)
+  processing the 4 sets one after another, and wall-clock for 4 instances
+  (1 core / 2 GB each) processing one set each concurrently. Expected:
+  the concurrent wall-clock is less than the sequential wall-clock, and
+  each of the 4 concurrent outputs equals the corresponding sequential
+  output. Record both times and the ratio in the SVR summary report.
 
 - <a id="rtvm-tp-530"></a>**TP-530** (NFR-530) — Inspection: review the deployment
   configuration (Docker/orchestration resource limits) and confirm no
