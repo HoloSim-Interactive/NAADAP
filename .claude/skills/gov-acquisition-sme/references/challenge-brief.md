@@ -251,11 +251,18 @@ presentation "including live demo, Questions/Answers" completed within
 
 ## Questions for Tech Grove
 
-Open as of 2026-09-15. Each changes the design or the scoring strategy
-depending on the answer; none should be guessed at.
+Opened 2026-09-15. **Answered by client direction on 2026-09-17** (the
+client's reading and decision, recorded below each question; not yet a
+Tech Grove statement. If Tech Grove answers differently, the sponsor's
+answer governs). Each changes the design or the scoring strategy.
 
 1. **The date conflict** (above). Which set governs — the summary box
    (22 Sep / 9 Nov) or the TIMELINE section (2 Oct / 19 Nov)?
+   **Answer (client, 2026-09-17):** submit by 22 Sep. The second date set
+   is the deadline to execute Government findings, corrections, and
+   omissions and resubmit, which is the usual Navy SETR pattern: a
+   submission date, then a correction window. Plan Demo Day the same way
+   (9 Nov event, 19 Nov revision deadline for materials).
 2. **Prediction granularity.** The rubric awards two points per "data
    point in the dataset with a correct prediction," judged against a
    group of 20 PGIL predetermined. It never defines what one prediction
@@ -263,6 +270,11 @@ depending on the answer; none should be guessed at.
    cluster-to-vehicle pairing. These produce materially different outputs
    and different scores. Related: do "new strategic vehicle indicated"
    entries count as predictions, given the list of 20 is of vehicles?
+   **Answer (client, 2026-09-17):** points can be awarded for any of the
+   three forms. "New strategic vehicle indicated" counts only when that is
+   the answer the Navy expects for that data point. The output therefore
+   carries all three views and the new-vehicle mode; choosing how to
+   present them is the developer's problem, not the evaluator's.
 3. **"Recommending common requirements."** The Problem Statement's first
    sentence asks for "evaluating, identifying, and recommending common
    requirements." Two readings: (a) recommend *that* a set of requirements
@@ -275,6 +287,11 @@ depending on the answer; none should be guessed at.
    contracts suitable to be used *as* strategic vehicles" — is that the
    ordinary routing case, or a third output mode identifying existing
    contracts that could be promoted to strategic-vehicle status?
+   **Answer (client, 2026-09-17):** reading (a). The tool recommends *that*
+   a set of requirements be treated as common, with the consolidation
+   evidence. It does not draft the consolidated requirement. And yes:
+   identifying an existing contract suitable to serve as a strategic
+   vehicle is a third output mode (need statement 15, vehicle promotion).
 4. **Is the 30-minute processing test separate from the 30-minute
    presentation?** The robustness criterion says the timed run is
    "performed live by the candidate on demo day"; the Phase 3 criterion
@@ -282,6 +299,10 @@ depending on the answer; none should be guessed at.
    those are the same 30 minutes, the effective runtime budget is a few
    minutes, not thirty. Also: does "replication must demonstrably improve
    performance" mean throughput across document sets, or latency on one?
+   **Answer (client, 2026-09-17):** the same thirty minutes. The effective
+   runtime budget is minutes. Replication means throughput across document
+   sets: N replicas on N sets must finish in less wall-clock time than one
+   replica on N sets, and TP-520 must show it.
 
 ## Rules that constrain behavior
 

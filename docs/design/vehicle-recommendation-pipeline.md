@@ -253,19 +253,19 @@ research) are v2 gates and need not block v1.
 
 ## Open questions for the client
 
-1. **Prediction granularity.** The rubric scores "each data point with a
+1. ~~**Prediction granularity.**~~ Decided 2026-09-17 (client): any of the three forms scores; new-vehicle entries count when expected. Keep all views. Original text: The rubric scores "each data point with a
    correct prediction" against a group of 20 but never defines whether a
    prediction is a vehicle name, a document-to-vehicle pairing, or a
    cluster-to-vehicle pairing. These produce different outputs and
    different scores. Worth asking Tech Grove alongside the existing date
    conflict.
-2. **Abstain or guess.** CORE-286 as derived would suppress candidates
+2. ~~**Abstain or guess.**~~ Decided 2026-09-17 (client): record sub-floor candidates in a separate "below evidence floor" section; never suppress. Re-derive CORE-286 at G3 on that basis. Original text: CORE-286 as derived would suppress candidates
    below an evidence floor. Under a rubric with 2 points per correct
    prediction and no penalty for wrong ones, abstaining has strictly
    negative expected value. Defensibility and score point opposite ways.
    Recommended resolution: emit sub-floor candidates in a clearly
    separated "below evidence floor" section rather than suppress them.
 3. ~~**v1/v2 split.**~~ Decided 2026-09-15 — see Timeline.
-4. **GFI access.** As of 2026-09-03 Phase 1 pre-screening had not been
+4. **GFI access.** Phase 1 questionnaire in submission as of 2026-09-17. As of 2026-09-03 Phase 1 pre-screening had not been
    submitted. GFI vocabulary will change the knowledge base; the plan
    should assume re-tuning the day it arrives.
