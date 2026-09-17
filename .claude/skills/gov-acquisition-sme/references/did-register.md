@@ -8,6 +8,12 @@ file, which re-affirms a DID without changing it. Approval dates are as
 printed on the DID. Files are named by ASSIST's download convention
 (`<DID>_<Revision>_<GUID>.pdf`); the SEMP folder was renamed by hand.
 
+Every DID's current revision also has a Markdown text extraction beside its
+PDF (`sources/<DID>/<DID><rev>.md`, produced 2026-09-17 by
+`did_to_md.py`: embedded text where the PDF has it, tesseract OCR at 300 dpi
+where ASSIST serves a scan; each file's header says which). Grep those for
+content requirements; cite the PDF.
+
 Use this register, not memory, when citing a DID number. Two numbers this
 skill had recalled wrongly before the documents were in hand are corrected
 below and flagged.
