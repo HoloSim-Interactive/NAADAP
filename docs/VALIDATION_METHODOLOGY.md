@@ -100,3 +100,20 @@ follows:
 `CorrectCount` and `TotalCount` (the raw counts OUT-420 requires
 alongside the headline number) are exactly the numerator and
 denominator above.
+
+## DID conformance (CDRL items A011, A012, A016, A017)
+
+This document, with the Test Procedures section of `docs/RTVM.md`, serves
+as the software test plan (DI-IPSC-81438A), software test description
+(DI-IPSC-81439A), test plan (DI-NDTI-80566A), and test procedure
+(DI-NDTI-80603A) for the program. Map, checked against the DIDs on file
+on 2026-09-17: test items, features, and environments are the RTVM's
+requirements and the resource tiers in `docs/DEPLOYMENT.md`; the test
+corpus and ground-truth derivation are the two sections above; each test
+case's inputs, expected results, and pass criteria are the TP-nnn
+entries in `docs/RTVM.md`; the test schedule is SEMP Table 3.1-1 (TRR,
+SVR/FCA); test reports are the SVR summary reports under
+`docs/setr/reviews/` (A013, A018). Items tailored out: hardware and
+facility requirements beyond a container host; test personnel and
+training (the Test Engineer role); safety and security test provisions
+beyond NFR-510's egress check.

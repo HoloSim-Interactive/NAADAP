@@ -618,6 +618,23 @@ The product is entirely software. Table 3.2-10 gives the scope in the Outline's 
 
 *Defects.* GitHub issues labeled `bug`, with the failing TP identifier, the commit, and the fixture. A defect against a Verified requirement returns that requirement to In Test until the fix passes.
 
+*DI-IPSC-81427B map (CDRL item A010).* The Software Development Plan DID's
+content items and where this SEMP satisfies them, checked against the DID
+text on file on 2026-09-17. Items the DID lists for a multi-supplier or
+hardware program are tailored out with the reason.
+
+| DID paragraph | Where satisfied |
+| --- | --- |
+| 3.1 Identification; 3.2 System overview; 3.3 Document overview | §1.1, §1.2; `docs/SDD.md` §Identification |
+| 3.4 Relationship to other plans | §1.3, §4 (DID 3.7 row) |
+| 3.5 Overview of required work | §1.1 increments; §3.1.1 schedule and Phase 2 package; §3.1.3 WBS |
+| 3.6 Plans for performing general activities (Agile items 1–25: sprints, backlog, feedback, CM, artifact delivery, regression, automation) | §3.2.8.2 methodology; §3.2.13 RBR; §3.2.10; Appendix C; `docs/IMPLEMENTATION_PLAN.md` |
+| 3.7 General plans: software development methods, standards (format, comments, naming, restrictions), reusable software, assurance (safety, cyber, other critical) | §3.2.8.2, §3.2.8.3; `docs/SDD.md` Coding Standards and `.editorconfig`; safety tailored out (§2.1.5); cyber §3.2.12 |
+| 3.8 Detailed activities: project planning, environments, requirements analysis, design, implementation and unit test, integration, qualification testing, installation, transition, CM, quality assurance, corrective action, reviews, risk, metrics, security, subcontractor management, interface with IV&V, coordination with associate developers, improvement | §3.2.8.3 (environment, requirements, design, integration and test, deployment, CM, SQA, defects); §3.2.13 (reviews); §3.2.1 (risk); Appendix C (metrics); §3.2.12 (security); subcontractor management and associate developers tailored out (none); IV&V is the Test Engineer role (§4, DID 3.5.d); CSCI/HWCI integration tailored out (no hardware) |
+| 4 Schedules and activity network | §3.1.1 Table 3.1-1 |
+| 5 Project organization and resources | §3.1.3 |
+| 6 Notes | Appendix A |
+
 ##### 3.2.8.4 Software obsolescence
 
 .NET 9 is a standard-term-support release; Microsoft's published end of support is November 2026, inside Phase 3. .NET 10 is the long-term-support successor. The program stays on .NET 9 for Increments 1 and 2 because SN-4 names it and the runtime is bundled in the container, so end of support does not affect a delivered image; migration to .NET 10 is a one-line target-framework change per project and is recommended as the first sustainment action under any follow-on agreement. The two NuGet packages are pinned; `dependency-check.yml` reports known vulnerabilities on a schedule.

@@ -7,6 +7,42 @@ Owned by the Systems Engineer. Don't enter line items against a
 rules this document participates in.
 -->
 
+<a id="rtvm-did-81431a"></a>
+## DI-IPSC-81431A / 81433A conformance (System/Subsystem Specification and Software Requirements Specification)
+
+This document is the requirements specification for CDRL items A003 and
+A004 (`docs/setr/CDRL.md`). The system is entirely software and is one
+configuration-item set, so the System/Subsystem Specification and the
+Software Requirements Specification coincide and this one document serves
+both DIDs. The DIDs permit substitution of existing documents and
+tailoring out; the map below, checked against the DID text on file on
+2026-09-17, says where each content paragraph is satisfied. The RTVM's
+own row order is kept; nothing is reordered to match the DID.
+
+| DID paragraph | Where satisfied |
+| --- | --- |
+| 1.1 Identification, 1.2 System overview, 1.3 Document overview | `docs/SDD.md` §DI-IPSC-81435B conformance (Identification, System overview); this file's header |
+| 2 Referenced documents | `docs/SDD.md` §Referenced documents; `docs/PROJECT_DEFINITION.md` (the challenge announcement is the requirements source) |
+| 3.1 Required states and modes | Tailored out: one mode (batch run); the optional LLM step is a configuration, not a mode (CORE-250) |
+| 3.2 System capability requirements | DATA-IN-100/110/120, CORE-200/210/260, DATA-OUT-300, OUT-400/410/420/430/440 |
+| 3.3 System external interface requirements | UI-001 (command line and directories), OUT-440 (bundle), CORE-250 and NFR-510 (allowlisted endpoint); interface identifiers IF-1 to IF-7 in `docs/SDD.md` |
+| 3.4 System internal interface requirements | Tailored out at requirement level: internal interfaces are design (`docs/SDD.md` Coding Standards) |
+| 3.5 System internal data requirements | DATA-OUT-300 (candidate record), OUT-440 (manifest); DELIV-950 reopened (knowledge-base schema, `docs/KB_SCHEMA.md`) |
+| 3.6 Adaptation requirements | DATA-IN-120 (extension points); NFR-510 allowlist configuration |
+| 3.7 Safety requirements | Tailored out: none (SEMP §2.1.5) |
+| 3.8 Security and privacy requirements | NFR-500, NFR-510, NFR-530, CORE-240, CORE-250 |
+| 3.9 System environment requirements | NFR-500 (Docker, IL4 target), DELIV-910 (Visual Studio) |
+| 3.10 Computer resource requirements | CORE-220, CORE-230, NFR-530 (hardware and utilization); DELIV-900, DELIV-920 (software); NFR-510 (communications) |
+| 3.11 System quality factors | CORE-210 (reproducibility), NFR-520 (replicability), DATA-IN-110 (robustness) |
+| 3.12 Design and construction constraints | CORE-240 (no LLM on the core path), DELIV-910 (plain `net9.0`), DELIV-920 (dependency justification) |
+| 3.13 Personnel, 3.14 Training, 3.15 Logistics | Tailored out: single operator invoking a container; DELIV-930 and DELIV-940 carry the documentation for build, run, and extension |
+| 3.16 Other requirements | DELIV-960, DELIV-970 |
+| 3.17 Packaging requirements | DELIV-900, DELIV-930, NFR-500 |
+| 3.18 Precedence and criticality | CORE-210, CORE-240, NFR-510 are the critical requirements (SEMP §3.2.8.2); no other precedence is stated |
+| 4 Qualification provisions | Verification-method column (Test, Demonstration, Analysis, Inspection) and the Test Procedures section below |
+| 5 Requirements traceability | Stakeholder-need column (up to `docs/PROJECT_DEFINITION.md` SN-1 to SN-6); `docs/SDD.md` §Traceability (down to software units) |
+| 6 Notes | `docs/SDD.md` §Notes |
+
 ## ID scheme
 
 The category blocks below are a starting point — adjust them to fit

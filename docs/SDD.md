@@ -6,6 +6,191 @@ Describes the system architecture and the build/toolchain
 conventions the codebase follows.
 -->
 
+<a id="sdd-did-81435b"></a>
+## DI-IPSC-81435B conformance (Software Design Description)
+
+This document is the Software Design Description for CDRL item A007
+(`docs/setr/CDRL.md`). DI-IPSC-81435B leaves format to the contract and
+permits substitution of existing documents and tailoring out; this section
+supplies the DID's content items that the architecture sections below do
+not, and maps every DID paragraph to where it is satisfied. The map was
+checked against the DID text on file (`sources/DI-IPSC-81435/DI-IPSC-81435B.md`)
+on 2026-09-17.
+
+| DID paragraph | Content | Where satisfied |
+| --- | --- | --- |
+| 1.1 System identification | identifiers, titles, abbreviations, versions | §Identification below |
+| 1.2 System overview | purpose, history, sponsor, acquirer, user, developer, sites, documents | §System overview below |
+| 1.3 Document overview | purpose, contents, security or privacy considerations | §Document overview below |
+| 1.4 Section 508 | accessibility | Tailored out with rationale, §Document overview below |
+| 2 Referenced documents | number, title, revision, date | §Referenced documents below |
+| 3 CSCI-wide design decisions (a–g) | I/O, algorithms, data files, security approach, other, MBSE, external dependencies | §CSCI-wide design decisions below, drawing on Architecture and Data Architecture |
+| 3.1 Cyber security and PII | security environment, risks, safeguards, accreditation criteria | §CSCI-wide design decisions, row "Security and privacy" |
+| 4.1 CSCI components (a–f) | units, relationships, allocation, status, hardware resources, library | §Software units below; Block definition diagram; Coding Standards |
+| 4.2 Concept of execution | control and data flow, exceptions, concurrency | Activity diagram; Run-scoped data flow; §Concept of execution note below |
+| 4.3.1 Interface identification | identifiers and interfacing entities | §Interfaces below |
+| 4.3.2 Interface characteristics (a–h) | data elements, assemblies, communication, protocols | §Interfaces below, referencing the data contracts in Coding Standards and `docs/KB_SCHEMA.md`; communication and protocol items tailored out (no network interface on the core path) |
+| 5 Requirements traceability (a, b) | unit to requirement and requirement to unit | §Traceability below and `docs/RTVM.md` |
+| 6 Notes | acronyms, terms | §Notes below |
+| Appendixes | separately published material | None; `docs/KB_SCHEMA.md` and `docs/ALGORITHM_COMPARISON.md` are referenced, not appended |
+
+### Identification (DID 1.1)
+
+| Item | Value |
+| --- | --- |
+| System | NAADAP, the project's public shorthand for its entry to the NAVAIR/NAWCAD prize challenge |
+| Software | `Naadap.sln`: six assemblies (Table SU below), one computer software configuration item set |
+| Version | `VERSION` file 1.0; release tags `v1.0.<build>` assigned by the CI/CD role at each merge (last tag before the SETR package: `v1.0.82`); the Increment 1 submission tag is assigned at PCA-1 |
+| Knowledge base | `kb_version` 2026-09-17.1 (embedded; `docs/KB_SCHEMA.md`) |
+
+### System overview (DID 1.2)
+
+NAADAP is a single-process batch tool that reads a set of acquisition
+documents, groups them by shared requirement content, and for each group
+lists the strategic contract vehicles from a shipped knowledge base that
+could absorb the group, with the evidence for each and the reason every
+other vehicle was ruled out. Sponsor: NAVAIR/NAWCAD Procurement Group
+Innovation Lab, through Tech Grove. Acquirer: the prize-challenge
+evaluation team (Phase 2 initial technical package, Phase 3 Demo Day).
+User: contracting and acquisition professionals who take the record to
+the approval authorities under FAR 7.107 and NMCARS 5237.102. Developer
+and support agency: HoloSim Interactive. History: development began
+2026-09-03; Increment 1 verified against `docs/RTVM.md` by 2026-09-14;
+the vehicle knowledge base and matcher were added 2026-09-17 (gates G4
+through G6). Operating sites: development on Ubuntu with the .NET 9 SDK;
+target a U.S. Government-operated cloud accredited at Impact Level 4, as
+a Docker container. Related documents: `docs/setr/SEMP.md`,
+`docs/RTVM.md`, `docs/IMPLEMENTATION_PLAN.md`, `docs/KB_SCHEMA.md`,
+`docs/VALIDATION_METHODOLOGY.md`, `docs/ALGORITHM_COMPARISON.md`,
+`docs/DEPLOYMENT.md`, `docs/DEPENDENCIES.md`, `docs/MAINTAINER_GUIDE.md`.
+
+### Document overview (DID 1.3, 1.4)
+
+This document records the architecture, the design decisions and their
+rationale, the coding and toolchain conventions, the data architecture,
+and the traceability of software units to requirements. It contains no
+classified, controlled, or personally identifiable information; every
+example in it is public. Section 508 (DID 1.4) is tailored out: the
+software has no user interface. Its outputs are Markdown, JSON, and TSV
+files that the user opens in tools of their choosing, and the Markdown
+outputs use headings, tables, and plain text that screen readers handle.
+
+### Referenced documents (DID 2)
+
+| Document | Revision, date |
+| --- | --- |
+| DI-IPSC-81435B, Software Design Description | 2021-11-22 |
+| NAVAIRINST 4355.19E, Systems Engineering Technical Review Process; SETR Process Handbook v1.0 | 2015-02-06 |
+| OSD Systems Engineering Plan Outline | v4.1, May 2023 |
+| FAR 7.107; FAR 2.101; NMCARS 5237.102 | current editions |
+| USAspending award data archive, FY2025 DoD contracts | `FY2025_097_Contracts_Full_20260906.zip` |
+| Project documents listed under System overview | at the commit of this SDD |
+
+### CSCI-wide design decisions (DID 3, 3.1)
+
+| DID item | Decision |
+| --- | --- |
+| a. Inputs and outputs | Input: a directory of PDF, DOCX, or plain-text files; any file that cannot be parsed is skipped and reported, never fatal (DATA-IN-110). Output: one directory with `manifest.json` as index (OUT-440), two Markdown visualizations, the validation-methodology copy, and `vehicle-ranking.tsv`. Target operating system: Linux container from `mcr.microsoft.com/dotnet/runtime:9.0`; the same solution builds on Windows. Behavior for I/O conditions: the run always completes for a well-formed invocation; exit 1 for a malformed command line; exit 2 when the knowledge base fails its manifest check (`docs/DEPLOYMENT.md`). |
+| b. Equations, algorithms, rules | TF-IDF term weighting with L2 normalization; cosine similarity; single-link clustering at a global threshold of 0.35 (derivation in `TfIdfCosineClusteringComponent`); cluster cohesion as mean pairwise cosine, 0.0 for singletons (G4); vehicle composite score 0.6 × lexical cosine + 0.4 × office affinity; near-tie band 0.05 broken by acquisition-path tier; evidence floor 0.05; precision@5 by majority vote (`docs/VALIDATION_METHODOLOGY.md`). Un-allowed inputs: empty text vectorizes to an empty vector with cosine 0 to everything; unknown offices leave the affinity channel at 0 and the office constraint unevaluated. |
+| c. Databases and data files | No database (Data Architecture). Two file sets: the embedded knowledge base (`docs/KB_SCHEMA.md`, verified by SHA-256 manifest at load) and the per-run output bundle. |
+| d. Safety, security, privacy | No safety function. Security: no network service, no egress by default, allowlisted egress only when the optional LLM step is enabled (NFR-510), all dependencies bundled (NFR-500), zero third-party packages on the core path (CORE-240), artifact integrity by manifest (KB-630). Privacy: the software stores no personal data; documents are processed in memory and only derived output is written. |
+| e. Other decisions | Determinism as a design property: no randomness, ordinal sorts, fixed summation order, as-of date from the knowledge-base version rather than the clock (CORE-210, NFR-520). Extensibility through two interfaces, `IDocumentParser` and `IClusteringComponent` (DATA-IN-120). The optional LLM step and the alternative-approach harness are separate assemblies never referenced by the core. |
+| f. MBSE | Model-supported (SEMP §2.4): the block definition and activity diagrams in this document are the design source, held as text under version control. |
+| g. External dependencies | `PdfPig` 0.1.16 (Apache 2.0) and `DocumentFormat.OpenXml` 3.5.1 (MIT), ingestion only; the .NET 9 base class library; no web services (`docs/DEPENDENCIES.md`). |
+| 3.1 Cyber security and PII | Environment: a Government IL4 enclave; the container holds no credentials and opens no listening port. Risks withstood: tampered knowledge base (detected by manifest, run aborted), malformed input (skipped), unexpected egress (none possible by default). Accreditation criteria: an authorization to operate is the Government's action at deployment; the software's contribution is the dependency inventory, the no-egress default, and the reproducible build (SEMP §2.6, §3.2.12). No PII is required, stored, or emitted. |
+
+### Software units (DID 4.1)
+
+Identifiers `SU-nn` are unique within this SDD. Status is "new" for every
+unit: nothing is reused from prior HoloSim work. Every unit is placed in
+the GitHub repository under the path shown (DID 4.1.f).
+
+| Unit | Assembly and path | Purpose | Requirements allocated |
+| --- | --- | --- | --- |
+| SU-01 `IngestionRunner`, `DocumentTypeClassifier`, `DocumentDateExtractor` | `src/Naadap.Ingestion` | Enumerate the input directory, dispatch to parsers, classify type, extract date, collect skipped files | DATA-IN-100, DATA-IN-110 |
+| SU-02 `IDocumentParser` with `PdfDocumentParser`, `DocxDocumentParser`, `PlainTextDocumentParser` | `src/Naadap.Ingestion` | Extract text per format; extension point | DATA-IN-100, DATA-IN-120 |
+| SU-03 `Tokenizer`, `TfIdfVectorizer` | `src/Naadap.Core` | Tokenize; TF-IDF vectors; cosine | CORE-200 |
+| SU-04 `IClusteringComponent` with `TfIdfCosineClusteringComponent` | `src/Naadap.Core` | Single-link clustering at the global threshold; extension point | CORE-200, CORE-210, CORE-240, DATA-IN-120 |
+| SU-05 Records `DocumentRecord`, `DocumentCluster`, `CandidateVehicle`, `Metric`, `SkippedFile`, `RunManifest`, `VehicleRecommendation` and its evidence records | `src/Naadap.Core` | In-memory data contracts and the manifest shape | DATA-OUT-300, OUT-440 |
+| SU-06 `VehicleRecommender` | `src/Naadap.Output` | Cluster cohesion score and deterministic cluster ranking | DATA-OUT-300, CORE-210 |
+| SU-07 `VehicleKnowledgeBase` | `src/Naadap.Output` | Load and verify the embedded knowledge base | DELIV-950 (reopened); derived KB-600 to KB-630 |
+| SU-08 `VehicleMatcher`, `VehicleRankingWriter` | `src/Naadap.Output` | Hard constraints, channel scores, tier tie-break, evidence record, eliminations, full ranking file | DATA-OUT-300; derived CORE-270 to CORE-275 |
+| SU-09 `MetricCalculator`, `GroundTruth` | `src/Naadap.Output` | precision@5 against an optional ground-truth file | OUT-420 |
+| SU-10 `MethodVisualizationWriter`, `ResultVisualizationWriter`, `ValidationMethodologyWriter`, `OutputBundler` | `src/Naadap.Output` | The two visualizations, the methodology copy, and the manifest | OUT-400, OUT-410, OUT-430, OUT-440 |
+| SU-11 `Program`, `CliArgumentParser` | `src/Naadap.Cli` | Single-invocation entry point, exit codes | UI-001 |
+| SU-12 `LlmSummarizationStep`, `AllowlistEnforcingModelClient`, `HttpModelClient`, `TokenBudget`, `LlmRunLogWriter` and records | `src/Naadap.LlmStep` | Optional, off by default; allowlist and token budget enforced | CORE-250, NFR-510 |
+| SU-13 `ApproachRunner`, `RetrievalAugmentedClusteringComponent`, `ComparisonReportWriter` | `src/Naadap.Alternative` | Offline comparison harness; never on the run path | CORE-260 |
+
+Relationships (DID 4.1.b): SU-11 composes SU-01 through SU-10 and SU-12;
+SU-13 references Core and Output for comparison only and is referenced by
+nothing. The reference rules are enforced by the project files and
+verified by `dotnet list reference` (SEMP Table 3.2-3).
+
+Computer hardware resources (DID 4.1.e): the requirement is CORE-220 and
+CORE-230 (a 20-document run completes within 30 minutes at 1 core and
+2 GB; completes at 4 cores/8 GB and 8 cores/16 GB). Assumption: typical
+usage is tens of documents of tens of pages; worst case for Demo Day is
+the same order. Special consideration: the vehicle matcher vectorizes 484
+knowledge-base rows with the clusters in one TF-IDF space, which is the
+largest in-memory structure; measured at well under one second and under
+200 MB on the development machine for the reference set. Units: wall-clock
+seconds and peak resident set bytes; level: the executable program. The
+formal measurements at the constrained tiers are recorded at SVR-1
+(TP-220, TP-230).
+
+### Concept of execution note (DID 4.2)
+
+The activity diagram above is the control and data flow. Additional
+items the DID asks for: no state machine (the program is a single pass);
+no timing constraints other than CORE-220's overall budget; no priorities,
+interrupts, or concurrency (one thread of execution; replication is by
+independent processes, NFR-520); exceptions from a single document are
+caught in SU-01 and become skipped-file records, exceptions from the
+knowledge-base check are caught in SU-11 and become exit code 2, and any
+other exception terminates the run with a non-zero exit and a stack
+trace; objects are created per run and released at exit.
+
+### Interfaces (DID 4.3)
+
+| Identifier | Interfacing entities | Type | Characteristics |
+| --- | --- | --- | --- |
+| IF-1 Input directory | Operator (fixed) → SU-01 | Storage and retrieval | Files in PDF, DOCX, or UTF-8 text; any name; read-only mount `/data/in` (`docs/DEPLOYMENT.md`). |
+| IF-2 Command line | Operator (fixed) → SU-11 | Invocation | `--input <dir> --output <dir> [--enable-llm-step]`; no interactive input. |
+| IF-3 Output bundle | SU-10 → Operator or evaluator | Storage and retrieval | `manifest.json` in the `RunManifest` shape (Coding Standards); Markdown and TSV files listed in the root `README.md`; camel-case JSON property names; UTF-8. |
+| IF-4 Knowledge base | Build pipeline (`scripts/kb/build_kb.py`) → SU-07 | Embedded resources | Files and fields per `docs/KB_SCHEMA.md`; SHA-256 manifest; version string `yyyy-MM-dd.n`. |
+| IF-5 Ground truth | Validation fixture → SU-09 | Storage and retrieval | Optional `ground-truth.json` in the input directory (`tests/fixtures/README.md`); absent on production input. |
+| IF-6 Optional model endpoint | SU-12 → USN-approved model service | Network, HTTPS, disabled by default | Only when enabled; only to an allowlisted host; token budget under 50,000 per run; every call logged (`llm-run-log.json`). Protocol and message characteristics are the endpoint's and are outside this SDD. |
+| IF-7 Extension points | Maintainer → SU-02, SU-04 | Code | `IDocumentParser`, `IClusteringComponent` (`docs/MAINTAINER_GUIDE.md`). |
+
+Data-element characteristics (DID 4.3.2.d and e) for IF-3 are the record
+definitions in Coding Standards; for IF-4 they are the field table in
+`docs/KB_SCHEMA.md`. Communication and protocol characteristics (4.3.2.f
+and g) apply only to IF-6 and are tailored out here as external.
+
+### Traceability (DID 5)
+
+Unit to requirement: the "Requirements allocated" column of the software
+unit table above. Requirement to unit: every active requirement in
+`docs/RTVM.md` appears in that column at least once, and the RTVM's
+Commit(s) column names the commits that implemented it; `docs/IMPLEMENTATION_PLAN.md`
+maps each requirement to the issue that built it. DELIV-9xx requirements
+are satisfied by documents, not units, and are traced in `docs/setr/CDRL.md`.
+
+### Notes (DID 6)
+
+Acronyms used in this document that are not defined where they appear:
+BCL, base class library; BDD, block definition diagram; CSCI, computer
+software configuration item; DID, data item description; DoDAAC,
+Department of Defense Activity Address Code; FPDS, Federal Procurement
+Data System; ICD, interface control document; IDIQ, indefinite-delivery
+indefinite-quantity; IL4, Impact Level 4; LLM, large language model; MAC,
+multiple-award contract; PIID, procurement instrument identifier; RTVM,
+requirements traceability and verification matrix; SEMP, systems
+engineering management plan; SETR, systems engineering technical review;
+TF-IDF, term frequency–inverse document frequency. "Vehicle" means a
+contract or agreement under which orders can be placed; "family" means
+the set of base contracts awarded under one multiple-award solicitation.
+
 ## Architecture
 
 ### Overview
