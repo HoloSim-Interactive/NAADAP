@@ -335,7 +335,7 @@ The program has no Integrated Master Plan or Integrated Master Schedule in the D
 | Gate G4: singleton-cohesion fix | 1 | 2026-09-17 | `docs/design/vehicle-recommendation-pipeline.md` | Complete: singletons score 0.0; 80 tests pass; comparison re-run |
 | Gate G5: vehicle knowledge base, data-derived and family-grouped | 1 | 2026-09-17 | G1 design consequence 1 | Complete: 484 rows, 87.3% coverage; matcher and evidence record implemented (commit 7783c39) |
 | Gate G6: design accepted into the SDD | 1 | 2026-09-17 | Solutions Architect | Complete: SDD block diagram, data architecture, and DELIV-950 reopen recorded; core-vs-alternative choice left as-is for Increment 1 (see `docs/ALGORITHM_COMPARISON.md`) |
-| SVR-1 / FCA-1: full regression against the RTVM; TP-910 Windows check | 1 | Entered 2026-09-17; exit pending RFA-SVR1-2 | §3.2.13; `docs/setr/reviews/SVR-1-FCA-1-2026-09-17.md` | Conditional exit recommended |
+| SVR-1 / FCA-1: full regression against the RTVM; TP-910 Windows check | 1 | 2026-09-17; every criterion met; Principal's acceptance pending | §3.2.13; `docs/setr/reviews/SVR-1-FCA-1-2026-09-17.md` | Conditional exit recommended |
 | PCA-1: clean-clone build of the tagged package | 1 | 2026-09-21 | §3.2.13 | Planned |
 | Phase 2 submission (Increment 1 delivered) | 1 | **2026-09-22** | Challenge announcement; client direction 2026-09-17 | Planned |
 | Phase 2 revision window: Government findings, corrections, omissions executed and resubmitted | 1 | by 2026-10-02 | Client direction 2026-09-17 (the announcement's second date set is the resubmission deadline, the Navy's usual SETR practice) | Planned |
@@ -440,10 +440,10 @@ No Technology Readiness Assessment is required for a non-ACAT effort and none is
 | 5 | | | | | |
 | 4 | | | | R-8 | R-1 |
 | 3 | | R-10 | | | R-6 |
-| 2 | R-9 | | R-11 | | |
+| 2 | | | R-11 | | |
 | 1 | | | | | |
 
-High: R-1, R-6, R-8. Moderate: R-11. Low: R-9, R-10. Closed 2026-09-17: R-2, R-7 (client direction), R-3 (G5 delivered), R-4 (fixed), R-5 (TP-520 passed).
+High: R-1, R-6, R-8. Moderate: R-11. Low: R-10. Closed 2026-09-17: R-2, R-7 (client direction), R-3 (G5 delivered), R-4 (fixed), R-5 (TP-520 passed), R-9 (TP-910 passed).
 
 *Table 3.2-2 Risk register*
 
@@ -457,7 +457,7 @@ High: R-1, R-6, R-8. Moderate: R-11. Low: R-9, R-10. Closed 2026-09-17: R-2, R-7
 | R-6 | If the Demo Day timed run occurs inside the 30-minute presentation, then a run near the 30-minute ceiling fails the demonstration | 3 | 5 | Confirmed by client direction 2026-09-17: the run is inside the presentation. Design target of minutes (CORE-220 note); current reference-20 run completes in under one second of compute; risk retires when TP-220 is measured at 1 core / 2 GB and a Demo Day rehearsal is timed | Systems Engineer | CORE-220 |
 | R-7 | If "a correct prediction" means a document-to-vehicle pairing rather than a vehicle name, then the output shape scores differently than designed | — | — | **Closed 2026-09-17.** Client direction: points can be awarded for any of the three forms, and a "new strategic vehicle indicated" entry counts when it is the expected answer. Output keeps all three views (vehicle, document-to-vehicle, cluster-to-vehicle) and the new-vehicle mode. | Product Manager | DATA-OUT-300 |
 | R-8 | If Increment 2 (new subsystem, new fitted model, new build pipeline, new extraction layer) is attempted at full SETR rigor within the Phase 3 window with one part-time human and a capped agent allowance, then SVR-2 slips past the materials deadline | 4 | 4 | Two-increment plan; lookup-table fallback for office affinity already computable from `navair_orders_fy2025.csv`; RBR cadence exposes slip weekly. Burn-down: Figure 3.2-2. | Principal | §1.1 |
-| R-9 | If a Windows-only API entered the code base, then DELIV-910 fails at the one-time Visual Studio check | 2 | 1 | Structural: plain `net9.0` everywhere; workflow present since 2026-09-14; run at SVR-1 | CI/CD | DELIV-910 |
+| R-9 | If a Windows-only API entered the code base, then DELIV-910 fails at the one-time Visual Studio check | — | — | **Closed 2026-09-17.** TP-910 passed on the candidate commit on hosted Windows runners (build, test, publish). | CI/CD | DELIV-910 |
 | R-10 | If a dependency's license does not permit permanent Government use, then containerization does not cure it | 3 | 2 | Current packages: PdfPig (Apache 2.0), DocumentFormat.OpenXml (MIT), test packages (MIT/Apache); license column queued for DELIV-920 | Software Engineer | DELIV-920 |
 | R-11 | If the 50 derived requirements enter implementation unvetted, then the project's own rule ("nothing built against unvetted items") is broken | 2 | 3 | Gate G3 before SRR-II. The abstention question is decided (client direction 2026-09-17): candidates below the evidence floor are recorded in a separate "below evidence floor" section, never suppressed, so the record shows they were considered. CORE-286 is re-derived on that basis at G3. | Systems Engineer | G3 |
 
@@ -469,7 +469,7 @@ High: R-1, R-6, R-8. Moderate: R-11. Low: R-9, R-10. Closed 2026-09-17: R-2, R-7
 | I-2 | DI-SESS-81785B not in hand; ASSIST's document link returns a script redirect | Closed 2026-09-15: the Principal supplied the ASSIST copies of the 2009, A, and B revisions; reconciled at Draft A.1 (§1.3) | Principal |
 | I-3 | The SDD's SETR mapping cites 4355.19D and 14 events; the current instruction is 19E with 18 events | Superseded by §3.2.13; pointer added to the SDD | Systems Engineer |
 | I-4 | "PEDDAL" in SN-4 has no source | Closed 2026-09-15 as client-specific terminology from a prior project; not pursued | Product Manager |
-| I-5 | The build-and-test workflow is a template under `docs/ci/` and is not installed in `.github/workflows/`; no agent role can install it. Increment 1 merges were gated by local build and test results recorded on issues, not by GitHub-hosted CI | Installed 2026-09-16. **Reopened 2026-09-17 at SVR-1:** the file triggers on pushes to `main` and `issue-*` and on pull requests, not on the working branch, so it has never run. RFA-SVR1-2: open a pull request for the branch, or push to a watched branch. | Principal |
+| I-5 | The build-and-test workflow is a template under `docs/ci/` and is not installed in `.github/workflows/`; no agent role can install it. Increment 1 merges were gated by local build and test results recorded on issues, not by GitHub-hosted CI | Installed 2026-09-16. Reopened 2026-09-17 at SVR-1: the workflow triggers on `main`, `issue-*`, and pull requests, not on the working branch. Closed for Increment 1 the same day by pushing the candidate to `issue-svr1` (runs 35178897168, 35178944747, both green). Filter left as set. | Principal |
 | I-6 | The G1 extraction scripts (passes 1–4) are not committed; only their outputs are | Closed 2026-09-15: `docs/research/g1-fpds/g1_extract.py` committed; re-run against the same archive reproduced every committed output byte-for-byte | Systems Engineer |
 | I-7 | The four sponsor questions in `challenge-brief.md` were open | Closed 2026-09-17 by client direction, recorded there and in R-2, R-5, R-6, R-7: (1) submit 22 Sep, revisions by 2 Oct; (2) any prediction form scores, new-vehicle entries count when expected; (3) "recommending common requirements" means recommending that a cluster be treated as common, and promoting an existing contract to strategic-vehicle status is a third output mode (need 15); (4) the timed run is inside the presentation, and replication means throughput across document sets. If Tech Grove later answers differently, the sponsor's answer governs and these rows reopen. | Product Manager |
 
@@ -521,7 +521,7 @@ Actuals for Increment 1 are recorded under TRR-1, the last feature-level TRR (20
 | Throughput scaling, N replicas on N document sets | Performance | Test Engineer | NFR-520 (amended) | Replicability, 10 pts | Wall-clock for N sets ≤ 1.2 × single-set time at N=4 | Plan | — | — | — | meet | meet | meet | meet |
 | | | | | | | Actual | — | — | not run | 3.94× (4 sets: 29.68 s → 7.53 s) | | | |
 | Automated test methods / active requirements Verified | Verification | Test Engineer | All | Completeness gate | 100% of active requirements | Plan | — | — | — / 25 | 74 / 28 | | | |
-| | | | | | | Actual | — | — | 72 / 25 | 90 / 27 (+2 In Test) | | | |
+| | | | | | | Actual | — | — | 72 / 25 | 90 / 28 (all active) | | | |
 
 "—" means the measure was not yet defined or measurable at that event. Blank cells are future events.
 

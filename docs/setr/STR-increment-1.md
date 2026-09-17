@@ -55,7 +55,7 @@ b. Remaining limitations detected by testing:
 | ~~TP-230's 8-core / 16 GB tier could not be executed on the 4-CPU verification host~~ **Resolved 2026-09-17 (RFA-SVR1-1):** all three tiers executed by the Principal on a 32-CPU / 63 GiB Docker Desktop host against the official image; exit 0 and manifest SHA-256 `ad331596…` at every tier (§4.4) | None remaining; CORE-230 Verified | None | Closed |
 | Peak memory was not sampled inside the containers | The 2 GB cap was enforced by the kernel and no run was killed, which is the requirement; the numeric peak is not recorded | None | Add `docker stats` sampling to `scripts/tp/run_resource_tests.py` |
 | ~~The container image under test was built from a local `dotnet publish` onto the official runtime base~~ **Resolved 2026-09-17 (RFA-SVR1-3):** the Principal built the official multi-stage image with `docker build -t naadap:svr1 .` at commit `4127c5a` (restore and publish stages completed; image manifest `sha256:58f42958…`, config `sha256:eafe57f1…`) and every §4.3–4.5 result below was reproduced on it | None remaining | None | Closed |
-| DELIV-910 (Visual Studio / Windows) | The hosted `windows-verification` workflow ran once, on `main` at `62d9b91` (2026-09-14), and succeeded; it has not run on this branch's head, which adds two assemblies' worth of code | None expected: every project targets plain `net9.0` | Merge or push to trigger the workflow on the candidate commit before PCA-1 |
+| ~~DELIV-910 (Visual Studio / Windows) not run on the candidate~~ **Resolved 2026-09-17 (RFA-SVR1-2):** `windows-verification` run 35178944747 and `build-and-test` run 35178897168 (windows-latest job) succeeded on `261f7e3`: Release build, 90 tests, framework-dependent and self-contained publish on Windows | None remaining; DELIV-910 Verified | None | Closed |
 
 ### 3.2 Impact of test environment
 
@@ -159,10 +159,17 @@ the second pass.)
 
 ### 4.7 TP-910 Visual Studio / Windows
 
-Deviation: not executed on the candidate commit. The hosted
-`windows-verification` workflow succeeded on `main` at `62d9b91`
-(2026-09-14); the branch head has not been pushed to a branch the workflow
-watches. To be executed before PCA-1.
+As expected. Executed on the candidate commit `261f7e3` on 2026-09-17:
+`windows-verification` run 35178944747 (dispatched manually on an
+`issue-svr1` copy of the branch head because the push's head commit touched
+only documentation and the workflow's path filter did not fire): SDK
+resolved from `global.json`, Release build, tests on Windows, publish of
+every executable project with launch, self-contained publish; all
+succeeded. `build-and-test` run 35178897168 also built and tested on
+windows-latest and ubuntu-latest. The Windows test job includes the
+knowledge-base integrity tests, which confirms the `.gitattributes` pin
+holds on a Windows checkout. Evidence:
+`evidence/tp-910-hosted-workflows-2026-09-17.json`.
 
 ## 5. Test log
 
@@ -174,6 +181,7 @@ watches. To be executed before PCA-1.
 | 2026-09-17 01:24–01:26 | TP-220, TP-230 (two tiers), TP-520 (a) and (b) | `scripts/tp/run_resource_tests.py`, docker mode, `--network none` | Test Engineer role |
 | 2026-09-17 01:27 | Inspections TP-240, TP-500, TP-510, TP-530, TP-920, TP-950 | as above | Systems Engineer role |
 | 2026-09-17 01:30 | Clean-clone build, test, and smoke run (PCA-1 rehearsal) | `git clone` of the branch head into an empty directory; `dotnet build`, `dotnet test`, `dotnet run` | CI/CD role |
+| 2026-09-17 03:38–03:41 UTC | Hosted workflows on `issue-svr1` at `261f7e3`: build-and-test (ubuntu-latest, windows-latest), windows-verification (dotnet-verify) | GitHub-hosted runners | CI/CD role, dispatched by the Systems Engineer on the Principal's instruction |
 | 2026-09-17 (Principal's local time; evidence timestamp 03:29 UTC 2026-09-17) | Official `docker build` at `4127c5a`; smoke run exit 0; TP-220, TP-230 all three tiers, TP-520 (a) and (b) | Windows 11 Pro, 32 logical processors, 128 GB; Docker Desktop 29.8.0, WSL 2 (32 CPUs, 62.79 GiB); image manifest `sha256:58f42958…` | Principal |
 
 Witnesses: none; every activity is reproducible from the repository and

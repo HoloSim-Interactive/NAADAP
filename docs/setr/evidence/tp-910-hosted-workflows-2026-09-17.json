@@ -1,0 +1,53 @@
+{
+  "procedure": "TP-910 (DELIV-910) and hosted build-and-test (SVR-1 entry criterion)",
+  "date": "2026-09-17",
+  "commit": "261f7e3a2c5f8bedef792804b459434a9a1e516b",
+  "branch_pushed": "issue-svr1 (copy of the working branch head, pushed to satisfy the workflows' branch filters)",
+  "runs": [
+    {
+      "workflow": "build-and-test",
+      "run_id": 35178897168,
+      "event": "push",
+      "conclusion": "success",
+      "jobs": [
+        {
+          "name": "build-and-test (ubuntu-latest)",
+          "job_id": 105066625806,
+          "conclusion": "success"
+        },
+        {
+          "name": "build-and-test (windows-latest)",
+          "job_id": 105066625810,
+          "conclusion": "success"
+        }
+      ],
+      "url": "https://github.com/HoloSim-Interactive/NAADAP/actions/runs/35178897168"
+    },
+    {
+      "workflow": "windows-verification",
+      "run_id": 35178944747,
+      "event": "workflow_dispatch (the push's head commit touched only docs, so the path filter did not fire; dispatched manually on the same commit)",
+      "conclusion": "success",
+      "jobs": [
+        {
+          "name": "dotnet-verify (windows-latest)",
+          "job_id": 105066767317,
+          "conclusion": "success",
+          "steps": [
+            "Client parity: global.json resolves without provisioning",
+            "Build (Release)",
+            "Test on Windows",
+            "Publish every executable project, and launch it",
+            "Publish self-contained"
+          ]
+        },
+        {
+          "name": "cpp-verify",
+          "conclusion": "skipped (no C++ in the repository)"
+        }
+      ],
+      "url": "https://github.com/HoloSim-Interactive/NAADAP/actions/runs/35178944747"
+    }
+  ],
+  "note": "The Windows test job exercises VehicleKnowledgeBaseTests on a Windows checkout, which confirms the .gitattributes pin (4127c5a) keeps the embedded knowledge base byte-identical to its manifest on Windows."
+}
