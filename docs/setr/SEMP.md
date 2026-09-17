@@ -332,7 +332,7 @@ The program has no Integrated Master Plan or Integrated Master Schedule in the D
 | TRR, per feature issue | 1 | 2026-09-03 to 2026-09-14 | `status:ready-for-test` transitions | Held, eight times |
 | Gate G1: FPDS premise check | 2 | 2026-09-15 | `docs/research/g1-fpds/G1-FINDINGS.md` | Complete: pass on volume, fail on catalog coverage |
 | Phase 1 questionnaire submitted | — | ≤ 2026-09-20 (target) | Principal | In preparation |
-| Gate G4: singleton-cohesion fix | 1 | before SVR-1 | `docs/design/vehicle-recommendation-pipeline.md` | Open |
+| Gate G4: singleton-cohesion fix | 1 | 2026-09-17 | `docs/design/vehicle-recommendation-pipeline.md` | Complete: singletons score 0.0; 80 tests pass; comparison re-run |
 | Gate G5: vehicle knowledge base, data-derived and family-grouped | 1 | before SVR-1 | G1 design consequence 1 | Open |
 | Gate G6: design accepted into the SDD | 1 | before SVR-1 | Solutions Architect | Open |
 | SVR-1 / FCA-1: full regression against the RTVM; TP-910 Windows check | 1 | 2026-09-19 to 2026-09-21 | §3.2.13 | Planned |
@@ -440,10 +440,10 @@ No Technology Readiness Assessment is required for a non-ACAT effort and none is
 | 5 | | | | | |
 | 4 | | | R-5 | R-8 | R-1 |
 | 3 | | R-10 | | R-3 | R-6 |
-| 2 | R-9 | | R-11 | R-4 | |
+| 2 | R-9 | | R-11 | | |
 | 1 | | | | | |
 
-High: R-1, R-3, R-6, R-8. Moderate: R-4, R-5, R-11. Low: R-9, R-10. Closed 2026-09-17 by client direction: R-2, R-7.
+High: R-1, R-3, R-6, R-8. Moderate: R-5, R-11. Low: R-9, R-10. Closed 2026-09-17: R-2, R-7 (client direction), R-4 (fixed).
 
 *Table 3.2-2 Risk register*
 
@@ -452,7 +452,7 @@ High: R-1, R-3, R-6, R-8. Moderate: R-4, R-5, R-11. Low: R-9, R-10. Closed 2026-
 | R-1 | If Phase 1 approval arrives with no usable days before the Phase 2 deadline, then GFI cannot influence Increment 1 | 4 | 5 | Accepted by design: Increment 1 scores on public documents; GFI tuning is Increment 2 work. Residual: none for Increment 1. | Principal | DATA-IN-100 |
 | R-2 | If the sponsor's summary-box dates (22 Sep / 9 Nov) rather than its timeline-section dates (2 Oct / 19 Nov) govern, then ten fewer days exist for G4–G6 and SVR-1 | — | — | **Closed 2026-09-17.** Client direction: submit 22 Sep; the second date set is the deadline to execute Government-directed revisions and resubmit. Schedule in Table 3.1-1 updated. | Product Manager | §3.1.1 |
 | R-3 | If the vehicle knowledge base is built from the curated catalog alone, then two-thirds of NAVAIR's historical orders have no candidate row (G1 finding F4: 33% coverage) | 3 | 4 | G5 builds the KB from the FPDS parent-PIID list ranked by family volume; the catalog contributes scope text and eligibility for the families it knows. Burn-down: Figure 3.2-2. | Systems Engineer | Need 9; DELIV-950 |
-| R-4 | If singleton clusters keep a cohesion score of 1.0, then eleven of twenty reference documents are scored as perfectly cohesive and the grey-area requirements cannot be verified | 2 | 4 | Gate G4: fix `VehicleRecommender.ComputeCohesion`; re-run TP-200 and the reference-20 metric | Software Engineer | CORE-200 |
+| R-4 | If singleton clusters keep a cohesion score of 1.0, then eleven of twenty reference documents are scored as perfectly cohesive and the grey-area requirements cannot be verified | — | — | **Closed 2026-09-17.** Fixed: `VehicleRecommender.SingletonScore` = 0.0; unit test pins the ordering; all 80 tests pass. Core precision@5 unchanged (0.60); the CORE-260 alternative rose from 0.40 to 0.80, recorded in `docs/ALGORITHM_COMPARISON.md` and referred to G6 as a Class I decision. | Software Engineer | CORE-200 |
 | R-5 | If the evaluator reads "replication must demonstrably improve performance" literally, then the SDD's independent-replica interpretation earns zero of ten Replicability points | 4 | 3 | Reading confirmed by client direction 2026-09-17: throughput across document sets. Amend TP-520 to measure N replicas processing N sets (RFA-PDR-2); risk retires when TP-520 passes at SVR-1 | Solutions Architect | NFR-520 |
 | R-6 | If the Demo Day timed run occurs inside the 30-minute presentation, then a run near the 30-minute ceiling fails the demonstration | 3 | 5 | Confirmed by client direction 2026-09-17: the run is inside the presentation. Design target of minutes (CORE-220 note); current reference-20 run completes in under one second of compute; risk retires when TP-220 is measured at 1 core / 2 GB and a Demo Day rehearsal is timed | Systems Engineer | CORE-220 |
 | R-7 | If "a correct prediction" means a document-to-vehicle pairing rather than a vehicle name, then the output shape scores differently than designed | — | — | **Closed 2026-09-17.** Client direction: points can be awarded for any of the three forms, and a "new strategic vehicle indicated" entry counts when it is the expected answer. Output keeps all three views (vehicle, document-to-vehicle, cluster-to-vehicle) and the new-vehicle mode. | Product Manager | DATA-OUT-300 |
@@ -590,7 +590,7 @@ The product is entirely software. Table 3.2-10 gives the scope in the Outline's 
 
 *Integration, test, and release.* One integration point, the `main` branch. Release is a git tag plus a built image. There is no continuous authorization to operate; the container is delivered to the Government, not operated by the contractor.
 
-*Software risks.* R-4, R-8, R-9, R-10 in Table 3.2-2.
+*Software risks.* R-8, R-9, R-10 in Table 3.2-2 (R-4 closed 2026-09-17).
 
 *Critical software requirements.* CORE-210 (determinism), CORE-240 (no LLM on the core path), NFR-510 (no egress). Each is verified by a test that a regression would fail, and each is a TPM.
 
@@ -614,7 +614,7 @@ The product is entirely software. Table 3.2-10 gives the scope in the Outline's 
 
 *Software quality assurance.* Every merge requires a passing `dotnet build` and `dotnet test` (local until Issue I-5 closes; GitHub-hosted after) and a Test Engineer pass/fail verdict recorded on the issue; the Test Engineer cannot modify source (`scripts/guard-test-engineer-writes.sh`); `dotnet format` is the style check, enforced in the build-and-test template; every third-party reference carries an inline justification in the `.csproj` and a row in `docs/DEPENDENCIES.md`.
 
-*Technical debt.* Recorded as issues labeled `debt`. Open at this revision: the singleton-cohesion inversion (R-4); the OUT-420 metric (I-1); the build-and-test workflow not installed (Issue I-5).
+*Technical debt.* Recorded as issues labeled `debt`. Open at this revision: the OUT-420 metric (I-1). Closed: the singleton-cohesion inversion (R-4, 2026-09-17); the build-and-test workflow (I-5, 2026-09-16).
 
 *Defects.* GitHub issues labeled `bug`, with the failing TP identifier, the commit, and the fixture. A defect against a Verified requirement returns that requirement to In Test until the fix passes.
 

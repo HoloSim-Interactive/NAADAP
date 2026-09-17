@@ -68,6 +68,38 @@ public class VehicleRecommenderTests
             second.Select(c => (c.VehicleId, c.Score)));
     }
 
+    /// <summary>
+    /// G4 (docs/design/vehicle-recommendation-pipeline.md): a single-document
+    /// cluster carries no cross-document evidence and must score
+    /// <see cref="VehicleRecommender.SingletonScore"/> and rank below every
+    /// multi-document cluster, however weak that cluster's cohesion. Before
+    /// the fix singletons scored 1.0 and outranked every real candidate.
+    /// </summary>
+    [Fact]
+    public void Recommend_SingletonClusters_ScoreZeroAndRankBelowEveryMultiDocumentCluster()
+    {
+        var documents = new List<DocumentRecord>
+        {
+            new("a.txt", DocType.Unknown, "flight line engineering support services for aircraft maintenance", null),
+            new("b.txt", DocType.Unknown, "flight line engineering services supporting aircraft maintenance crews", null),
+            new("c.txt", DocType.Unknown, "asphalt pavement repair and parking lot resurfacing", null),
+        };
+        var clusters = new List<DocumentCluster>
+        {
+            new("cluster-0001", ["c.txt"], ["asphalt", "pavement"]),
+            new("cluster-0002", ["a.txt", "b.txt"], ["flight", "engineering"]),
+        };
+
+        var candidates = VehicleRecommender.Recommend(documents, clusters);
+
+        Assert.Equal(2, candidates.Count);
+        Assert.Equal(2, candidates[0].ContributingDocuments.Count);
+        Assert.True(candidates[0].Score > VehicleRecommender.SingletonScore);
+        Assert.InRange(candidates[0].Score, 0.0, 1.0);
+        Assert.Single(candidates[1].ContributingDocuments);
+        Assert.Equal(VehicleRecommender.SingletonScore, candidates[1].Score);
+    }
+
     private static List<DocumentRecord> LoadSyntheticCore200()
     {
         return Directory.EnumerateFiles(SyntheticCore200Directory, "*.txt")

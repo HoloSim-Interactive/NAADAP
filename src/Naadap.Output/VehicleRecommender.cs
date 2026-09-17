@@ -13,6 +13,12 @@ namespace Naadap.Output;
 public static class VehicleRecommender
 {
     /// <summary>
+    /// Score assigned to a cluster with fewer than two documents: no pair,
+    /// no cross-document evidence. See <see cref="ComputeCohesion"/>.
+    /// </summary>
+    public const double SingletonScore = 0.0;
+
+    /// <summary>
     /// Ranks <paramref name="clusters"/> into <see cref="CandidateVehicle"/>s,
     /// highest score first. <paramref name="documents"/> must be the same
     /// list (same order not required) that produced <paramref name="clusters"/>
@@ -74,9 +80,20 @@ public static class VehicleRecommender
     /// same metric CORE-200's clustering step thresholds on
     /// (<see cref="TfIdfCosineClusteringComponent.SimilarityThreshold"/>), so
     /// a candidate's score is directly comparable to that threshold and
-    /// auditable the same way. A single-document cluster has no pair to
-    /// compare, so it is scored 1.0 by convention (its one document is, by
-    /// definition, perfectly self-consistent).
+    /// auditable the same way.
+    /// <para>
+    /// A single-document cluster has no pair to compare and therefore no
+    /// cross-document evidence that a requirement is shared, which is the
+    /// thing a consolidation candidate is scored on. It is scored
+    /// <see cref="SingletonScore"/> (0.0), not 1.0. The earlier convention
+    /// of 1.0 ("one document is perfectly self-consistent") inverted the
+    /// ranking: on the N=20 reference set, eleven singletons outranked the
+    /// three multi-document clusters that are the actual consolidation
+    /// candidates (gate G4, docs/design/vehicle-recommendation-pipeline.md).
+    /// Singletons stay in the ranked list — a candidate is never suppressed
+    /// (client direction 2026-09-17) — but they sort after every cluster
+    /// with corroborating evidence.
+    /// </para>
     /// </summary>
     private static double ComputeCohesion(
         DocumentCluster cluster,
@@ -84,7 +101,7 @@ public static class VehicleRecommender
     {
         if (cluster.DocumentFilenames.Count <= 1)
         {
-            return 1.0;
+            return SingletonScore;
         }
 
         var vectors = cluster.DocumentFilenames
@@ -102,7 +119,7 @@ public static class VehicleRecommender
             }
         }
 
-        return pairs == 0 ? 1.0 : total / pairs;
+        return pairs == 0 ? SingletonScore : total / pairs;
     }
 
     /// <summary>
