@@ -1,0 +1,182 @@
+{
+  "mode": "docker",
+  "input": "tests\\fixtures\\reference-20",
+  "started": "2026-09-17T03:29:50Z",
+  "runs": [
+    {
+      "label": "TP-230 1c-2g",
+      "mode": "docker",
+      "cores": 1,
+      "memory_gb": 2,
+      "exit": 0,
+      "wall_s": 4.38,
+      "manifest_sha256": "ad3315960a32657b668d8266bbd63121c1da6f66062bfb181f6da3b0a572cc6a",
+      "stderr_tail": ""
+    },
+    {
+      "label": "TP-230 4c-8g",
+      "mode": "docker",
+      "cores": 4,
+      "memory_gb": 8,
+      "exit": 0,
+      "wall_s": 3.94,
+      "manifest_sha256": "ad3315960a32657b668d8266bbd63121c1da6f66062bfb181f6da3b0a572cc6a",
+      "stderr_tail": ""
+    },
+    {
+      "label": "TP-230 8c-16g",
+      "mode": "docker",
+      "cores": 8,
+      "memory_gb": 16,
+      "exit": 0,
+      "wall_s": 3.95,
+      "manifest_sha256": "ad3315960a32657b668d8266bbd63121c1da6f66062bfb181f6da3b0a572cc6a",
+      "stderr_tail": ""
+    },
+    {
+      "label": "TP-520a replica 1",
+      "mode": "docker",
+      "cores": 1,
+      "memory_gb": 2,
+      "exit": 0,
+      "wall_s": 4.58,
+      "manifest_sha256": "ad3315960a32657b668d8266bbd63121c1da6f66062bfb181f6da3b0a572cc6a",
+      "stderr_tail": ""
+    },
+    {
+      "label": "TP-520a replica 2",
+      "mode": "docker",
+      "cores": 1,
+      "memory_gb": 2,
+      "exit": 0,
+      "wall_s": 4.55,
+      "manifest_sha256": "ad3315960a32657b668d8266bbd63121c1da6f66062bfb181f6da3b0a572cc6a",
+      "stderr_tail": ""
+    },
+    {
+      "label": "TP-520a replica 3",
+      "mode": "docker",
+      "cores": 1,
+      "memory_gb": 2,
+      "exit": 0,
+      "wall_s": 4.5,
+      "manifest_sha256": "ad3315960a32657b668d8266bbd63121c1da6f66062bfb181f6da3b0a572cc6a",
+      "stderr_tail": ""
+    },
+    {
+      "label": "TP-520a replica 4",
+      "mode": "docker",
+      "cores": 1,
+      "memory_gb": 2,
+      "exit": 0,
+      "wall_s": 4.44,
+      "manifest_sha256": "ad3315960a32657b668d8266bbd63121c1da6f66062bfb181f6da3b0a572cc6a",
+      "stderr_tail": ""
+    },
+    {
+      "label": "TP-520b sequential set 1",
+      "mode": "docker",
+      "cores": 1,
+      "memory_gb": 2,
+      "exit": 0,
+      "wall_s": 4.63,
+      "manifest_sha256": "ad3315960a32657b668d8266bbd63121c1da6f66062bfb181f6da3b0a572cc6a",
+      "stderr_tail": ""
+    },
+    {
+      "label": "TP-520b sequential set 2",
+      "mode": "docker",
+      "cores": 1,
+      "memory_gb": 2,
+      "exit": 0,
+      "wall_s": 4.66,
+      "manifest_sha256": "ad3315960a32657b668d8266bbd63121c1da6f66062bfb181f6da3b0a572cc6a",
+      "stderr_tail": ""
+    },
+    {
+      "label": "TP-520b sequential set 3",
+      "mode": "docker",
+      "cores": 1,
+      "memory_gb": 2,
+      "exit": 0,
+      "wall_s": 4.84,
+      "manifest_sha256": "ad3315960a32657b668d8266bbd63121c1da6f66062bfb181f6da3b0a572cc6a",
+      "stderr_tail": ""
+    },
+    {
+      "label": "TP-520b sequential set 4",
+      "mode": "docker",
+      "cores": 1,
+      "memory_gb": 2,
+      "exit": 0,
+      "wall_s": 4.8,
+      "manifest_sha256": "ad3315960a32657b668d8266bbd63121c1da6f66062bfb181f6da3b0a572cc6a",
+      "stderr_tail": ""
+    },
+    {
+      "label": "TP-520b concurrent set 1",
+      "mode": "docker",
+      "cores": 1,
+      "memory_gb": 2,
+      "exit": 0,
+      "wall_s": 4.6,
+      "manifest_sha256": "ad3315960a32657b668d8266bbd63121c1da6f66062bfb181f6da3b0a572cc6a",
+      "stderr_tail": ""
+    },
+    {
+      "label": "TP-520b concurrent set 2",
+      "mode": "docker",
+      "cores": 1,
+      "memory_gb": 2,
+      "exit": 0,
+      "wall_s": 4.74,
+      "manifest_sha256": "ad3315960a32657b668d8266bbd63121c1da6f66062bfb181f6da3b0a572cc6a",
+      "stderr_tail": ""
+    },
+    {
+      "label": "TP-520b concurrent set 3",
+      "mode": "docker",
+      "cores": 1,
+      "memory_gb": 2,
+      "exit": 0,
+      "wall_s": 4.73,
+      "manifest_sha256": "ad3315960a32657b668d8266bbd63121c1da6f66062bfb181f6da3b0a572cc6a",
+      "stderr_tail": ""
+    },
+    {
+      "label": "TP-520b concurrent set 4",
+      "mode": "docker",
+      "cores": 1,
+      "memory_gb": 2,
+      "exit": 0,
+      "wall_s": 4.67,
+      "manifest_sha256": "ad3315960a32657b668d8266bbd63121c1da6f66062bfb181f6da3b0a572cc6a",
+      "stderr_tail": ""
+    }
+  ],
+  "tp220": {
+    "wall_s": 4.38,
+    "limit_s": 1800,
+    "pass": true,
+    "design_target_s": 300,
+    "within_design_target": true
+  },
+  "tp230": {
+    "pass": true,
+    "identical_manifests": true
+  },
+  "tp520a": {
+    "replicas": 4,
+    "identical_to_baseline": true,
+    "all_exit_0": true,
+    "concurrent_wall_s": 4.59
+  },
+  "tp520b": {
+    "sets": 4,
+    "sequential_wall_s": 18.93,
+    "concurrent_wall_s": 4.74,
+    "speedup": 3.99,
+    "outputs_equal": true,
+    "pass": true
+  }
+}
